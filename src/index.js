@@ -1,10 +1,20 @@
 import action from './action';
-import Dispatcher from './dispatcher';
+import dispatcher from './dispatcher';
 import error from './error';
 import provider from './provider';
 import Observer from './observer';
 
-var applyMiddleWare = action.applyMiddleWare;
+
+var {
+    dispatch
+} = dispatcher;
+
+var {
+    applyMiddleWare,
+    createActions,
+    PROVIDER_PERSIST_ACTION
+} = action;
+
 var {
     Provider,
     StorageProvider,
@@ -15,9 +25,18 @@ var {
 } = provider;
 
 
-module.exports =  {
-    dispath:Dispatcher.dispatch,
-    createActions:action.createActions,
+module.exports = {
+    /**
+     * @description
+     * exports dispatch
+     */
+    dispath,
+
+    /**
+     * @description
+     * exports action
+     */
+    createActions,
     applyMiddleWare,
 
     /**
@@ -28,24 +47,24 @@ module.exports =  {
     StorageProvider,
     RemoteProvider,
     SessionProvider,
-    injectProvider:inject,
-    useProvider:use,
+    injectProvider: inject,
+    useProvider: use,
 
     /**
      * 
     */
-    subscribe:function(callback){
+    subscribe: function (callback) {
         return Observer.subscribe(callback);
     },
-    unsubscribe:function(callback){
+    unsubscribe: function (callback) {
         return Observer.unsubscribe(callback);
     },
-    onError:error.onError,
+    onError: error.onError,
 
     /**
      * @constants
     */
-    PROVIDER_PERSIST_ACTION:action.PROVIDER_PERSIST_ACTION,
+    PROVIDER_PERSIST_ACTION
 
 
 }

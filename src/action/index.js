@@ -4,7 +4,7 @@ import runAction from './runAction';
 import innerActions from './innerActions';
 import error from './../error';
 import Provider from './../provider';
-import Observer from './../Observer';
+import Observer from './../observer';
 
 
 var errorHandle = error.handle;
