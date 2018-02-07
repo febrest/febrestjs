@@ -1,0 +1,15 @@
+[ignore]
+.*/node_modules/
+[include]
+.*/js/
+[libs]
+
+[options]
+esproposal.class_static_fields=enable
+emoji=true
+
+module.system=haste
+
+munge_underscores=true
+
+unsafe.enable_getters_and_setters=true
