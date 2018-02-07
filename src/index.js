@@ -25,7 +25,7 @@ var {
 } = provider;
 
 
-module.exports = {
+export default{
     /**
      * @description
      * exports dispatch

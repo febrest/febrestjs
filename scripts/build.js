@@ -1,2 +1,15 @@
 var rollup = require('./rollup');
-rollup();
+
+var { version } = require('./../package');
+
+var buildTypes = ['dev','prod'];
+
+var entry = 'src/index.js'
+var name = 'FebRest';
+var output = 'dist'
+async function build(){
+    await rollup(entry,output,name,version,'dev');
+    await rollup(entry,output,name,version,'prod');
+}
+
+build();

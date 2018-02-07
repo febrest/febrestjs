@@ -15,6 +15,7 @@
         "rollup": "*",
         "rollup-plugin-babel": "^3.0.3",
         "rollup-plugin-commonjs": "^8.3.0",
+        "rollup-plugin-prettier": "^0.4.0",
         "rollup-plugin-uglify": "^3.0.0"
     },
     "repository": {
@@ -23,7 +24,7 @@
     },
     "scripts": {
         "test": "jest",
-        "build": "node ./bundle/index.js"
+        "build": "node ./scripts/build.js"
     },
     "dependencies": {}
 }
