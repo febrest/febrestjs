@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+    padding: 0; 
+    font-weight: 300; 
+    outline: none
+}
+.container{
+    background-color: #efefef;
+    margin: 0 auto;
+    padding: 1px 0;
+    width: 375px
+}
+
+@media screen and (max-width: 375px) {
+    .container{
+       width: 100%;       
+    }
+}
+
+.header{
+    color:#0fb1e2;
+    font-size: 40px;
+    font-weight: normal;
+    margin: 20px 0;
+    text-align: center;
+}
+.new-todo-container{
+    background:#fff;
+    margin: 0 auto;
+    width: 80%;
+}
+.new-todo{
+    background:rgba(0, 0, 0, 0.003);
+    box-sizing: border-box;
+    color: rgb(77, 77, 77);
+    border: none;
+    font-size: 16px;
+    line-height: 1.4em;
+    padding: 10px 10px 10px 20px;
+    width: 100%;
+    
+
+}
