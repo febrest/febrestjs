@@ -65,6 +65,4 @@ module.exports = {
      * @constants
     */
     PROVIDER_PERSIST_ACTION
-
-
 }
