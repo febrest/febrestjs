@@ -58,7 +58,7 @@ function then(result){
  * 获取参数列表
  */
 function getArgumentList(func): Array {
-    var argsRegExp =  /\(([\s\S]+)\)/;
+    var argsRegExp = /\(([\s\S]*?)\)/;
     var funcS = func.toString();
     var match = funcS.match(argsRegExp);
     if (match&&match[1]) {
