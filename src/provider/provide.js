@@ -30,7 +30,7 @@ function dependencyLookup(list, payload) {
             let provider = ProviderContainer.getProvider(key);
             if (provider) {
                 return then(provider.get());
-            } else if (payload && !isPayloadUsed) {
+            } else if (payload!==undefined && !isPayloadUsed) {
 
                 /**
                  * payload 确保只传给第一个没匹配到的
