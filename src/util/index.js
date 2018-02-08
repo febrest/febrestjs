@@ -58,13 +58,15 @@ function then(result){
  * 获取参数列表
  */
 function getArgumentList(func): Array {
-    var argsRegExp = /function\s*\w*\(([\s\S]*?)\)/g;
-    if (argsRegExp.test(func.toString())) {
+    var argsRegExp =  /\(([\s\S]+)\)/;
+    var funcS = func.toString();
+    var match = funcS.match(argsRegExp);
+    if (match&&match[1]) {
         /**
          * todo:可能有bug
          */
         let args = [];
-        RegExp.$1.split(',').forEach((arg) => {
+        match[1].split(',').forEach((arg) => {
             args.push(arg.replace(/\s/g, ''));
         })
         return args;
