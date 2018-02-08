@@ -4,6 +4,11 @@
     font-weight: 300; 
     outline: none
 }
+html,body{
+    background-color: #efefef;
+   height: 100%;
+   width: 100%;
+}
 .container{
     background-color: #efefef;
     margin: 0 auto;
@@ -24,14 +29,15 @@
     margin: 20px 0;
     text-align: center;
 }
+.main{
+    margin: 0 auto;
+    width: 80%
+}
 .new-todo-container{
     background:#fff;
-    margin: 0 auto;
-    width: 80%;
 }
 .new-todo{
     background:rgba(0, 0, 0, 0.003);
-    box-sizing: border-box;
     color: rgb(77, 77, 77);
     border: none;
     font-size: 16px;
@@ -40,4 +46,67 @@
     width: 100%;
     
 
+}
+.list{
+    margin: 0 auto;
+}
+.list li{
+    background-color: #fff;
+    border-top: #efefef 1px solid;
+    color: rgb(77, 77, 77);
+    font-size: 16px;
+    line-height: 1.4em;
+    list-style: none;
+    padding: 10px 10px 10px 5px;
+    
+}
+.list li .right{
+    color:#0fb1e2;
+    float:right;
+    font-size: 14px;
+}
+.list li .right .delete{
+    color:rgb(190, 29, 29);
+    font-size: 18px;
+    margin-left: 10px;
+}
+.selector{
+    background-color: #fff;
+    border-top: #efefef 1px solid;
+    color: rgb(77, 77, 77);
+    font-size: 12px;
+    margin: 0 auto;
+    padding: 10px;
+    position: relative;
+}
+.filters{
+    bottom: 10px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top:10px;
+}
+
+.filters span{
+    display: inline-block;
+    margin: 0 5px;
+    padding: 3px 7px;
+}
+.filters span.selected{
+    border: mistyrose 1px solid;
+    border-radius: 4px;
+}
+
+.checkbox{
+    border: #efefef 1px solid;  
+    border-radius: 5px;  
+    display: inline-block;
+    height: 10px;
+    width: 10px; 
+    margin-right: 5px;
+}
+.checkbox.checked{
+    border:#0fb1e2 1px solid;  
+    background: #0fb1e2;
 }

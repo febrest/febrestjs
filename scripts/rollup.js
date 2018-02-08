@@ -20,10 +20,7 @@ function getFileName(name, bundleType) {
 
 function getPlugins(bundleType) {
     return [
-        babel({
-            plugins: ['external-helpers'],
-            externalHelpers: true,
-        }),
+        babel({ runtimeHelpers: true }),
         commonjs(),
         bundleType === 'prod' ? uglify() : prettier
     ]
