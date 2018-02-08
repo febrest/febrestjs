@@ -30,7 +30,7 @@ export default{
      * @description
      * exports dispatch
      */
-    dispath,
+    dispatch,
 
     /**
      * @description
