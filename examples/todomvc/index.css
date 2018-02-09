@@ -80,12 +80,7 @@ html,body{
     position: relative;
 }
 .filters{
-    bottom: 10px;
-    left: 0;
-    position: absolute;
-    right: 0;
     text-align: center;
-    top:10px;
 }
 
 .filters span{
