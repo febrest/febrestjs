@@ -38,8 +38,8 @@ html,body{
 }
 .new-todo{
     background:rgba(0, 0, 0, 0.003);
-    color: rgb(77, 77, 77);
     border: none;
+    color: rgb(77, 77, 77);
     font-size: 16px;
     line-height: 1.4em;
     padding: 10px 10px 10px 20px;
@@ -102,6 +102,6 @@ html,body{
     margin-right: 5px;
 }
 .checkbox.checked{
-    border:#0fb1e2 1px solid;  
     background: #0fb1e2;
+    border:#0fb1e2 1px solid;  
 }
