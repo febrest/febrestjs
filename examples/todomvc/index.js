@@ -217,6 +217,7 @@ var app = {
 
 function start() {
     bindEvent();
+    FebRest.dispatch(constants.GET_ALL_TODOS);
 }
 
 /**

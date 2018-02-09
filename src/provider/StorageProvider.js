@@ -19,18 +19,18 @@ function stroage(key, value) {
                 return Promise.resolve(toValue(localStorage.getItem(key)));
             }
         }
-        stroage(key, value);
+        return stroage(key, value);
     } else {
         return Promise.resolve();
     }
 }
 
 var storageTool = {
-    getter: function (key, value) {
-        return stroage(key,value);
-    },
-    setter: function (key) {
+    getter: function (key) {
         return stroage(key);
+    },
+    setter: function (key,value) {
+        return stroage(key,value);
     }
 }
 class StorageProvider extends Provider {
