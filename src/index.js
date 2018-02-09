@@ -24,13 +24,13 @@ var {
     RemoteProvider,
     SessionProvider,
     inject,
-    use
+    use,
+    watch
 } = provider;
 
 var {
     subscribe,
     unsubscribe,
-    watch
 } = observer;
 export default {
     /**
