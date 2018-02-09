@@ -1,12 +1,36 @@
 'use strict'
 import Provider from './Provider';
+import util from './../util';
+
+var {
+    toString,
+    toValue
+} = util;
+
+const is_localstorage_support = typeof localStorage !== 'undefined';
+
+function stroage(key, value) {
+    if (is_localstorage_support) {
+        stroage = function (key, value) {
+            if (value) {
+                localStorage.setItem(key, toString(value));
+                return Promise.resolve();
+            } else {
+                return Promise.resolve(toValue(localStorage.getItem(key)));
+            }
+        }
+        stroage(key, value);
+    } else {
+        return Promise.resolve();
+    }
+}
 
 var storageTool = {
-    getter: function () {
-        return Promise.resolve();
+    getter: function (key, value) {
+        return stroage(key,value);
     },
-    setter: function () {
-        return Promise.resolve();
+    setter: function (key) {
+        return stroage(key);
     }
 }
 class StorageProvider extends Provider {
