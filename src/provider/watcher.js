@@ -39,7 +39,7 @@ function Watcher(callback) {
 }
 function dispatchWatcher(watcher, data, timestamp) {
     //确保在一次change中只被dispatch一次；
-    if(watcher.dispatchTime<=timestamp){
+    if(watcher.dispatchTime>=timestamp){
         return;
     }else{
         watcher.dispatchTime=timestamp;
@@ -61,7 +61,7 @@ function doWatch(changed) {
         let providerWatcher = watchers[p];
         if (providerWatcher) {
             providerWatcher.forEach(function (watcher) {
-                dispatchWatcher(watcher, data, timestamp);
+                dispatchWatcher(watcher, changed, timestamp);
             })
         }
     }
