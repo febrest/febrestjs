@@ -1,5 +1,6 @@
 'use strict';
 import ProviderContainer from './ProviderContainer';
+import watcher from './watcher';
 function persist(kv,state){
     if(!kv){
         return null;
@@ -19,6 +20,7 @@ function persist(kv,state){
             }
         }      
     }
+    watcher.doWatch(changed);
     return changed;
         
 }

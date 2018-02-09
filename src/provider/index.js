@@ -7,7 +7,7 @@ import ProviderContainer from './ProviderContainer';
 import RemoteProvider from './RemoteProvider';
 import SessionProvider from './SessionProvider';
 import StorageProvider from './StorageProvider';
-
+import watcher from './watcher';
 
 import inject from './inject';
 
@@ -28,4 +28,5 @@ export default {
     inject,
     use,
     persist,
+    watch:watcher.watch
 };

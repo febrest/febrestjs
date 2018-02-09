@@ -2,7 +2,8 @@ import action from './action';
 import dispatcher from './dispatcher';
 import error from './error';
 import provider from './provider';
-import Observer from './observer';
+import observer from './observer';
+import constants from './constants';
 
 
 var {
@@ -12,9 +13,11 @@ var {
 var {
     applyMiddleWare,
     createActions,
-    PROVIDER_PERSIST_ACTION
 } = action;
 
+var {
+    PROVIDER_PERSIST_ACTION
+} = constants;
 var {
     Provider,
     StorageProvider,
@@ -24,8 +27,12 @@ var {
     use
 } = provider;
 
-
-export default{
+var {
+    subscribe,
+    unsubscribe,
+    watch
+} = observer;
+export default {
     /**
      * @description
      * exports dispatch
@@ -51,14 +58,12 @@ export default{
     useProvider: use,
 
     /**
-     * 
+     * @description
+     * exports observer
     */
-    subscribe: function (callback) {
-        return Observer.subscribe(callback);
-    },
-    unsubscribe: function (callback) {
-        return Observer.unsubscribe(callback);
-    },
+    subscribe,
+    unsubscribe,
+    watch,
     onError: error.onError,
 
     /**

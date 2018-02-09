@@ -3,14 +3,15 @@ import getAction from './getAction';
 import runAction from './runAction';
 import innerActions from './innerActions';
 import error from './../error';
-import Provider from './../provider';
-import Observer from './../observer';
+import provider from './../provider';
+import observer from './../observer';
+import constants from './../constants';
 
 
 var errorHandle = error.handle;
 
 var run = function (action, payload) {
-    return Provider.provide(action, payload)
+    return provider.provide(action, payload)
         .then(args => runAction(action.controller, args))
         .then(state => setResult(state, action.key))
 }
@@ -23,7 +24,7 @@ function IDGenerator() {
 
 function providerPersist(persist, state) {
     if (persist) {
-        exec(innerActions.PROVIDER_PERSIST_ACTION, { persist: persist, state });
+        exec(constants.PROVIDER_PERSIST_ACTION, { persist: persist, state });
     }
     return state;
 }
@@ -38,7 +39,7 @@ function setResult(state, key) {
 }
 
 function pushToObserver(result) {
-    Observer.next(result);
+    observer.next(result);
     return result;
 }
 function exec(key, payload) {
@@ -64,7 +65,6 @@ var exports = {
     getAction,
     exec: exec,
     applyMiddleWare,
-    PROVIDER_PERSIST_ACTION: innerActions.PROVIDER_PERSIST_ACTION
 }
 createActions(innerActions.actions);
 
