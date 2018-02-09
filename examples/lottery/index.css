@@ -1,0 +1,156 @@
+*{
+    margin: 0;
+    padding: 0; 
+    font-weight: 300;
+}
+input:focus{
+    outline: none;
+}
+html,body{
+    background-color: #efefef;
+    height: 100%;
+    width: 100%;
+    font-size: 20px
+}
+.container{
+    margin: 0 auto;
+    width: 750px;
+}
+@media screen and (max-width:750px){
+    .container{
+        width: 100%;
+    }
+}
+@media screen and (max-width:375px){
+    .container{
+        width: 375px;
+    }
+}
+.header{
+    margin: 20px 0;
+}
+.title{
+    font-size: 20px;
+    text-align: center;
+}
+.game_scene{
+    border: #5247f5dc 5px solid;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+.roll_wrapper{
+    border: lavender 5px solid;
+    box-sizing: border-box;
+    border-radius: 5px;
+    display: inline-block;
+    height: 80px;
+    margin-right: 2.5%;
+    overflow: hidden;
+    width: 25%;
+    
+}
+.roll_wrapper:first-child{
+    margin-left: 8%;
+}
+.roll_wrapper:last-child{
+    margin-right: 8%;
+}
+.roll li{
+    color: indianred;
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 80px;
+    list-style: none;
+    text-align: center;
+    
+}
+
+@keyframes roll{
+    0%   {transform:translateY(0px)}
+    100% {transform:translateY(-800px)}
+}
+.animate{
+    animation: roll 1s linear infinite;
+}
+@keyframes roll0{
+    0%   {transform:translateY(0px)}
+    100% {transform:translateY(-800px)}
+}
+@keyframes roll1{
+    0%   {transform:translateY(0px)}
+    100% {transform:translateY(-80px)}
+}
+@keyframes roll2{
+    0%   {transform:translateY(0px)}
+    100% {transform:translateY(-160px)}
+}
+@keyframes roll3{
+    0%   {transform:translateY(0px)}
+    100% {transform:translateY(-240px)}
+}
+@keyframes roll4{
+    0%   {transform:translateY(0px)}
+    100% {transform:translateY(-320px)}
+}
+@keyframes roll5{
+    0%   {transform:translateY(0px)}
+    100% {transform:translateY(-400px)}
+}
+@keyframes roll6{
+    0%   {transform:translateY(0px)}
+    100% {transform:translateY(-400px)}
+}
+@keyframes roll7{
+    0%   {transform:translateY(0px)}
+    100% {transform:translateY(-560px)}
+}
+@keyframes roll8{
+    0%   {transform:translateY(0px)}
+    100% {transform:translateY(-640px)}
+}
+@keyframes roll9{
+    0%   {transform:translateY(0px)}
+    100% {transform:translateY(-720px)}
+}
+
+.stop_animate_0{
+    animation: roll0 5s ease-out 1 both;
+}
+.stop_animate_1{
+    animation: roll1 1s ease-out 1 both;
+}
+.stop_animate_2{
+    animation: roll2 1.5s ease-out 1 both;
+}
+.stop_animate_3{
+    animation: roll3 2s ease-out 1 both;
+}
+.stop_animate_4{
+    animation: roll4 2.5s ease-out 1 both;
+}
+.stop_animate_5{
+    animation: roll5 3s ease-out 1 both;
+}
+.stop_animate_6{
+    animation: roll6 3.5s ease-out 1 both;
+}
+.stop_animate_7{
+    animation: roll7 4s ease-out 1 both;
+}
+.stop_animate_8{
+    animation: roll8 4.5s ease-out 1 both;
+}
+.stop_animate_9{
+    animation: roll9 5s ease-out 1 both;
+}
+
+.game_control{
+    margin: 20px auto;
+    text-align: center;
+}
+.game_control .start{
+    border: gray 1px solid;
+    display: inline-block;
+    margin: 0 auto;
+    padding: 10px 20px;
+}
