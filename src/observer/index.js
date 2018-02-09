@@ -14,4 +14,3 @@ export default {
     unsubscribe,
     next
 }
-export default Observer;
