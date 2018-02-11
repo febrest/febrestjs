@@ -31,7 +31,7 @@ function comfirmToNext(version, next) {
         value = value.toLowerCase();
         if (value === 'y' || value === 'yes') {
             rl.close();
-            //next(version);
+            next(version);
             doPublish();
         } else if (value === 'n' || value === 'no') {
             process.exit(0)
