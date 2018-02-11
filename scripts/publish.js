@@ -65,6 +65,7 @@ function tag(version) {
 }
 
 function doPublish(){
+    console.log('开始发布');
     child.execSync('nrm use npm && npm publish && nrm use taobao');
     console.log('发布成功');
 }
