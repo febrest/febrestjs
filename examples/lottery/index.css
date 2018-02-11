@@ -154,3 +154,15 @@ html,body{
     margin: 0 auto;
     padding: 10px 20px;
 }
+
+.roll_history_title{
+    margin-top: 20px;
+}
+.roll_history{
+    border: #5247f5dc 1px solid;
+    margin: 20px 0;
+    padding: 20px;
+}
+.roll_history li{
+    list-style: none;
+}
