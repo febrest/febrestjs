@@ -107,10 +107,10 @@
     ];
 
      /**
-     * 初始化FebRest配置，创建action和注入provider
+     * 初始化Febrest配置，创建action和注入provider
      */
-    FebRest.createActions(actions);
-    FebRest.injectProvider(providers);
+    Febrest.createActions(actions);
+    Febrest.injectProvider(providers);
 
     /**
      * view层
@@ -120,7 +120,7 @@
         return 'stop_animate_' + value;
     }
     function roll() {
-        FebRest.dispatch(constants.ROLL);
+        Febrest.dispatch(constants.ROLL);
     }
     /**
      * @description 抽奖动画开始
@@ -189,7 +189,7 @@
      * @description 每间隔一秒自动增加一张奖券
      */
     function lotterySelfAdd() {
-        FebRest.dispatch(constants.ADD_LOTTERY);
+        Febrest.dispatch(constants.ADD_LOTTERY);
         setTimeout(lotterySelfAdd, 1000);
     }
     /**
@@ -209,8 +209,8 @@
     /**
      * @description 监听lottery privder
      */
-    FebRest.watch('lottery', updateLotteryCount);
-    FebRest.subscribe(onData)
+    Febrest.watch('lottery', updateLotteryCount);
+    Febrest.subscribe(onData)
 
     lotterySelfAdd();
 

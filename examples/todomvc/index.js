@@ -112,8 +112,8 @@ var actions = [
  * config
  */
 
-FebRest.createActions(actions);
-FebRest.injectProvider(providers);
+Febrest.createActions(actions);
+Febrest.injectProvider(providers);
 
 /**
  * views
@@ -125,7 +125,7 @@ function checkBox(checked, index) {
     return (
         '<span class="checkbox'
             + (checked ? ' checked' : '')
-            + '"fbclick="FebRest.dispatch(constants.SET_COMPLETE,'+index+')">'
+            + '"fbclick="Febrest.dispatch(constants.SET_COMPLETE,'+index+')">'
             + '</span>'
     );
 }
@@ -137,7 +137,7 @@ function item(todo, index) {
         + todo.message
         + '<p class="right">'
         + status
-        + '<span class="delete" fbclick="FebRest.dispatch(constants.REMOVE_TODO,'+index+')">'
+        + '<span class="delete" fbclick="Febrest.dispatch(constants.REMOVE_TODO,'+index+')">'
         + 'x'
         + '</span>'
         + '</p>'
@@ -205,8 +205,8 @@ var app = {
     },
     onData(result) {
         switch (result.key) {
-            case FebRest.PROVIDER_PERSIST_ACTION:
-                FebRest.dispatch(constants.GET_ALL_TODOS);
+            case Febrest.PROVIDER_PERSIST_ACTION:
+                Febrest.dispatch(constants.GET_ALL_TODOS);
                 break;
             default:
                 app.setState(result.state);
@@ -217,7 +217,7 @@ var app = {
 
 function start() {
     bindEvent();
-    FebRest.dispatch(constants.GET_ALL_TODOS);
+    Febrest.dispatch(constants.GET_ALL_TODOS);
 }
 
 /**
@@ -229,7 +229,7 @@ function onKeyDown(e) {
         return;
     }
     if (e.target.className === 'new-todo' && e.key === 'Enter') {
-        FebRest.dispatch(constants.ADD_TODO, e.target.value);
+        Febrest.dispatch(constants.ADD_TODO, e.target.value);
         e.target.value = '';
     }
 }
@@ -244,5 +244,5 @@ function bindEvent() {
 }
 
 
-FebRest.subscribe(app.onData);
+Febrest.subscribe(app.onData);
 start();
