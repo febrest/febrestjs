@@ -10,10 +10,10 @@ import constants from './../constants';
 
 var errorHandle = error.handle;
 
-var run = function (action, payload) {
+var run = function (action, payload,id) {
     return provider.provide(action, payload)
         .then(args => runAction(action.controller, args))
-        .then(state => setResult(state, action.key))
+        .then(state => setResult(state, action.key,id))
 }
 
 var id = 0;
@@ -30,10 +30,11 @@ function providerPersist(persist, state) {
 }
 
 
-function setResult(state, key) {
+function setResult(state, key,id) {
     let result = {
         state,
         key,
+        id
     }
     return result;
 }
@@ -47,7 +48,7 @@ function exec(key, payload) {
     var id = IDGenerator();
 
     //捕获所有异常
-    run(action, payload)
+    run(action, payload,id)
         .then(result => pushToObserver(result))
         .then((result) => providerPersist(action.persist, result.state))
         .catch(e => errorHandle(e))
