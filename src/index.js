@@ -32,6 +32,12 @@ var {
     subscribe,
     unsubscribe,
 } = observer;
+var version;
+try{
+    version = VERSION;
+}catch(e){
+
+}
 export default {
     /**
      * @description
@@ -69,5 +75,6 @@ export default {
     /**
      * @constants
     */
-    PROVIDER_PERSIST_ACTION
+    PROVIDER_PERSIST_ACTION,
+    version
 }

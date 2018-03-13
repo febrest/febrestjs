@@ -36,7 +36,9 @@ function getOutputOptions(output, name, bundleType, exts) {
     }
 }
 
-
+function intro(version){
+    return 'var VERSION = \''+ version+'\'';
+}
 
 
 async function build(entry, output, name, version, bundleType) {
@@ -51,6 +53,6 @@ async function build(entry, output, name, version, bundleType) {
         banner = getBanner(version,filename);
     }
 
-    await result.write(getOutputOptions(output,name,bundleType,{banner}));
+    await result.write(getOutputOptions(output,name,bundleType,{banner,intro:intro(version)}));
 }
 module.exports = build;
