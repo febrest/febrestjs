@@ -28,18 +28,18 @@ var providers = [
  */
 
 var controllers = {
-    addTodos: function (todos, message) {
+    addTodos: function (todos, payload) {
         var todo = {
             complete: false,
-            message: message
+            message: payload
         }
         todos.push(todo);
         return {
             todos: todos
         }
     },
-    removeTodos: function (todos, index) {
-        todos.splice(index, 1);
+    removeTodos: function (todos, payload) {
+        todos.splice(payload, 1);
         return { todos };
     },
     getAll: function (todos) {
@@ -53,8 +53,8 @@ var controllers = {
         });
         return { complete: complete };
     },
-    complete: function (i, todos) {
-        todos[i].complete = true;
+    complete: function (payload, todos) {
+        todos[payload].complete = true;
         return {
             todos: todos,
         }
