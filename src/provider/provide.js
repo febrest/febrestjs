@@ -29,16 +29,19 @@ function dependencyLookup(list, payload) {
         args =  list.map(function (key) {
             let provider = ProviderContainer.getProvider(key);
             if (provider) {
-                return then(provider.get());
-            } else if (payload!==undefined && !isPayloadUsed) {
-
                 /**
-                 * payload 确保只传给第一个没匹配到的
+                 * provider get的时候传递payload
+                 * 可能后期会修改
                  */
-                isPayloadUsed = true;
+                return then(provider.get(payload));
+            } else if (key==='payload') {
+                /**
+                 * 修改payload传递方式，限制只在参数名为payload的时候传递
+                 */
                 return then(payload);
             } else {
-                return then(null);
+                console.warn('不存在名为'+key+'的依赖');
+                return then(undefined);
             }
         })
     }
@@ -47,6 +50,7 @@ function dependencyLookup(list, payload) {
 }
 
 function dependencyFromProvider(list){
+    console.warn('谨慎使用，可能会被移除');
     var args = [];
     if(list){
         args = list.map(function(item){
