@@ -19,7 +19,7 @@ var providers = [
     {
         name: 'todos',
         type:'storage',
-        defaultValue: []
+        defaultState: []
     },
 ]
 
