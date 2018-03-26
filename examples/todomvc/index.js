@@ -28,7 +28,7 @@ var providers = [
  */
 
 var controllers = {
-    addTodos: function (todos, payload) {
+    addTodos: function (todos=[], payload) {
         var todo = {
             complete: false,
             message: payload
@@ -38,28 +38,28 @@ var controllers = {
             todos: todos
         }
     },
-    removeTodos: function (todos, payload) {
+    removeTodos: function (todos=[], payload) {
         todos.splice(payload, 1);
         return { todos };
     },
-    getAll: function (todos) {
+    getAll: function (todos=[]) {
         var complete = controllers.getComplete(todos).complete;
         var active = controllers.getActive(todos).active;
         return { todos: todos, complete, active };
     },
-    getComplete: function (todos) {
+    getComplete: function (todos=[]) {
         var complete = todos.filter(function (v) {
             return v.complete;
         });
         return { complete: complete };
     },
-    complete: function (payload, todos) {
+    complete: function (payload, todos=[]) {
         todos[payload].complete = true;
         return {
             todos: todos,
         }
     },
-    getActive: function (todos) {
+    getActive: function (todos=[]) {
         var active = todos.filter(function (v) {
             return !v.complete;
         });
