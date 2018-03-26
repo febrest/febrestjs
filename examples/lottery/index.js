@@ -9,11 +9,11 @@
     var providers = [
         {
             name: 'lottery',
-            defaultValue: 0
+            defaultState: 0
         },
         {
             name:'rollHistory',
-            defaultValue: []
+            defaultState: []
         }
     ];
 
