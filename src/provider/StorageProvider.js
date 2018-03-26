@@ -40,10 +40,10 @@ class StorageProvider extends Provider {
     }
     get() {
         if (!this._synced) {
-            return storageTool.getter(this._name)
+            return storageTool.getter(this.name)
                 .then((v) => {
                     if (v) {
-                        this._value = v.value;
+                        this.state = v.state;
                     }
                     this._synced = true;
                     return super.get();
@@ -52,9 +52,9 @@ class StorageProvider extends Provider {
             return super.get();
         }
     }
-    set(v) {
-        super.set(v);
-        storageTool.setter(this._name, { timestamp: Date.now(), value: v });
+    set(state) {
+        super.set(state);
+        storageTool.setter(this.name, { timestamp: Date.now(), state });
 
     }
 }

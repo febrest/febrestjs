@@ -2,12 +2,13 @@
 import Provider from './Provider';
 import util from './../util';
 class RemoteProvider extends Provider{
-    _remote:string;
-    _params:any;
-    _method:string;
+    remote:string;
+    params:any;
+    method:string;
+    headers:Headers;
     constructor(config){
         super(config);
-        this._remote = config.remote;
+        this.remote = config.remote;
         this.method = config.method||'get';
         this.body = config.body;
         this.headers = config.headers;
@@ -17,7 +18,7 @@ class RemoteProvider extends Provider{
         if(this.headers){
             headers = new Headers(this.headers);
         }
-        return fetch(this._remote,{
+        return fetch(this.remote,{
             body:this.body,
             method:this.method,
             headers
@@ -30,7 +31,7 @@ class RemoteProvider extends Provider{
         })
     }
     set(){
-
+        return;
     }
 }
 

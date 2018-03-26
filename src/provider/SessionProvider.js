@@ -6,9 +6,9 @@ class SessionProvider extends Provider{
      * 取完之后删除数据
      */
     get(){
-        var value = super.get();
-        this._value = null;
-        return value;
+        var state = super.get();
+        this.state = undefined;
+        return state;
     }
     
 }

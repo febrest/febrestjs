@@ -11,17 +11,17 @@ var {
 } = util;
 
 class Provider{
-    _value: any;
-    _name: string;
+    state: any;
+    name: string;
     constructor(config){
-        this._value = config.value;
-        this._name = config.name;
+        this.state = config.state;
+        this.name = config.name;
     }
     get(){
-        return copy(this._value);
+        return copy(this.state);
     }
-    set(value){
-        this._value = copy(value);
+    set(state){
+        this.state = copy(state);
     }
 }
 
