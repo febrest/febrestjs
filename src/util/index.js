@@ -65,10 +65,11 @@ function getArgumentList(func): Array {
         /**
          * todo:可能有bug
          */
-        let args = [];
-        match[1].split(',').forEach((arg) => {
-            args.push(arg.replace(/\s/g, ''));
-        })
+        let args;
+        args = match[1].split(',').map((arg) => {
+            let name = arg.replace(/(\s|=.+$)/g,'');
+            return name;
+        });
         return args;
     }
     return [];

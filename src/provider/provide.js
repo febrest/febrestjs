@@ -18,6 +18,7 @@ var {
     getProvider
 } = ProviderContainer;
 
+const $FEBREST_ARGSLIST$ = '$FEBREST_ARGSLIST$';
 
 function dependencyLookup(list, payload) {
     var isPayloadUsed = false;
@@ -70,7 +71,15 @@ function provide(action, payload) {
     if (typeof provider === 'function') {
         return dependencyFromProvider(provider(payload,createProvider,getProvider));
     }else{
-        return dependencyLookup(getArgumentList(controller), payload);
+        let argsList = controller[$FEBREST_ARGSLIST$];
+        /**
+         * 获取arglist 这一步添加缓存，提高运行效率
+        */
+        if(!argsList){
+            argsList = getArgumentList(controller);
+            controller[$FEBREST_ARGSLIST$] = argsList;
+        }
+        return dependencyLookup(argsList, payload);
     }
 }
 
