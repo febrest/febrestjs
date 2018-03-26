@@ -16,8 +16,8 @@ function inject(configs) {
         });
     } else {
         var name = configs.name;
-        var value = configs.defaultValue;
-        configs.value = value;
+        var state = configs.defaultState;
+        configs.state = state;
         var provider = ProviderCreator.createProvider(configs);
         ProviderContainer.setProvider(name, provider);
     }
