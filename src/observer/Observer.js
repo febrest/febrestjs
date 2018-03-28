@@ -6,7 +6,10 @@ class Observer{
     }
     next(data){
         this._callbacks.forEach((callback)=>{
-            callback(data);
+            /**
+             * todos:暂时这么处理，让persist先于observer执行
+            */
+            setTimeout(function(){callback(data)},0);
         })
     }
     subscribe(callback){
