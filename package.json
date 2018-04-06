@@ -1,6 +1,6 @@
 {
     "name": "febrest",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "author": {
         "name": "Spencer Ye",
         "email": "pallyoung@163.com"
@@ -24,7 +24,7 @@
     },
     "scripts": {
         "test": "jest",
-        "build": "node ./scripts/build.js",
+        "build": "node ./scripts/build.js true",
         "publish": "node ./scripts/publish.js"
     },
     "dependencies": {}

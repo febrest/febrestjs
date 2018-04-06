@@ -1,15 +1,17 @@
 var fs = require('fs');
 var child = require('child_process');
 var readline = require('readline');
+var build = require('./build');
+
 
 var argv = process.argv;
 var package_json_path = './package.json';
+
 
 var rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
-
 function publish() {
     var version = argv[2];
     var next;
@@ -19,7 +21,7 @@ function publish() {
     } else {
         next = commit;
     }
-    comfirmToNext(version, next);
+    build().then(()=> comfirmToNext(version, next))
 
 }
 
@@ -32,7 +34,7 @@ function comfirmToNext(version, next) {
         if (value === 'y' || value === 'yes') {
             rl.close();
             next(version);
-            doPublish();
+            // doPublish();
         } else if (value === 'n' || value === 'no') {
             process.exit(0)
         } else {
@@ -51,7 +53,7 @@ function commit(version) {
 
     child.execSync('git add ' + package_json_path);
     try {
-       child.execSync('git commit -m \"npm publish自动提交，version:' + version + '\"');
+        child.execSync('git commit -m \"npm publish自动提交，version:' + version + '\"');
     } catch (e) {
         console.error('git commit error');
         process.exit(0);
@@ -60,15 +62,22 @@ function commit(version) {
 }
 function tag(version) {
     console.log('自动打tag');
-    child.execSync('git tag -a febrest-release-v' + version + ' -m \'auto release tag '+version+'\'');
-    child.execSync('git push --tags');
+    rl.question('请输入版本信息\r\n', function (value) {
+        console.log('23232323232'+value)
+
+        rl.close();
+        child.execSync('git tag -a febrest-release-v' + version + ' -m \'auto release tag ' + version +':'+value+ '\'');
+        child.execSync('git push --tags');
+        doPublish();
+    });
+
 }
 
-function doPublish(){
+function doPublish() {
     console.log('开始发布');
     child.execSync('nrm use npm');
-    process.nextTick(()=>child.execSync('npm publish'));
-    process.nextTick(()=>child.execSync('nrm use taobao'));
+    process.nextTick(() => child.execSync('npm publish'));
+    process.nextTick(() => child.execSync('nrm use taobao'));
     console.log('发布成功');
 }
 publish();

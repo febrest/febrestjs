@@ -11,5 +11,7 @@ async function build(){
     await rollup(entry,output,name,version,'dev');
     await rollup(entry,output,name,version,'prod');
 }
-
-build();
+if(process.argv[2]){
+    build();
+}
+module.exports = build;
