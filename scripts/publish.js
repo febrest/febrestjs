@@ -32,7 +32,7 @@ function comfirmToNext(version, next) {
     rl.question('即将发布的版本是:' + version + ',是否继续？y/n\r\n', function (value) {
         value = value.toLowerCase();
         if (value === 'y' || value === 'yes') {
-            rl.close();
+            // rl.close();
             next(version);
             // doPublish();
         } else if (value === 'n' || value === 'no') {
@@ -61,11 +61,8 @@ function commit(version) {
     tag(version);
 }
 function tag(version) {
-    console.log('自动打tag');
     rl.question('请输入版本信息\r\n', function (value) {
-        console.log('23232323232'+value)
-
-        rl.close();
+        console.log('自动打tag');
         child.execSync('git tag -a febrest-release-v' + version + ' -m \'auto release tag ' + version +':'+value+ '\'');
         child.execSync('git push --tags');
         doPublish();
@@ -79,5 +76,6 @@ function doPublish() {
     process.nextTick(() => child.execSync('npm publish'));
     process.nextTick(() => child.execSync('nrm use taobao'));
     console.log('发布成功');
+    rl.close();
 }
 publish();
