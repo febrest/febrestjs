@@ -6,8 +6,8 @@ function persist(kv,state){
         return null;
     }
     var changed = {
-
-    }
+        
+    };
     for(let k in kv){
         let v = state[k];
 
@@ -16,7 +16,7 @@ function persist(kv,state){
             let provider = ProviderContainer.getProvider(name);
             if(provider){
                 provider.set(v);
-                changed[name] = v;
+                changed[name] = true;
             }
         }      
     }
