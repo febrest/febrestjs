@@ -165,7 +165,9 @@
      * @param {*} data 
      */
     function updateLotteryCount(data) {
-        document.getElementsByClassName('lottery_count')[0].innerHTML = '奖券数量:' + data.lottery;
+        if(data.lottery){
+            Febrest.dispatch(constants.GET_LOTTERY);
+        }
     }
     /**
      * @description 更新抽奖记录
@@ -203,6 +205,9 @@
                 }else{
                     alert('奖券数量不够！')
                 }
+                break;
+            case constants.GET_LOTTERY:
+                document.getElementsByClassName('lottery_count')[0].innerHTML = '奖券数量:' + data.state.lottery;
                 break;
         }
     }
