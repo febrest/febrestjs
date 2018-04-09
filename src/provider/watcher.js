@@ -46,7 +46,9 @@ function dispatchWatcher(watcher, data, timestamp) {
         watcher.callback.call(null,data);
     }
 }
-
+/**
+ * 修改接受只传callback的时候
+*/
 function watch(providers, callback) {
     var watcher = Watcher(callback);
     if (typeof providers === 'string') {
