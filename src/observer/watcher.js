@@ -2,33 +2,23 @@
 
 
 var watchers = {
-
+    '__all__': []
 }
-function setWatcher(providers, watcher) {
-    providers.forEach(function (provide) {
-        if (!watchers[provide]) {
-            watchers[provide] = [];
-        }
-        watchers[provide].push(watcher);
-    })
+function setWatcher(watcher) {
+    watchers['__all__'].push(watcher);
 }
-function removeWatcher(providers, callback) {
-    providers.forEach(function (provide) {
-        if (watchers[provide]) {
-            let providerWatchers = watchers[provide];
-            /**
-             * @todo
-             * 目前只删除第一个，后期可能会优化
-             */
-            for (let i = 0, l = watcher.length; i < l; i++) {
-                if (providerWatchers[i].callback === callback) {
-                    providerWatchers.splice(i, 1);
-                    return;
-                };
-
-            }
-        }
-    })
+function removeWatcher(callback) {
+    let all = watchers['__all__'];
+    /**
+     * @todos
+     * 目前只删除第一个，后期可能会优化
+     */
+    for (let i = 0, l = all.length; i < l; i++) {
+        if (all[i].callback === callback) {
+            all.splice(i, 1);
+            return;
+        };
+    }
 }
 function Watcher(callback) {
     var watcher = {
@@ -39,37 +29,31 @@ function Watcher(callback) {
 }
 function dispatchWatcher(watcher, data, timestamp) {
     //确保在一次change中只被dispatch一次；
-    if(watcher.dispatchTime>=timestamp){
+    if (watcher.dispatchTime >= timestamp) {
         return;
-    }else{
-        watcher.dispatchTime=timestamp;
-        watcher.callback.call(null,data);
+    } else {
+        watcher.dispatchTime = timestamp;
+        watcher.callback.call(null, data);
     }
 }
 /**
- * 修改接受只传callback的时候
+* 不再区分具体是哪个provider的change
 */
-function watch(providers, callback) {
+function watch(callback) {
     var watcher = Watcher(callback);
-    if (typeof providers === 'string') {
-        providers = [providers];
-    }
-    setWatcher(providers, watcher);
+
+    setWatcher(watcher);
 }
 
 function doWatch(changed) {
-    var timestamp = Date.now();
-    for (var p in changed) {
-        let providerWatcher = watchers[p];
-        if (providerWatcher) {
-            providerWatcher.forEach(function (watcher) {
-                dispatchWatcher(watcher, changed, timestamp);
-            })
-        }
-    }
+    let timestamp = Date.now();
+    let all = watchers['__all__'];
+    all.forEach(function (watcher) {
+        dispatchWatcher(watcher, changed, timestamp);
+    });
 }
 
-export  {
+export {
     watch,
     doWatch,
     removeWatcher

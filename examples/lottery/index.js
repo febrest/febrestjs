@@ -215,7 +215,7 @@
     /**
      * @description 监听lottery privder
      */
-    Febrest.watch('lottery', updateLotteryCount);
+    Febrest.watch(updateLotteryCount);
     Febrest.subscribe(onData)
 
     lotterySelfAdd();

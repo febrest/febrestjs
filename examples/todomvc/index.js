@@ -240,7 +240,7 @@ function bindEvent() {
 
 
 Febrest.subscribe(app.onData);
-Febrest.watch('todos',function(changed){
+Febrest.watch(function(changed){
     if(changed.todos){
         Febrest.dispatch(constants.GET_ALL_TODOS);
     }
