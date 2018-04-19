@@ -1,9 +1,9 @@
 'use strict'
-import Action from './../action';
+import {exec} from './../action';
 
 
 function dispatch(key: string, payload: any) {
-    return Action.exec(key, payload)
+    return exec(key, payload);
 }
 export  {
     dispatch,

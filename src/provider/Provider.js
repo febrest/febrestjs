@@ -1,26 +1,18 @@
 'use strict'
 
-'use strict'
-import util from './../util';
+import { toValue, copy, isArray, isObject } from './../util';
 
-var {
-    toValue,
-    copy,
-    isArray,
-    isObject
-} = util;
-
-class Provider{
+class Provider {
     state: any;
     name: string;
-    constructor(config){
+    constructor(config) {
         this.state = config.state;
         this.name = config.name;
     }
-    getState(){
+    getState() {
         return copy(this.state);
     }
-    setState(state){
+    setState(state) {
         this.state = copy(state);
     }
 }

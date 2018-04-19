@@ -1,10 +1,5 @@
 'use strict'
 
-import util from './../util';
-
-var {
-    copy
-} = util;
 var container = {
 
 }

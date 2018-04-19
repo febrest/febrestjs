@@ -1,11 +1,7 @@
 'use strict'
 import Provider from './Provider';
-import util from './../util';
+import { toString, toValue } from './../util';
 
-var {
-    toString,
-    toValue
-} = util;
 
 const is_localstorage_support = typeof localStorage !== 'undefined';
 
@@ -29,8 +25,8 @@ var storageTool = {
     getter: function (key) {
         return stroage(key);
     },
-    setter: function (key,value) {
-        return stroage(key,value);
+    setter: function (key, value) {
+        return stroage(key, value);
     }
 }
 class StorageProvider extends Provider {

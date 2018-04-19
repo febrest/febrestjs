@@ -1,13 +1,10 @@
 'use strict'
 
-import util from './../util';
+import { isArray } from './../util';
 import ProviderContainer from './ProviderContainer';
 import ProviderCreator from './ProviderCreator';
 
 
-var {
-    isArray
-} = util;
 
 function inject(configs) {
     if (isArray(configs)) {

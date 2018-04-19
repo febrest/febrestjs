@@ -1,9 +1,7 @@
 import createActions from './createActions';
 import getAction from './getAction';
-import innerActions from './innerActions';
 import error from './../error';
-import provider from './../provider';
-import observer from './../observer';
+import * as observer from './../observer';
 import constants from './../constants';
 import { ProviderContainer } from './../provider';
 import { getService } from './../services';
@@ -161,10 +159,6 @@ function exec(key, payload) {
  * stub
  */
 let run = actionExec;
-
-createActions(innerActions.actions);
-
-
 
 export {
     createActions,
