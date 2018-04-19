@@ -127,40 +127,39 @@ function actionComplete(action) {
  * @param {any} args
  */
 function actionExec(action) {
+
+    return run(action).then(
+        actionComplete
+    ).catch(
+        errorHandle
+    );
+}
+
+function controllerExec(action) {
     let {
         controller,
         args
     } = action;
-
-    return controllerExec(controller, args);
-}
-
-function controllerExec(controller, args) {
-
+    
     let state = controller.apply(null, args);
 
-    return then(state);
+    return then(state).then(
+        (state)=>assembleResult(action,state)
+    );
 }
 function exec(key, payload) {
 
     let action = actionPrepare(key, payload);
     actionBegin(action).then(
-        run
-    ).then(
-        state => assembleResult(action, state)
-    ).then(
-        actionComplete
-    ).catch(
-        errorHandle
+        actionExec
     )
-
     return action.id;
 }
 
 /**
  * stub
  */
-let run = actionExec;
+let run = controllerExec;
 
 export {
     createActions,
