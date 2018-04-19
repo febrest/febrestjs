@@ -1,6 +1,10 @@
 import ActionVendor from './ActionVendor';
 function getActionForKey(key:string){
-   return ActionVendor.getActionForKey(key)
+   let action = ActionVendor.getActionForKey(key);
+    return {
+        key:action.key,
+        controller:controller
+    }
 }
 
 export default getActionForKey;

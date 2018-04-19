@@ -74,7 +74,7 @@ function getArgumentList(func): Array {
     }
     return [];
 }
-export default {
+export {
     isArray,
     isObject,
     copy,

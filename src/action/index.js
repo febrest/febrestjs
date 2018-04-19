@@ -1,26 +1,74 @@
 import createActions from './createActions';
 import getAction from './getAction';
-import runAction from './runAction';
 import innerActions from './innerActions';
 import error from './../error';
 import provider from './../provider';
 import observer from './../observer';
 import constants from './../constants';
+import { ProviderContainer } from './../provider';
+import { getService } from './../services';
+import { isArray, getArgumentList, then } from './../util';
 
 
-var errorHandle = error.handle;
+let errorHandle = error.handle;
 
-var run = function (action, payload,id) {
-    return provider.provide(action, payload)
-        .then(args => runAction(action.controller, args))
-        .then(state => setResult(state, action.key,id))
-}
+let id = 0;
 
-var id = 0;
+const ACTION_CACHE = new Map();
+
+const $FEBREST_ARGSLIST$ = '$FEBREST_ARGSLIST$';
+
+const { getProvider } = ProviderContainer;
+
+
 
 function IDGenerator() {
     return ++id;
 }
+
+function providerGetState(provider, payload) {
+    return provide(provider.getState, payload).then(args => {
+        return provider.getState.apply(provider, args);
+    });
+}
+
+/**
+* todos:需要优化
+*/
+function dependencyLookup(list, action) {
+    var isPayloadUsed = false;
+    var args = [];
+    if (list) {
+        args = list.map(arg => {
+            let provider = getProvider(arg);
+            if (provider) {
+                return then(providerGetState(provider, action));
+            } else if (key[0] === '$') {
+                return then(getService(arg, action));
+            } else {
+                //找不到依赖 抛出异常
+                throw new Error('不存在名为' + arg + '的依赖');
+            }
+        });
+    }
+    return Promise.all(args);
+
+}
+function _arguments(func) {
+    let args = func[$FEBREST_ARGSLIST$];
+    //获取arglist 这一步添加缓存，提高运行效率
+    if (!args) {
+        args = getArgumentList(func);
+        func[$FEBREST_ARGSLIST$] = args;
+    }
+    return func;
+}
+
+function provide(func, payload) {
+    let args = _arguments(func);
+    return dependencyLookup(args, payload);
+}
+
 
 function providerPersist(persist, state) {
     if (persist) {
@@ -29,44 +77,107 @@ function providerPersist(persist, state) {
     return state;
 }
 
-function setResult(state, key,id) {
+function assembleResult(action, state) {
+    
     let result = {
         state,
         key,
         id
     }
-    return result;
+    action.result = result;
+
+    return action;
 }
 
 function pushToObserver(result) {
+
     observer.next(result);
-    return result;
-}
-function exec(key, payload) {
-    var action = getAction(key);
-    var id = IDGenerator();
 
-    //捕获所有异常
-    run(action, payload,id)
-        .then(result => pushToObserver(result))
-        .then((result) => providerPersist(action.persist, result.state))
-        .catch(e => errorHandle(e))
-
-    return id;
 }
+
 
 function applyMiddleWare(middleWare) {
+
     run = middleWare(run);
+
 }
 
+function actionPrepare(key, payload) {
 
-var exports = {
-    createActions,
-    getAction,
-    exec: exec,
-    applyMiddleWare,
+    let action = getAction(key);
+    let id = IDGenerator();
+
+    action.id = id;
+
+    action.payload = payload;
+
+    ACTION_CACHE.push(id, action);
+
+    return action;
 }
+function actionBegin(action) {
+
+    let {
+        controller,
+        payload
+    } = action;
+
+    return provide(controller, payload);
+}
+function actionComplete(action) {
+
+    pushToObserver(action.result);
+
+}
+/**
+ * 
+ * @param {any} controller 
+ * @param {any} args
+ */
+function actionExec(action) {
+    let {
+        controller,
+        args
+    } = action;
+
+    return controllerExec(controller, args);
+}
+
+function controllerExec(controller, args) {
+
+    let state = controller.apply(null, args);
+
+    return then(state);
+}
+function exec(key, payload) {
+
+    let action = actionPrepare(key, payload);
+
+    actionBegin(action).then(
+        run
+    ).then(
+        state => assembleResult(action, state)
+    ).then(
+        actionComplete
+    ).catch(
+        errorHandle
+    )
+
+    return action.id;
+}
+
+/**
+ * stub
+ */
+let run = actionExec;
+
 createActions(innerActions.actions);
 
 
-export default exports;
+
+export {
+    createActions,
+    getAction,
+    exec,
+    applyMiddleWare,
+};
