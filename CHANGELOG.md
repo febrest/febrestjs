@@ -12,3 +12,6 @@
 
 ## 0.3.2beta
 * 修改connect在actionExec结束之后执行。
+
+## 0.3.3beta
+* 修改connect bug。
