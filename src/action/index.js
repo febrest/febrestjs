@@ -98,7 +98,7 @@ function actionPrepare(key, payload) {
 
     action.payload = payload;
 
-    action.exec = run;
+    action.exec = actionExec;
 
     return action;
 }
