@@ -14,8 +14,6 @@ let errorHandle = error.handle;
 
 let id = 0;
 
-const ACTION_CACHE = new Map();
-
 const $FEBREST_ARGSLIST$ = '$FEBREST_ARGSLIST$';
 
 const { getProvider } = ProviderContainer;
@@ -26,8 +24,8 @@ function IDGenerator() {
     return ++id;
 }
 
-function providerGetState(provider, payload) {
-    return provide(provider.getState, payload).then(args => {
+function providerGetState(provider, action) {
+    return provide(provider.getState, action).then(args => {
         return provider.getState.apply(provider, args);
     });
 }
@@ -70,13 +68,6 @@ function provide(func, payload) {
 }
 
 
-function providerPersist(persist, state) {
-    if (persist) {
-        exec(constants.PROVIDER_PERSIST_ACTION, { persist: persist, state });
-    }
-    return state;
-}
-
 function assembleResult(action, state) {
 
     let result = {
@@ -108,10 +99,8 @@ function actionPrepare(key, payload) {
     action.id = id;
 
     action.payload = payload;
-    action.exec = exec;
-    action.pushToObserver = pushToObserver;
 
-    ACTION_CACHE.set(id, action);
+    action.exec = run;
 
     return action;
 }

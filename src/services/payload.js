@@ -1,7 +1,9 @@
 'use strict'
 
 function payload(action){
-    return action.payload;
+    return function $payload(){
+        return action.payload
+    }
 }
 
 export default payload;

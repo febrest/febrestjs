@@ -4,14 +4,20 @@
  */
 
 
- function connect(key){
-    const key = key;
+function noop(state) {
+    return state;
+}
+function connect(action) {
 
+    let {
+        exec
+    } = action;
 
-    return {
-        send,
-        finish
+    return function $connect(state) {
+        action.controller = noop;
+        action.args = [state];
+        exec(action);
     }
- }
+}
 
- export default connect;
+export default connect;
