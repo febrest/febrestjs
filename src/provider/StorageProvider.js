@@ -42,14 +42,14 @@ class StorageProvider extends Provider {
                         this.state = v.state;
                     }
                     this._synced = true;
-                    return super.get();
+                    return super.getState();
                 })
         } else {
-            return super.get();
+            return super.getState();
         }
     }
     setState(state) {
-        super.set(state);
+        super.setState(state);
         storageTool.setter(this.name, { timestamp: Date.now(), state });
 
     }
