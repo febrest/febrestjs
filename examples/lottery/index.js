@@ -12,7 +12,7 @@
             defaultState: 0
         },
         {
-            name:'rollHistory',
+            name: 'rollHistory',
             defaultState: []
         }
     ];
@@ -23,7 +23,7 @@
     var constants = {
         ADD_LOTTERY: 'ADD_LOTTERY',
         GET_LOTTERY: 'GET_LOTTERY',
-        SET_ROLL_HISTORY:'SET_ROLL_HISTORY',
+        SET_ROLL_HISTORY: 'SET_ROLL_HISTORY',
         ROLL: 'ROLL'
     }
 
@@ -34,23 +34,23 @@
         return parseInt(Math.random() * 10);
     }
 
-    function getBonus(value){
+    function getBonus(value) {
         var result = [];
-        value.forEach(function(index){
-            result[index] = result[index]?++result[index]:1;
+        value.forEach(function (index) {
+            result[index] = result[index] ? ++result[index] : 1;
         });
-        result = result.reduce(function(v,nv){
-            if(nv<v){
+        result = result.reduce(function (v, nv) {
+            if (nv < v) {
                 return v;
-            }else {
+            } else {
                 return nv;
             }
         });
-        if(result==2){
+        if (result == 2) {
             return 2
-        }else if(result==3){
+        } else if (result == 3) {
             return 1;
-        }else {
+        } else {
             return 0;
         }
     }
@@ -60,40 +60,41 @@
      * controller
      */
     var controllers = {
-        addLottery(lottery) {
+        addLottery(lottery, $persist) {
             lottery++;
+            $persist('lottery', lottery);
             return { lottery }
         },
         getLottery(lottery) {
             return { lottery }
         },
-        roll(lottery,rollHistory) {
+        roll(lottery, rollHistory, $persist) {
             if (lottery < 5) {
                 return { ok: false }
             } else {
                 let value = [randInt(), randInt(), randInt()];
                 let bonus = getBonus(value);
                 let item = {
-                    time:Date.now(),
+                    time: Date.now(),
                     value,
                     bonus,
                 }
                 rollHistory.push(item);
-                let result = { ok: true, lottery: lottery - 5, value,bonus,rollHistory}; 
-
+                let result = { ok: true, lottery: lottery - 5, value, bonus, rollHistory };
+                $persist('lottery',lottery-5);
+                $persist('rollHistory',rollHistory);
                 return result;
             }
         }
     }
 
-     /**
-     * action
-     */
+    /**
+    * action
+    */
     var actions = [
         {
             key: constants.ADD_LOTTERY,
             controller: controllers.addLottery,
-            persist: { lottery: 'lottery' }
         },
         {
             key: constants.GET_LOTTERY,
@@ -102,13 +103,12 @@
         {
             key: constants.ROLL,
             controller: controllers.roll,
-            persist: { lottery: 'lottery',rollHistory:'rollHistory' }
         }
     ];
 
-     /**
-     * 初始化Febrest配置，创建action和注入provider
-     */
+    /**
+    * 初始化Febrest配置，创建action和注入provider
+    */
     Febrest.createActions(actions);
     Febrest.injectProvider(providers);
 
@@ -145,14 +145,14 @@
         rolls[0].className = 'roll ' + getStopAnimateByValue(values[0]);
         rolls[1].className = 'roll ' + getStopAnimateByValue(values[1]);
         rolls[2].className = 'roll ' + getStopAnimateByValue(values[2]);
-        setTimeout(function(){
-            if(state.bonus){
+        setTimeout(function () {
+            if (state.bonus) {
                 alert('恭喜您中奖！')
-            }else{
+            } else {
                 alert('很遗憾，没有中奖！')
             }
             updateRollHistory(state.rollHistory);
-        },3000);
+        }, 3000);
     }
 
     function onClick(e) {
@@ -165,7 +165,8 @@
      * @param {*} data 
      */
     function updateLotteryCount(data) {
-        if(data.lottery){
+        console.log(data,'222222')
+        if (data.lottery) {
             Febrest.dispatch(constants.GET_LOTTERY);
         }
     }
@@ -173,16 +174,16 @@
      * @description 更新抽奖记录
      * @param {*} data 
      */
-    function updateRollHistory(history){
+    function updateRollHistory(history) {
         var ul = document.getElementsByClassName('roll_history')[0];
-        ul.innerHTML = history.map(function(item){
+        ul.innerHTML = history.map(function (item) {
             var time = new Date(item.time).toLocaleTimeString();
             var code = item.value.toString();
-            var bonus = item.bonus==2?'二等奖':(item.bonus=='1'?'一等奖':'未中奖');
+            var bonus = item.bonus == 2 ? '二等奖' : (item.bonus == '1' ? '一等奖' : '未中奖');
             return (
                 '<li>'
-                +'时间：'+time+' 号码：'+code+' 中奖结果：'+bonus
-                +'</li>'
+                + '时间：' + time + ' 号码：' + code + ' 中奖结果：' + bonus
+                + '</li>'
             );
         }).join('\r\n')
     }
@@ -202,7 +203,7 @@
             case constants.ROLL:
                 if (data.state.ok) {
                     startRoll(data.state);
-                }else{
+                } else {
                     alert('奖券数量不够！')
                 }
                 break;

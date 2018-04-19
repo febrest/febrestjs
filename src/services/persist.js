@@ -23,7 +23,7 @@ function persist(action) {
 
         return new Promise((resolve) => resolve()).then(
             () => {
-                doPersist();
+                doPersist(doing,keys,states);
                 doing = true;
             }
         );

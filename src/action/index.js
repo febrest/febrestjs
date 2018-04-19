@@ -57,7 +57,7 @@ function _arguments(func) {
         args = getArgumentList(func);
         func[$FEBREST_ARGSLIST$] = args;
     }
-    return func;
+    return args;
 }
 
 function provide(func, payload) {
@@ -70,8 +70,8 @@ function assembleResult(action, state) {
 
     let result = {
         state,
-        key,
-        id
+        key:action.key,
+        id:action.id
     }
     action.result = result;
 
@@ -109,13 +109,16 @@ function actionBegin(action) {
         payload
     } = action;
 
-    return provide(controller, payload);
+    return provide(controller, payload).then(
+        args => {
+            action.args = args;
+            return action;
+        }
+    );
 }
 function actionComplete(action) {
 
     pushToObserver(action);
-
-    ACTION_CACHE.delete(action.id);
 
 }
 /**
@@ -141,7 +144,6 @@ function controllerExec(controller, args) {
 function exec(key, payload) {
 
     let action = actionPrepare(key, payload);
-
     actionBegin(action).then(
         run
     ).then(

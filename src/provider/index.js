@@ -4,6 +4,7 @@ import ProviderContainer from './ProviderContainer';
 import RemoteProvider from './RemoteProvider';
 import SessionProvider from './SessionProvider';
 import StorageProvider from './StorageProvider';
+import ProviderCreator from './ProviderCreator';
 import inject from './inject';
 
 const use = ProviderCreator.use;
