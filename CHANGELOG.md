@@ -9,3 +9,6 @@
 ## 0.3.1beta
 * 修改watch模块。
 * 修改observer模块。
+
+## 0.3.2beta
+* 修改connect在actionExec结束之后执行。
