@@ -14,9 +14,17 @@ function connect(action) {
     } = action;
 
     return function $connect(state) {
-        action.controller = noop;
-        action.args = [state];
-        exec(action);
+        if(!action.result){
+            setTimeout(()=>{
+                $connect(state);
+            });
+            return;
+        }else{
+            action.controller = noop;
+            action.args = [state];
+            exec(action);
+        }
+        
     }
 }
 
