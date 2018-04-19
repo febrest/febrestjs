@@ -43,7 +43,7 @@ function dependencyLookup(list, action) {
             let provider = getProvider(arg);
             if (provider) {
                 return then(providerGetState(provider, action));
-            } else if (key[0] === '$') {
+            } else if (arg[0] === '$') {
                 return then(getService(arg, action));
             } else {
                 //找不到依赖 抛出异常
@@ -78,7 +78,7 @@ function providerPersist(persist, state) {
 }
 
 function assembleResult(action, state) {
-    
+
     let result = {
         state,
         key,
@@ -89,10 +89,8 @@ function assembleResult(action, state) {
     return action;
 }
 
-function pushToObserver(result) {
-
-    observer.next(result);
-
+function pushToObserver(action) {
+    observer.next(action.result);
 }
 
 
@@ -110,8 +108,10 @@ function actionPrepare(key, payload) {
     action.id = id;
 
     action.payload = payload;
+    action.exec = exec;
+    action.pushToObserver = pushToObserver;
 
-    ACTION_CACHE.push(id, action);
+    ACTION_CACHE.set(id, action);
 
     return action;
 }
@@ -126,7 +126,9 @@ function actionBegin(action) {
 }
 function actionComplete(action) {
 
-    pushToObserver(action.result);
+    pushToObserver(action);
+
+    ACTION_CACHE.delete(action.id);
 
 }
 /**

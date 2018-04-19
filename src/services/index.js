@@ -17,12 +17,12 @@ inject('persist',persist);
 inject('payload',payload);
 inject('connect',connect);
 
-function getService(name,key,payload){
+function getService(name,action){
     let service;
     if(!(service = services[name])){
         throw new Error(`service ${name} is not exist`);
     }
-    return service(key,payload);
+    return service(action);
 
 }
 export  {
