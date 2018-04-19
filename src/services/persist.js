@@ -3,8 +3,8 @@
  * @controller向provider层发出信号
  */
 
- function Persist(){
+ function persist(){
 
  }
 
- export default Persist;
+ export default persist;

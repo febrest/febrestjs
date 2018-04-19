@@ -13,7 +13,7 @@ class RemoteProvider extends Provider{
         this.body = config.body;
         this.headers = config.headers;
     }
-    get(){
+    getState(){
         var headers = undefined;
         if(this.headers){
             headers = new Headers(this.headers);
@@ -30,7 +30,7 @@ class RemoteProvider extends Provider{
             return Promise.resolve(null);
         })
     }
-    set(){
+    setState(){
         return;
     }
 }

@@ -38,7 +38,7 @@ class StorageProvider extends Provider {
     constructor(config) {
         super(config);
     }
-    get() {
+    getState() {
         if (!this._synced) {
             return storageTool.getter(this.name)
                 .then((v) => {
@@ -52,7 +52,7 @@ class StorageProvider extends Provider {
             return super.get();
         }
     }
-    set(state) {
+    setState(state) {
         super.set(state);
         storageTool.setter(this.name, { timestamp: Date.now(), state });
 

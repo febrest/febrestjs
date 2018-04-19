@@ -17,10 +17,10 @@ class Provider{
         this.state = config.state;
         this.name = config.name;
     }
-    get(){
+    getState(){
         return copy(this.state);
     }
-    set(state){
+    setState(state){
         this.state = copy(state);
     }
 }

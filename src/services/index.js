@@ -25,6 +25,6 @@ function getService(name,key,payload){
     return service(key,payload);
 
 }
-export default {
+export  {
     getService
 };

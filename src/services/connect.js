@@ -4,7 +4,7 @@
  */
 
 
- function Connect(key){
+ function connect(key){
     const key = key;
 
 
@@ -14,4 +14,4 @@
     }
  }
 
- export default Connect;
+ export default connect;

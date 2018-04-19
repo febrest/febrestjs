@@ -29,7 +29,6 @@ function providerPersist(persist, state) {
     return state;
 }
 
-
 function setResult(state, key,id) {
     let result = {
         state,

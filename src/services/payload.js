@@ -1,7 +1,7 @@
 'use strict'
 
-function Payload(key,payload){
+function payload(key,payload){
     return payload;
 }
 
-export default Payload;
+export default payload;

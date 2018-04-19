@@ -1,6 +1,10 @@
 'use strict';
-import ProviderContainer from './ProviderContainer';
-import watcher from './watcher';
+import {
+    ProviderContainer
+} from './../provider';
+import {
+    doWatch
+} from './../observer';
 function persist(kv,state){
     if(!kv){
         return null;
@@ -20,7 +24,7 @@ function persist(kv,state){
             }
         }      
     }
-    watcher.doWatch(changed);
+    doWatch(changed);
     return changed;
         
 }

@@ -69,7 +69,7 @@ function doWatch(changed) {
     }
 }
 
-export default {
+export  {
     watch,
     doWatch,
     removeWatcher
