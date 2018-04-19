@@ -21,5 +21,5 @@ export  {
     next,
     doWatch,
     watch,
-    removeWatche
+    removeWatcher
 }

@@ -13,9 +13,11 @@ use('remote',RemoteProvider);
 use('session',SessionProvider);
 
 
+const setStorageProviderTool = StorageProvider.setStorageTool
 export  {
     Provider,
     inject,
     use,
-    ProviderContainer
+    ProviderContainer,
+    setStorageProviderTool
 };

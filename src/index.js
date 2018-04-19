@@ -1,41 +1,16 @@
-import action from './action';
-import dispatcher from './dispatcher';
+import { applyMiddleWare, createActions } from './action';
+import { dispatch } from './dispatcher';
 import error from './error';
-import provider from './provider';
-import observer from './observer';
-import constants from './constants';
+import {Provider,inject,use,setStorageProviderTool} from './provider';
+import {subscribe,unsubscribe,watch,removeWatcher} from './observer';
 
 
-var {
-    dispatch
-} = dispatcher;
-
-var {
-    applyMiddleWare,
-    createActions,
-} = action;
-
-var {
-    PROVIDER_PERSIST_ACTION
-} = constants;
-var {
-    Provider,
-    StorageProvider,
-    RemoteProvider,
-    SessionProvider,
-    inject,
-    use,
-    watch
-} = provider;
-
-var {
-    subscribe,
-    unsubscribe,
-} = observer;
 var version;
-try{
+
+try {
+
     version = VERSION;
-}catch(e){
+} catch (e) {
 
 }
 export default {
@@ -57,11 +32,9 @@ export default {
      * exports provider
     */
     Provider,
-    StorageProvider,
-    RemoteProvider,
-    SessionProvider,
     injectProvider: inject,
     useProvider: use,
+    setStorageProviderTool,
 
     /**
      * @description
@@ -70,11 +43,9 @@ export default {
     subscribe,
     unsubscribe,
     watch,
+    removeWatcher,
+    
     onError: error.onError,
 
-    /**
-     * @constants
-    */
-    PROVIDER_PERSIST_ACTION,
     version
 }

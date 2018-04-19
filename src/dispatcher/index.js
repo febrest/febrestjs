@@ -1,3 +1,3 @@
 'use strict'
-import Dispatcher from './Dispatcher';
-export default Dispatcher;
+import { dispatch } from './Dispatcher';
+export { dispatch };
