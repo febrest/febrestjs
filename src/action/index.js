@@ -60,9 +60,9 @@ function _arguments(func) {
     return args;
 }
 
-function provide(func, payload) {
+function provide(func, action) {
     let args = _arguments(func);
-    return dependencyLookup(args, payload);
+    return dependencyLookup(args, action);
 }
 
 
@@ -109,7 +109,7 @@ function actionBegin(action) {
         payload
     } = action;
 
-    return provide(controller, payload).then(
+    return provide(controller, action).then(
         args => {
             action.args = args;
             return action;

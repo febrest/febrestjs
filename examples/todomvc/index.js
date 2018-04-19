@@ -28,18 +28,22 @@ var providers = [
  */
 
 var controllers = {
-    addTodos: function (todos=[], payload) {
+    addTodos: function (todos=[], $payload,$persist) {
+        var payload = $payload();
         var todo = {
             complete: false,
             message: payload
         }
         todos.push(todo);
+        $persist('todos',todos);
         return {
             todos: todos
         }
     },
-    removeTodos: function (todos=[], payload) {
+    removeTodos: function (todos=[], $payload,$persist) {
+        var payload = $payload();
         todos.splice(payload, 1);
+        $persist('todos',todos);
         return { todos };
     },
     getAll: function (todos=[]) {
@@ -53,8 +57,10 @@ var controllers = {
         });
         return { complete: complete };
     },
-    complete: function (payload, todos=[]) {
+    complete: function ($payload, todos=[],$persist) {
+        var payload = $payload();
         todos[payload].complete = true;
+        $persist('todos',todos);
         return {
             todos: todos,
         }
@@ -75,9 +81,7 @@ var actions = [
     {
         key: constants.ADD_TODO,
         controller: controllers.addTodos,
-        persist: {
-            'todos': 'todos'
-        }
+
     },
     {
         key: constants.GET_ALL_TODOS,
@@ -93,17 +97,11 @@ var actions = [
     },
     {
         key: constants.SET_COMPLETE,
-        controller: controllers.complete,
-        persist: {
-            'todos': 'todos'
-        }
+        controller: controllers.complete
     },
     {
         key: constants.REMOVE_TODO,
-        controller: controllers.removeTodos,
-        persist: {
-            'todos': 'todos'
-        }
+        controller: controllers.removeTodos
     }
 ]
 
@@ -204,10 +202,7 @@ var app = {
         this.setState({ type });
     },
     onData(result) {
-        switch (result.key) {
-            case Febrest.PROVIDER_PERSIST_ACTION:
-                Febrest.dispatch(constants.GET_ALL_TODOS);
-                break;
+        switch (result.key) {                
             default:
                 app.setState(result.state);
                 break;
@@ -245,4 +240,10 @@ function bindEvent() {
 
 
 Febrest.subscribe(app.onData);
+Febrest.watch('todos',function(changed){
+    if(changed.todos){
+        Febrest.dispatch(constants.GET_ALL_TODOS);
+    }
+    
+})
 start();

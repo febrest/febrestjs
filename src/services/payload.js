@@ -2,7 +2,7 @@
 
 function payload(action){
     return function $payload(){
-        return action.payload
+        return action.payload;
     }
 }
 
