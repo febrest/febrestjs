@@ -35,11 +35,13 @@ yarn add febrest
 * [createActions](#createActions)
 * [applyMiddleWare](#applyMiddleWare)
 * [Provider](#provider)
+* [setProviderStorageTool](#setProviderStorageTool)
 * [injectProvider](#injectProvider)
 * [useProvider](#useProvider)
 * [subscribe](#subscribe)
 * [unsubscribe](#unsubscribe)
 * [watch](#watch)
+* [removeWatcher](#removeWatcher)
 * [onError](#onError)
 
 ### dispatch
@@ -80,7 +82,14 @@ applyMiddleWare(middleWare:(exec)=>exec);
 ```
 ### Provider
 
+### setProviderStorageTool
 
+```
+setProviderStorageTool({
+    setter:(key,value)=>any,
+    getter:(key)=>any
+});
+```
 ### injectProvider
 ```
 injectProvider(config:ProviderConfig|Array<Provider>);
@@ -101,7 +110,11 @@ unsubscribe(callback:(data:{state:any,key:string})=>any);
 ```
 ### watch
 ```
-watch(providers:Array<String>,callback:(changed)=>any);
+watch(callback:(changed)=>any);
+```
+### removeWatcher
+```
+removeWatcher(callback:(changed)=>any);
 ```
 ### onError
 

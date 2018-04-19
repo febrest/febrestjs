@@ -1,4 +1,11 @@
 # change log
 
-## 0.2.4
-* 修改persist成功之后才会把结果响应给observer。
+## 0.3.0beta
+* 重写action模块
+* 加入服务模块，把payload修改为服务方式传递，增加persist和connect模块，分别用于provider更新和controller单项传递数据，移除action配置中的persist选项。
+* 移除action配置中provider选项，action中只保留key和controller选项。
+* 暴露removerWatcher方法。
+
+## 0.3.1beta
+* 修改watch模块。
+* 修改observer模块。
