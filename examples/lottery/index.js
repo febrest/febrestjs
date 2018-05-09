@@ -68,7 +68,8 @@
         getLottery(lottery) {
             return { lottery }
         },
-        roll(lottery, rollHistory, $persist) {
+        roll(lottery, rollHistory, $persist,$dynamic) {
+            console.log($dynamic());
             if (lottery < 5) {
                 return { ok: false }
             } else {
@@ -120,7 +121,7 @@
         return 'stop_animate_' + value;
     }
     function roll() {
-        Febrest.dispatch(constants.ROLL);
+        Febrest.dispatch(constants.ROLL,{dynamic:['rollHistory']});
     }
     /**
      * @description 抽奖动画开始
@@ -165,7 +166,6 @@
      * @param {*} data 
      */
     function updateLotteryCount(data) {
-        console.log(data,'222222')
         if (data.lottery) {
             Febrest.dispatch(constants.GET_LOTTERY);
         }
