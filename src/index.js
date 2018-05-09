@@ -1,7 +1,7 @@
 import { applyMiddleWare, createActions } from './action';
 import { dispatch } from './dispatcher';
 import error from './error';
-import {Provider,inject,use,setStorageProviderTool} from './provider';
+import {Provider,inject,use} from './provider';
 import {subscribe,unsubscribe,watch,removeWatcher} from './observer';
 
 
@@ -34,8 +34,6 @@ export default {
     Provider,
     injectProvider: inject,
     useProvider: use,
-    setStorageProviderTool,
-
     /**
      * @description
      * exports observer
