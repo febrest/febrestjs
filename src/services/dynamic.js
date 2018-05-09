@@ -12,8 +12,11 @@ function dynamic(action) {
         let map = {
 
         }
-        if (payload.dynamic) {
-            Promise.all.apply(Promise, payload.dynamic.map((providerName) => {
+        function $dynamic() {
+            return map;
+        }
+        if (payload && payload.dynamic) {
+            Promise.all(payload.dynamic.map((providerName) => {
                 let provider = ProviderContainer.getProvider(providerName);
                 if (!provider) {
                     throw new Error('不存在名为' + providerName + '的依赖');
@@ -26,9 +29,7 @@ function dynamic(action) {
         } else {
             resolve($dynamic);
         }
-        function $dynamic() {
-            return map;
-        }
+
 
     });
 }
