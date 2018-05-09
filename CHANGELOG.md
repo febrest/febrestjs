@@ -15,3 +15,7 @@
 
 ## 0.3.3beta
 * 修改connect bug。
+
+## 0.4.0beta
+* 移除StorageProvider和RemoteProvider，
+* service添加dynamic,用来动态获取provider
