@@ -15,7 +15,7 @@ function dynamic(action) {
         function $dynamic() {
             return map;
         }
-        if (payload && payload.dynamic) {
+        if (payload && payload.$dynamic) {
             Promise.all(payload.dynamic.map((providerName) => {
                 let provider = ProviderContainer.getProvider(providerName);
                 if (!provider) {
