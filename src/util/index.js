@@ -47,11 +47,7 @@ function toString(v){
 }
 
 function then(result){
-    if(isPromise(result)){
-        return result
-    }else{
-        return Promise.resolve(result);
-    }
+    return Promise.resolve(result);
 }
 
 /**
