@@ -1,22 +1,15 @@
 import createActions from './createActions';
-import getAction from './getAction';
 import error from './../error';
 import * as observer from './../observer';
 import constants from './../constants';
 import provide from './../util/provide';
+import {setRuntimeAction,createRuntimeAction} from './runtimeAction';
 
-import { isArray, getArgumentList, then } from './../util';
+import { then } from './../util';
 
 
 let errorHandle = error.handle;
 
-let id = 0;
-
-
-
-function IDGenerator() {
-    return ++id;
-}
 
 
 
@@ -45,12 +38,9 @@ function applyMiddleWare(middleWare) {
 
 function actionPrepare(key, payload) {
 
-    let action = getAction(key);
-    let id = IDGenerator();
+    let action = createRuntimeAction(key,payload);
 
-    action.id = id;
-
-    action.payload = payload;
+    setRuntimeAction(action);
 
     action.exec = actionExec;
 
@@ -117,7 +107,6 @@ let run = controllerExec;
 
 export {
     createActions,
-    getAction,
     exec,
     applyMiddleWare,
 };
