@@ -14,10 +14,11 @@ function connect(action) {
     } = action;
 
     return function $connect(state) {
+        /**等action主动结束一次才会执行connect */
         if(!action.result){
             setTimeout(()=>{
                 $connect(state);
-            });
+            },20);
             return;
         }else{
             action.controller = noop;
