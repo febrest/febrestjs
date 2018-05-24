@@ -22,3 +22,5 @@
 ## 0.5.0beta
 * dynamic参数规则修改。
 * 重写action模块。
+## 0.5.1beta
+* runtimeAction bug修复。
