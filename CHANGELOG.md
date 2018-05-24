@@ -24,3 +24,6 @@
 * 重写action模块。
 ## 0.5.1beta
 * runtimeAction bug修复。
+
+## 0.5.2beta
+* dynamic bug修复。
