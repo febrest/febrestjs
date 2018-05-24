@@ -19,3 +19,6 @@
 ## 0.4.0beta
 * 移除StorageProvider和RemoteProvider，
 * service添加dynamic,用来动态获取provider
+## 0.5.0beta
+* dynamic参数规则修改。
+* 重写action模块。
