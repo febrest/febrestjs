@@ -18,7 +18,7 @@ function getRuntimeAction(){
 
 function createRuntimeAction(key,payload){
     let staticAction = getAction(key);
-    let action ={
+    let action = {
         $typeof$:'RuntimeAction',
         id:IDGenerator(),
         key:staticAction.key,
@@ -28,6 +28,7 @@ function createRuntimeAction(key,payload){
         exec:undefined,
         args:undefined
     } 
+    return action;
 
 }
 
