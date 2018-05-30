@@ -13,39 +13,58 @@ const { getProvider } = ProviderContainer;
  * todos:可能还要优化
  */
 
- function getProviderState(provider,action){
+function getProviderState(provider, action) {
     let getState = provider.getState;
-    dependencyLookup(_arguments(getState),action);
- }
+    return Promise.all(dependencyLookup(_arguments(getState), action)).then(
+        args => {
+            return getState.apply(provider, args);
+        }
+    )
+}
 function dependencyLookup(list, action) {
     let deps = action.deps;
-    if (list) {
-        return Promise.all(
-            list.map(depName => {
-                let provider;
-                let dep = deps[depName];
-                if (dep) {
-                    return dep;
-                } else if ((provider = getProvider(depName))) {
-                    let getState = provider.getState;
-                    return dependencyLookup(_arguments(getState), action).then(
-                        args => {
-                            deps[depName] = getState.apply(provider, args);
-                            return deps[depName];
-                        }
-                    );
-                } else if (depName[0] === '$') {
-                    deps[depName] = getService(depName, action);
-                    return deps[depName];
-                } else {
-                    //找不到依赖 抛出异常
-                    makeError('不存在名为' + depName + '的依赖');
-                }
-            })
-        )
-    } else {
-        return Promise.resolve([]);
-    }
+    list = list || [];
+    return list.map(depName => {
+        let provider;
+        let dep = deps[depName];
+        if (dep) {
+            return dep;
+        } else if ((provider = getProvider(depName))) {
+            deps[depName] = getProviderState(provider, action);
+            return deps[depName];
+        } else if (depName[0] === '$') {
+            deps[depName] = getService(depName, action);
+            return deps[depName];
+        } else {
+            makeError('不存在名为' + depName + '的依赖');
+        }
+    });
+    // if (list) {
+    //     return Promise.all(
+    //         list.map(depName => {
+    //             let provider;
+    //             let dep = deps[depName];
+    //             if (dep) {
+    //                 return dep;
+    //             } else if ((provider = getProvider(depName))) {
+    //                 let getState = provider.getState;
+    //                 return dependencyLookup(_arguments(getState), action).then(
+    //                     args => {
+    //                         return Promis.resolve(getState.apply(provider, args));
+    //                     }
+    //                 );
+    //             } else if (depName[0] === '$') {
+    //                 deps[depName] = getService(depName, action);
+    //                 return deps[depName];
+    //             } else {
+    //                 //找不到依赖 抛出异常
+    //                 makeError('不存在名为' + depName + '的依赖');
+    //             }
+    //         })
+    //     )
+    // } else {
+    //     return Promise.resolve([]);
+    // }
 }
 function _arguments(func) {
     let args = func[$FEBREST_ARGSLIST$];
@@ -58,10 +77,10 @@ function _arguments(func) {
 }
 
 function provide(func, action) {
-    return dependencyLookup(_arguments(func), action);
+    return Promise.all(dependencyLookup(_arguments(func), action));
 }
 
 export {
     provide,
     dependencyLookup
-} ;
+};

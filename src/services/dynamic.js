@@ -17,7 +17,7 @@ function dynamic(action) {
         }
         if (payload && payload.$dynamic) {
             let _dynamic = payload.$dynamic;
-            dependencyLookup(_dynamic, action).then(deps => {
+            Promise.all(dependencyLookup(_dynamic, action)).then(deps => {
                 _dynamic.forEach((depName, index) => {
                     map[depName] = deps[index];
                 });
