@@ -1,21 +1,32 @@
 'use strict'
-var userErrorHandler = function(){
+
+class BaseError extends Error{
+    constructor(type,message){
+        super(message);
+        this.type = type||'base';
+
+    }
+    toString(){
+        return this.message;
+    }
+}
+let userErrorHandler = function(){
     return false;
 }
 
-function defaultErrorHandler(error){
-   throw error;
-}
-
-function handle(error:Error){
+function catchIt(error:Error){
     if(!userErrorHandler(error)){
-        defaultErrorHandler(error);
+        throw error;
     }
 }
 function onError(errorHandler){
-    userErrorHandler = onError;
+    userErrorHandler = errorHandler;
 }
-export default {
+function makeError(message,type){
+    throw new BaseError(type,message);
+}
+export  {
     onError,
-    handle
+    catchIt,
+    makeError
 }

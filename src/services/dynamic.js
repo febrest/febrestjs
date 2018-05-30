@@ -2,6 +2,7 @@
 import { ProviderContainer } from './../provider';
 import provide from './../util/provide';
 import providerGetState from './../util/providerGetState';
+import {makeError} from './../error';
 //动态获取provider
 function dynamic(action) {
     let {
@@ -19,7 +20,7 @@ function dynamic(action) {
             Promise.all(payload.$dynamic.map((providerName) => {
                 let provider = ProviderContainer.getProvider(providerName);
                 if (!provider) {
-                    throw new Error('不存在名为' + providerName + '的依赖');
+                    makeError('不存在名为' + providerName + '的依赖');
                 }
                 return providerGetState(provide, provider, action).then(v => {
                     map[providerName] = v;

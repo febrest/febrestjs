@@ -5,6 +5,7 @@ import connect from './connect';
 import persist from './persist';
 import dynamic from './dynamic';
 
+import {makeError} from './../error';
 const perfix = '$';
 
 const services = {
@@ -22,7 +23,7 @@ inject('dynamic',dynamic);
 function getService(name,action){
     let service;
     if(!(service = services[name])){
-        throw new Error(`service ${name} is not exist`);
+        makeError(`service ${name} is not exist`);
     }
     return service(action);
 

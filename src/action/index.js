@@ -1,14 +1,11 @@
 import createActions from './createActions';
-import error from './../error';
+import {catchIt} from './../error';
 import * as observer from './../observer';
 import constants from './../constants';
 import provide from './../util/provide';
 import {setRuntimeAction,createRuntimeAction} from './runtimeAction';
 
 import { then } from './../util';
-
-
-let errorHandle = error.handle;
 
 
 
@@ -71,12 +68,15 @@ function actionComplete(action) {
  * @param {any} args
  */
 function actionExec(action) {
+    try{
+        return run(action).then(
+            actionComplete
+        ).catch(catchIt);
+    }catch(e){
+        catchIt(e);
+    }
 
-    return run(action).then(
-        actionComplete
-    ).catch(
-        errorHandle
-    );
+    
 }
 
 function controllerExec(action) {

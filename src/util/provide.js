@@ -2,6 +2,7 @@ import { ProviderContainer } from './../provider';
 import { getService } from './../services';
 import { isArray, getArgumentList, then } from './../util';
 import providerGetState from './providerGetState';
+import {makeError} from './../error';
 
 const $FEBREST_ARGSLIST$ = '$FEBREST_ARGSLIST$';
 
@@ -25,7 +26,7 @@ function dependencyLookup(list, action) {
                 return then(getService(arg, action));
             } else {
                 //找不到依赖 抛出异常
-                throw new Error('不存在名为' + arg + '的依赖');
+                makeError('不存在名为' + arg + '的依赖');
             }
         });
     }

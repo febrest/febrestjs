@@ -1,6 +1,6 @@
 'use strict'
 import ActionVendor from './ActionVendor';
-
+import {makeError} from './../error';
 type actionConfig = {
     key: string,
     provider?:Array,
@@ -14,7 +14,7 @@ function createAction(config: actionConfig, controller) {
     */
     config.controller = config.controller || controller;
     if (typeof config.controller !== 'function') {
-        throw new Error('illegal controller,the type of controller must be function,but got '+(typeof config.controller));
+        makeError('illegal controller,the type of controller must be function,but got '+(typeof config.controller));
     }
     ActionVendor.putActionByKey(config.key, config);
 }

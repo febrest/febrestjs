@@ -1,5 +1,6 @@
 'use strict'
 import Provider from './Provider'
+import {makeError} from './../error';
 var providerImpls = {
     'state': Provider
 }
@@ -9,7 +10,7 @@ function getProviderImpl(type: String) {
     if (providerImpl) {
         return providerImpl
     } else {
-        throw new Error('不存在类型为'+type+'的Provider');
+        makeError('不存在类型为'+type+'的Provider');
     }
 }
 
