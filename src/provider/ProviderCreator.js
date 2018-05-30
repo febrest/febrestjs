@@ -9,7 +9,7 @@ function getProviderImpl(type: String) {
     if (providerImpl) {
         return providerImpl
     } else {
-        providerImpls['state'];
+        throw new Error('不存在类型为'+type+'的Provider');
     }
 }
 
