@@ -28,19 +28,13 @@ function pushToObserver(action) {
 
 
 function applyMiddleWare(middleWare) {
-
     run = middleWare(run);
-
 }
 
 function actionPrepare(key, payload) {
-
     let action = createRuntimeAction(key,payload);
-
     setRuntimeAction(action);
-
     action.exec = actionExec;
-
     return action;
 }
 function actionBegin(action) {
@@ -92,7 +86,12 @@ function controllerExec(action) {
 }
 function exec(key, payload) {
 
-    let action = actionPrepare(key, payload);
+    let action;
+    try{
+        action = actionPrepare(key, payload);
+    }catch(e){
+        catchIt(e);
+    }
     actionBegin(action).then(
         actionExec
     )

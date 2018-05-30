@@ -2,6 +2,7 @@ import { ProviderContainer } from './../provider';
 import { getService } from './../services';
 import { isArray, getArgumentList, then } from './../util';
 import { makeError } from './../error';
+import {catchIt} from './../error';
 
 const $FEBREST_ARGSLIST$ = '$FEBREST_ARGSLIST$';
 
@@ -77,7 +78,7 @@ function _arguments(func) {
 }
 
 function provide(func, action) {
-    return Promise.all(dependencyLookup(_arguments(func), action));
+    return Promise.all(dependencyLookup(_arguments(func), action)).catch(catchIt);
 }
 
 export {
