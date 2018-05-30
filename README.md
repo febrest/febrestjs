@@ -63,7 +63,6 @@ createActions(actionConfigs:ActionConfig|Array<ActionConfig>);
 
 * key:String;
 * controller: Function;
-* persist:Object,(waring :maybe remove);
 
 example
 ```
