@@ -18,7 +18,6 @@ var constants = {
 var providers = [
     {
         name: 'todos',
-        type:'storage',
         defaultState: []
     },
 ]
