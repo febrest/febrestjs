@@ -121,7 +121,7 @@
         return 'stop_animate_' + value;
     }
     function roll() {
-        Febrest.dispatch(constants.ROLL,{dynamic:['rollHistory']});
+        Febrest.dispatch(constants.ROLL,{$dynamic:['rollHistory']});
     }
     /**
      * @description 抽奖动画开始

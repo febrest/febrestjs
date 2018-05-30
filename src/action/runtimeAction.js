@@ -26,7 +26,8 @@ function createRuntimeAction(key,payload){
         payload,
         result:undefined,
         exec:undefined,
-        args:undefined
+        args:[],
+        deps:{}
     } 
     return action;
 

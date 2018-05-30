@@ -2,7 +2,7 @@ import createActions from './createActions';
 import {catchIt} from './../error';
 import * as observer from './../observer';
 import constants from './../constants';
-import provide from './../util/provide';
+import {provide} from './../util/provide';
 import {setRuntimeAction,createRuntimeAction} from './runtimeAction';
 
 import { then } from './../util';
@@ -49,7 +49,6 @@ function actionBegin(action) {
         controller,
         payload
     } = action;
-
     return provide(controller, action).then(
         args => {
             action.args = args;

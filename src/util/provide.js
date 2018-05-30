@@ -1,8 +1,7 @@
 import { ProviderContainer } from './../provider';
 import { getService } from './../services';
 import { isArray, getArgumentList, then } from './../util';
-import providerGetState from './providerGetState';
-import {makeError} from './../error';
+import { makeError } from './../error';
 
 const $FEBREST_ARGSLIST$ = '$FEBREST_ARGSLIST$';
 
@@ -10,28 +9,43 @@ const { getProvider } = ProviderContainer;
 
 
 
-
 /**
-* todos:需要优化
-*/
-function dependencyLookup(list, action) {
-    var isPayloadUsed = false;
-    var args = [];
-    if (list) {
-        args = list.map(arg => {
-            let provider = getProvider(arg);
-            if (provider) {
-                return providerGetState(provide,provider, action);
-            } else if (arg[0] === '$') {
-                return then(getService(arg, action));
-            } else {
-                //找不到依赖 抛出异常
-                makeError('不存在名为' + arg + '的依赖');
-            }
-        });
-    }
-    return Promise.all(args);
+ * todos:可能还要优化
+ */
 
+ function getProviderState(provider,action){
+    let getState = provider.getState;
+    dependencyLookup(_arguments(getState),action);
+ }
+function dependencyLookup(list, action) {
+    let deps = action.deps;
+    if (list) {
+        return Promise.all(
+            list.map(depName => {
+                let provider;
+                let dep = deps[depName];
+                if (dep) {
+                    return dep;
+                } else if ((provider = getProvider(depName))) {
+                    let getState = provider.getState;
+                    return dependencyLookup(_arguments(getState), action).then(
+                        args => {
+                            deps[depName] = getState.apply(provider, args);
+                            return deps[depName];
+                        }
+                    );
+                } else if (depName[0] === '$') {
+                    deps[depName] = getService(depName, action);
+                    return deps[depName];
+                } else {
+                    //找不到依赖 抛出异常
+                    makeError('不存在名为' + depName + '的依赖');
+                }
+            })
+        )
+    } else {
+        return Promise.resolve([]);
+    }
 }
 function _arguments(func) {
     let args = func[$FEBREST_ARGSLIST$];
@@ -44,8 +58,10 @@ function _arguments(func) {
 }
 
 function provide(func, action) {
-    let args = _arguments(func);
-    return dependencyLookup(args, action);
+    return dependencyLookup(_arguments(func), action);
 }
 
-export default provide;
+export {
+    provide,
+    dependencyLookup
+} ;

@@ -1,8 +1,7 @@
 'use strict'
 import { ProviderContainer } from './../provider';
-import provide from './../util/provide';
-import providerGetState from './../util/providerGetState';
-import {makeError} from './../error';
+import { provide, dependencyLookup } from './../util/provide';
+import { makeError } from './../error';
 //动态获取provider
 function dynamic(action) {
     let {
@@ -17,16 +16,13 @@ function dynamic(action) {
             return map;
         }
         if (payload && payload.$dynamic) {
-            Promise.all(payload.$dynamic.map((providerName) => {
-                let provider = ProviderContainer.getProvider(providerName);
-                if (!provider) {
-                    makeError('不存在名为' + providerName + '的依赖');
-                }
-                return providerGetState(provide, provider, action).then(v => {
-                    map[providerName] = v;
+            let _dynamic = payload.$dynamic;
+            dependencyLookup(_dynamic, action).then(deps => {
+                _dynamic.forEach((depName, index) => {
+                    map[depName] = deps[index];
                 });
-            })).then(() => resolve($dynamic));
-
+                resolve($dynamic);
+            });
         } else {
             resolve($dynamic);
         }
