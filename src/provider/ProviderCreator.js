@@ -4,7 +4,8 @@ var providerImpls = {
     'state':Provider
 }
 function getProviderImpl(type:String){
-    var providerImpl = providerImpls[type];
+    let providerImpl = providerImpls[type];
+    /**找不到Provider的时候要抛出异常 */
     if(providerImpl){
         return providerImpl
     }else{
@@ -14,8 +15,15 @@ function getProviderImpl(type:String){
 
 
 function createProvider(config){
-    var ProviderImpls = getProviderImpl(config.type||'state');
-    return new ProviderImpls(config);
+    let ProviderImpls = getProviderImpl(config.type||'state');
+    let type = typeof ProviderImpls;
+    if(type === 'function'){
+        return new ProviderImpls(config);
+    }else if(type === 'object' ){
+        let provider = new Provider(config);
+        provider.getState = ProviderImpls.getState;
+        provider.setState = ProviderImpls.setState;
+    }
 }
 function use(type:String,providerImpl){
     providerImpls[type] = providerImpl;
