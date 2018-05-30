@@ -23,6 +23,7 @@ function createProvider(config) {
         let provider = new Provider(config);
         provider.getState = ProviderImpls.getState || provider.getState;
         provider.setState = ProviderImpls.setState || provider.setState;
+        return provider;
     }
 }
 function use(type: String, providerImpl) {
