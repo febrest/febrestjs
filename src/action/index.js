@@ -61,13 +61,9 @@ function actionComplete(action) {
  * @param {any} args
  */
 function actionExec(action) {
-    try{
-        return run(action).then(
-            actionComplete
-        ).catch(catchIt);
-    }catch(e){
-        catchIt(e);
-    }
+    return run(action).then(
+        actionComplete
+    )
 
     
 }
@@ -94,7 +90,7 @@ function exec(key, payload) {
     }
     actionBegin(action).then(
         actionExec
-    )
+    ).catch(catchIt);
     return action.id;
 }
 
