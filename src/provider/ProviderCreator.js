@@ -1,31 +1,31 @@
 'use strict'
 import Provider from './Provider'
 var providerImpls = {
-    'state':Provider
+    'state': Provider
 }
-function getProviderImpl(type:String){
+function getProviderImpl(type: String) {
     let providerImpl = providerImpls[type];
     /**找不到Provider的时候要抛出异常 */
-    if(providerImpl){
+    if (providerImpl) {
         return providerImpl
-    }else{
+    } else {
         providerImpls['state'];
     }
 }
 
 
-function createProvider(config){
-    let ProviderImpls = getProviderImpl(config.type||'state');
+function createProvider(config) {
+    let ProviderImpls = getProviderImpl(config.type || 'state');
     let type = typeof ProviderImpls;
-    if(type === 'function'){
+    if (type === 'function') {
         return new ProviderImpls(config);
-    }else if(type === 'object' ){
+    } else if (type === 'object') {
         let provider = new Provider(config);
-        provider.getState = ProviderImpls.getState;
-        provider.setState = ProviderImpls.setState;
+        provider.getState = ProviderImpls.getState || provider.getState;
+        provider.setState = ProviderImpls.setState || provider.setState;
     }
 }
-function use(type:String,providerImpl){
+function use(type: String, providerImpl) {
     providerImpls[type] = providerImpl;
 }
 
