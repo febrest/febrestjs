@@ -5,8 +5,8 @@ import constants from './../constants';
 import {provide} from './../util/provide';
 import {setRuntimeAction,createRuntimeAction} from './runtimeAction';
 
+import ACTION_READY_STATE from './ACTION_READY_STATE';
 import { then } from './../util';
-
 
 
 
@@ -33,8 +33,10 @@ function applyMiddleWare(middleWare) {
 
 function actionPrepare(key, payload) {
     let action = createRuntimeAction(key,payload);
+    action.readyState = ACTION_READY_STATE.UNINITIALIZED;
     setRuntimeAction(action);
     action.exec = actionExec;
+    action.terminate = actionTerminate;
     return action;
 }
 function actionBegin(action) {
@@ -43,17 +45,27 @@ function actionBegin(action) {
         controller,
         payload
     } = action;
+    action.readyState = ACTION_READY_STATE.RUNNING;
     return provide(controller, action).then(
         args => {
             action.args = args;
             return action;
         }
     );
+    
 }
 function actionComplete(action) {
-
+    action.readyState = ACTION_READY_STATE.COMPLETE;
     pushToObserver(action);
 
+}
+function actionTerminate(action){
+    action = action || this;
+    action.readyState = ACTION_READY_STATE.TERMINATE;
+    action.result = null;
+    action.exec = null;
+    action.deps = null;
+    action.args = null;
 }
 /**
  * 
@@ -85,12 +97,14 @@ function exec(key, payload) {
     let action;
     try{
         action = actionPrepare(key, payload);
+        actionBegin(action).then(
+            actionExec
+        ).catch(catchIt);
     }catch(e){
+        actionTerminate(action);
         catchIt(e);
     }
-    actionBegin(action).then(
-        actionExec
-    ).catch(catchIt);
+    
     return action.id;
 }
 
@@ -103,4 +117,5 @@ export {
     createActions,
     exec,
     applyMiddleWare,
+    ACTION_READY_STATE,
 };

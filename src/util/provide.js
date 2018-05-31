@@ -23,28 +23,24 @@ function getProviderState(provider, action) {
     )
 }
 function dependencyLookup(list, action) {
-    try {
-        let deps = action.deps;
-        list = list || [];
-        return list.map(depName => {
-            let provider;
-            let dep = deps[depName];
-            if (dep) {
-                return dep;
-            } else if ((provider = getProvider(depName))) {
-                deps[depName] = getProviderState(provider, action);
-                return deps[depName];
-            } else if (depName[0] === '$') {
-                deps[depName] = getService(depName, action);
-                return deps[depName];
-            } else {
-                makeError('不存在名为' + depName + '的依赖');
-            }
-        });
-    }catch(e){
-        catchIt(e);
-    }
-    
+    let deps = action.deps;
+    list = list || [];
+    return list.map(depName => {
+        let provider;
+        let dep = deps[depName];
+        if (dep) {
+            return dep;
+        } else if ((provider = getProvider(depName))) {
+            deps[depName] = getProviderState(provider, action);
+            return deps[depName];
+        } else if (depName[0] === '$') {
+            deps[depName] = getService(depName, action);
+            return deps[depName];
+        } else {
+            makeError('不存在名为' + depName + '的依赖');
+        }
+    });
+
 }
 function _arguments(func) {
     let args = func[$FEBREST_ARGSLIST$];
