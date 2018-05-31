@@ -7,28 +7,25 @@ function dynamic(action) {
     let {
         payload
     } = action;
+    let map = {
 
-    return new Promise(function (resolve, reject) {
-        let map = {
+    }
+    function $dynamic() {
+        return map;
+    }
 
-        }
-        function $dynamic() {
-            return map;
-        }
-        if (payload && payload.$dynamic) {
-            let _dynamic = payload.$dynamic;
-            Promise.all(dependencyLookup(_dynamic, action)).then(deps => {
-                _dynamic.forEach((depName, index) => {
-                    map[depName] = deps[index];
-                });
-                resolve($dynamic);
+    if (payload && payload.$dynamic) {
+        let _dynamic = payload.$dynamic;
+        return Promise.all(dependencyLookup(_dynamic, action)).then(function (deps) {
+            _dynamic.forEach(function (depName, index) {
+                map[depName] = deps[index];
             });
-        } else {
-            resolve($dynamic);
-        }
+            return $dynamic;
+        });
+    } else {
+        return $dynamic;
+    }
 
-
-    });
 }
 
 export default dynamic;

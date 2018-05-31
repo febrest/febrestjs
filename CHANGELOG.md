@@ -32,3 +32,6 @@
 * error模块重写。
 * 依赖查找过程重写。
 * bug修复。
+
+## 0.6.2beta
+* 修复dynamic error无法catch的bug。
