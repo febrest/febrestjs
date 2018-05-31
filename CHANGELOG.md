@@ -27,3 +27,8 @@
 
 ## 0.5.2beta
 * dynamic bug修复。
+
+## 0.6.1beta
+* error模块重写。
+* 依赖查找过程重写。
+* bug修复。
