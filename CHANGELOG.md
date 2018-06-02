@@ -35,3 +35,11 @@
 
 ## 0.6.2beta
 * 修复dynamic error无法catch的bug。
+
+## 0.7.1beta(未发布)
+* 修改action在persist之后再响应。
+* 修改persist逻辑，错误抛出异常。
+* Provider支持加锁操作。
+* perist的过程中会给Provider加锁。
+* 修改Provider，支持简单的对象方式传递扩展。
+* 现在开始允许Provider可以返回一个方法给controller去取值，但是尽量不要暴露直接修改Provider的方法出去，这样会导致Provider被修改的时候无法watch。
