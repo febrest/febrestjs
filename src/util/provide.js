@@ -18,7 +18,9 @@ function getProviderState(provider, action) {
     let getState = provider.getState;
     return Promise.all(dependencyLookup(_arguments(getState), action)).then(
         args => {
-            return getState.apply(provider, args);
+            return provider.checkLock().then(()=>{
+                return getState.apply(provider, args);
+            });
         }
     )
 }
