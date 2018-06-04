@@ -40,7 +40,11 @@ function doPersist(doing, keys, states) {
     Promise.all(
         keys.map((key, i) => {
             changed[key] = true;
-            return ProviderContainer.getProvider(key).setState(states[i]);
+            let provider = ProviderContainer.getProvider(key);
+            provider.lock();
+            return Promise.resolve(provider.setState(states[i])).then(
+                ()=>provider.resolveLock()
+            );
         })
     ).then(() => {
         doWatch(changed)
