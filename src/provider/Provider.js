@@ -8,29 +8,31 @@ class Provider {
     constructor(config) {
         this.state = config.state;
         this.name = config.name;
-        this._isLock = false;
         this._lockPromise;
-        this._lockResolve
+        this._lockResolve;
+        this._lockTick = 0;
     }
-    lock(){
-        if(this._isLock){
-            return;
+    lock() {
+        this._lockTick++;
+        if (!this._lockPromise) {
+            this._lockPromise = new Promise((resolve) => {
+                this._lockResolve = resolve;
+            });
         }
-        this._isLock = true;
-        this._lockPromise = new Promise((resolve)=>{
-            this._lockResolve = resolve;
-        });
     }
-    resolvelock(){
-        this._lockResolve();
-        this._isLock = false;
-        this._lockResolve = undefined;
-        this._lockPromise = undefined;
+    resolvelock() {
+        this._lockTick--;
+        if (this._lockTick <= 0) {
+            this._lockTick = 0;
+            this._lockResolve();
+            this._lockResolve = undefined;
+            this._lockPromise = undefined;
+        }
     }
-    checkLock(){
-        if(!this._isLock){
+    checkLock() {
+        if (this._lockTick <= 0) {
             return Promise.resolve();
-        }else{
+        } else {
             return this._lockPromise
         }
     }
