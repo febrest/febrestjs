@@ -2,6 +2,7 @@
 
 import { ProviderContainer } from './../provider';
 import { doWatch } from './../observer';
+import { catchIt } from './../error';
 /**
  * @controller向provider层发出信号
  */
@@ -23,7 +24,7 @@ function persist(action) {
 
         return new Promise((resolve) => resolve()).then(
             () => {
-                doPersist(doing,keys,states);
+                doPersist(doing, keys, states);
                 doing = true;
             }
         );
@@ -43,11 +44,11 @@ function doPersist(doing, keys, states) {
             let provider = ProviderContainer.getProvider(key);
             provider.lock();
             return Promise.resolve(provider.setState(states[i])).then(
-                ()=>provider.resolveLock()
+                () => provider.resolveLock()
             );
         })
     ).then(() => {
         doWatch(changed)
-    });
+    }).catch(catchIt);
 }
 export default persist;
