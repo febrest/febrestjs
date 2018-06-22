@@ -1,14 +1,39 @@
 import { ProviderContainer } from './../provider';
 import { getService } from './../services';
-import { isArray, getArgumentList, then } from './../util';
+import { isArray } from './../util';
 import { makeError } from './../error';
 import { catchIt } from './../error';
 
 const $FEBREST_ARGSLIST$ = '$FEBREST_ARGSLIST$';
+const FEBREST_INJECTION = '$FEBREST_INJECTION$';
+
 
 const { getProvider } = ProviderContainer;
 
 
+/**
+ * 获取参数列表
+ */
+function getArgumentList(func): Array {
+    let funcS = func.toString();
+
+    
+
+    let argsRegExp = /\(([\s\S]*?)\)/;
+    let match = funcS.match(argsRegExp);
+    if (match&&match[1]) {
+        /**
+         * todo:可能有bug
+         */
+        let args;
+        args = match[1].split(',').map((arg) => {
+            let name = arg.replace(/(\s|=.+$)/g,'');
+            return name;
+        });
+        return args;
+    }
+    return [];
+}
 
 /**
  * todos:可能还要优化
