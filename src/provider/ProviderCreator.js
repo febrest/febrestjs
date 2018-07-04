@@ -20,16 +20,17 @@ function createProvider(config) {
     let type = typeof ProviderImpls;
     if (type === 'function') {
         return new ProviderImpls(config);
-    } else if (type === 'object') {
-        let provider = new Provider(config);
-        if(ProviderImpls.init){
-            ProviderImpls.init.call(this,config);
-        }
-        provider.getState = ProviderImpls.getState || provider.getState;
-        provider.setState = ProviderImpls.setState || provider.setState;
+    } 
+    //else if (type === 'object') {
+    //     let provider = new Provider(config);
+    //     if(ProviderImpls.init){
+    //         ProviderImpls.init.call(this,config);
+    //     }
+    //     provider.getState = ProviderImpls.getState || provider.getState;
+    //     provider.setState = ProviderImpls.setState || provider.setState;
 
-        return provider;
-    }
+    //     return provider;
+    // }
 }
 function use(type: String, providerImpl) {
     providerImpls[type] = providerImpl;
