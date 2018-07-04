@@ -14,10 +14,8 @@ const { getProvider } = ProviderContainer;
 /**
  * 获取参数列表
  */
-function getArgumentList(func): Array {
+function argumentsFromFunc(func) {
     let funcS = func.toString();
-
-
 
     let argsRegExp = /\(([\s\S]*?)\)/;
     let match = funcS.match(argsRegExp);
@@ -32,7 +30,20 @@ function getArgumentList(func): Array {
         });
         return args;
     }
-    return [];
+    return null;
+}
+
+function argumentsFromPlugin(func){
+    let funcS = func.toString();
+    let argsRegExp = /@providers\s+=\s+\[([\w\s\,]+)\]/;
+    if(argsRegExp.test(funcs)){
+        return RegExp.$1.split(',').map((arg) => {
+            let name = arg.replace(/(\s|=.+$)/g,'');
+            return name;
+        });
+    }
+    return null;
+
 }
 
 /**
@@ -77,10 +88,10 @@ function _arguments(func) {
      * 其次判断方法体内是否有'@providers=[]'字段，获取
      * 再次直接通过函数名获取
     */
-   
+
     let args = func[$FEBREST_ARGSLIST$];
     if (!args) {
-        args = getArgumentList(func);
+        args = argumentsFromPlugin(func)||argumentsFromFunc(func)||[];
         func[$FEBREST_ARGSLIST$] = args;
     }
     return args;
