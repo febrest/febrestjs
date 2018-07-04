@@ -17,7 +17,7 @@ const { getProvider } = ProviderContainer;
 function getArgumentList(func): Array {
     let funcS = func.toString();
 
-    
+
 
     let argsRegExp = /\(([\s\S]*?)\)/;
     let match = funcS.match(argsRegExp);
@@ -70,8 +70,15 @@ function dependencyLookup(list, action) {
 
 }
 function _arguments(func) {
+
+    /**
+     * @description 获取参数，动态加载依赖
+     * 先判断func下是否有$FEBREST_ARGSLIST$属性，有的话直接获取
+     * 其次判断方法体内是否有'@providers=[]'字段，获取
+     * 再次直接通过函数名获取
+    */
+   
     let args = func[$FEBREST_ARGSLIST$];
-    //获取arglist 这一步添加缓存，提高运行效率
     if (!args) {
         args = getArgumentList(func);
         func[$FEBREST_ARGSLIST$] = args;

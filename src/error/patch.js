@@ -2,33 +2,60 @@
 /**
  * @description catch async error 
  */
-try{
-    (function(global){
-        if(!global){
-            return;
+import catchIt from './catchIt';
+function saveExec(func,context,args){
+    try{
+        if(func){
+            return func.apply(context,args);
         }
-        let patchs = [];
-        patchs.push('setTimeout','setInteval','requestAnimationFrame','setImmediate');
-
-        patchs.forEach(function(name){
-            let origin = global[name];
-            let patch = function(handler,timeout){
-                let newHandler = handler;
-                if(handler && typeof handler == 'function'){
-                    newHandler = function(){
-                        try{
-                            handler.apply(null,arguments);
-                        }catch(e){
-                            
-                        }
-                    }
-                }
+    }catch(e){
+        catchIt(e);   
+    }
+}
+function patch() {
+    try {
+        (function (global) {
+            if (!global) {
+                return;
             }
-        });
-        
-    })(typeof window === 'undefined'?(typeof global==='undefined'?undefined:global):window)
-    
+            /**
+             * 处理setTimeout，setInteval，requestAnimationFrame，setImmediate
+             */
+            let patchs = ['setTimeout', 'setInteval', 'requestAnimationFrame', 'setImmediate'];
 
- }catch(e){
-     console.warn(e);
- }
+            patchs.forEach(function (name) {
+                let origin = global[name];
+                let patch = function (handler, timeout) {
+                    return origin.call(global, function(){
+                        return saveExec(handler,null,arguments);
+                    }, timeout);
+                }
+                global[name] = patch;
+            });
+
+            /**
+             * 处理promise
+            */
+            if (typeof Promise !== 'undefined') {
+                let origin = Promise.prototype.then;
+                let then = function (resolve, reject) {
+                    return origin.call(this, function (data) {
+                        return saveExec(resolve,this,[data]);
+                    }, function (data) {
+                        return saveExec(reject,this,[data]);
+                    });
+                }
+                Promise.prototype.then = then;
+            }
+
+        })(typeof window === 'undefined' ? (typeof global === 'undefined' ? undefined : global) : window)
+
+
+    } catch (e) {
+        console.warn(e);
+    }
+
+}
+
+
+export default patch;
