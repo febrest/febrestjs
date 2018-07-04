@@ -1,12 +1,10 @@
 import createActions from './createActions';
 import {catchIt} from './../error';
 import * as observer from './../observer';
-import constants from './../constants';
 import {provide} from './../util/provide';
 import {setRuntimeAction,createRuntimeAction} from './runtimeAction';
 
 import ACTION_READY_STATE from './ACTION_READY_STATE';
-import { then } from './../util';
 
 
 
@@ -88,7 +86,7 @@ function controllerExec(action) {
     
     let state = controller.apply(null, args);
 
-    return then(state).then(
+    return Promise.resolve(state).then(
         (state)=>assembleResult(action,state)
     );
 }
