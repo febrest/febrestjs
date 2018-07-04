@@ -29,5 +29,6 @@ function getService(name,action){
 
 }
 export  {
-    getService
+    getService,
+    inject
 };

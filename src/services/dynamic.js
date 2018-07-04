@@ -1,7 +1,5 @@
 'use strict'
-import { ProviderContainer } from './../provider';
 import { provide, dependencyLookup } from './../util/provide';
-import { makeError } from './../error';
 //动态获取provider
 function dynamic(action) {
     let {

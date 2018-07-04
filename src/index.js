@@ -3,6 +3,7 @@ import { dispatch } from './dispatcher';
 import {onError} from './error';
 import {Provider,inject,use} from './provider';
 import {subscribe,unsubscribe,watch,removeWatcher} from './observer';
+import {inject as injectService} from './services';
 
 
 var version;
@@ -34,6 +35,7 @@ export default {
     Provider,
     injectProvider: inject,
     useProvider: use,
+    injectService,
     /**
      * @description
      * exports observer
