@@ -41,6 +41,5 @@
 * 修改persist逻辑，错误抛出异常。
 * Provider支持加锁操作。
 * perist的过程中会给Provider加锁。
-* 修改Provider，支持简单的对象方式传递扩展。
 * service调整。
 * 开放service。
