@@ -9,4 +9,4 @@ class BaseError extends Error{
     }
 }
 
-export default BaseError'
+export default BaseError;
