@@ -1,11 +1,8 @@
 import { ProviderContainer } from './../provider';
 import { getService } from './../services';
-import { isArray } from './../util';
 import { makeError } from './../error';
-import { catchIt } from './../error';
 
 const $FEBREST_ARGSLIST$ = '$FEBREST_ARGSLIST$';
-const FEBREST_INJECTION = '$FEBREST_INJECTION$';
 
 
 const { getProvider } = ProviderContainer;
