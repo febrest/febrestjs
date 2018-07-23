@@ -36,7 +36,7 @@
 ## 0.6.2beta
 * 修复dynamic error无法catch的bug。
 
-## 0.7.1beta(未发布)
+## 0.7.1beta
 * 修改action在persist之后再响应。
 * 修改persist逻辑，错误抛出异常。
 * Provider支持加锁操作。
