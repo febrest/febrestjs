@@ -3,7 +3,7 @@
  * @description catch async error 
  */
 import catchIt from './catchIt';
-function saveExec(func,context,args){
+function safeExec(func,context,args){
     try{
         if(func){
             return func.apply(context,args);
@@ -27,7 +27,7 @@ function patch() {
                 let origin = global[name];
                 let patch = function (handler, timeout) {
                     return origin.call(global, function(){
-                        return saveExec(handler,null,arguments);
+                        return safeExec(handler,null,arguments);
                     }, timeout);
                 }
                 global[name] = patch;
@@ -40,9 +40,9 @@ function patch() {
                 let origin = Promise.prototype.then;
                 let then = function (resolve, reject) {
                     return origin.call(this, function (data) {
-                        return saveExec(resolve,this,[data]);
+                        return safeExec(resolve,this,[data]);
                     }, function (data) {
-                        return saveExec(reject,this,[data]);
+                        return safeExec(reject,this,[data]);
                     });
                 }
                 Promise.prototype.then = then;
