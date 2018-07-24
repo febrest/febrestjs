@@ -7,7 +7,9 @@ import {setRuntimeAction,createRuntimeAction} from './runtimeAction';
 import ACTION_READY_STATE from './ACTION_READY_STATE';
 
 
-
+/*************** action执行流程 ***************
+ * 
+*/
 function assembleResult(action, state) {
 
     let result = {

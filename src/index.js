@@ -1,8 +1,7 @@
 import { applyMiddleWare, createActions } from './action';
-import { dispatch } from './dispatcher';
+import { dispatch,subscribe,unsubscribe,watch,removeWatcher,createDispatcher } from './dispatcher';
 import {onError} from './error';
 import {Provider,inject,use} from './provider';
-import {subscribe,unsubscribe,watch,removeWatcher} from './observer';
 import {inject as injectService} from './services';
 
 
@@ -46,6 +45,8 @@ export default {
     removeWatcher,
     
     onError,
+
+    createDispatcher,
 
     version
 }
