@@ -9,12 +9,22 @@ class Dispatcher{
     }
     dispatch(key: string, payload: any){
         let runtimeAction = initialize(key,payload);
+        let id = runtimeAction.id;
         try{
-           let state = exec(runtimeAction);    
+           let promiseState = exec(runtimeAction);   
+           Promise.resolve(promiseState).then(state=>{
+            runtimeAction.result={
+                state,
+                key,
+                id
+            }
+            complete(runtimeAction);
+            this.bordercast.next(runtimeAction.result);
+           });
         }catch(e){
-
+           terminate(runtimeAction,e);
         }finally{
-            return runtimeAction.id;
+            return id;
         }
 
     }
