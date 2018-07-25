@@ -64,10 +64,12 @@ function terminate(action,error){
 function exec(action) {
     let {
         controller,
-        args
     } = action;
-    let state = controller.apply(null, args);
-    return state;
+    return provide(controller,action).then(args=>{
+        action.args = args; 
+        let state = controller.apply(null, args);
+        return state;
+    });
 }
 
 export {

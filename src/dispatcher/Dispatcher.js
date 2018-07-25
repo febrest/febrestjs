@@ -1,5 +1,5 @@
 'use strict'
-import {exec} from './../action';
+import {initialize,complete,exec,terminate} from './../action';
 
 import {Observer,Bordercast} from './../observer'
 class Dispatcher{
@@ -8,6 +8,14 @@ class Dispatcher{
         this.bordercast = new Bordercast();
     }
     dispatch(key: string, payload: any){
+        let runtimeAction = initialize(key,payload);
+        try{
+           let state = exec(runtimeAction);    
+        }catch(e){
+
+        }finally{
+            return runtimeAction.id;
+        }
 
     }
     release(){
