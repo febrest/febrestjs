@@ -25,9 +25,8 @@ function createRuntimeAction(key,payload){
         controller:staticAction.controller,
         payload,
         result:undefined,
-        exec:undefined,
-        terminate:undefined,
         readyState:'',
+        error:undefined,
         args:[],
         deps:{}
     } 
