@@ -52,12 +52,13 @@ function complete(action) {
     action.readyState = ACTION_READY_STATE.COMPLETE;
 
 }
-function terminate(action){
+function terminate(action,error){
     action.readyState = ACTION_READY_STATE.TERMINATE;
     action.result = null;
     action.exec = null;
     action.deps = null;
     action.args = null;
+    action.error = error;
 }
 
 function exec(action) {
