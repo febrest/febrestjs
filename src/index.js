@@ -25,7 +25,6 @@ export default {
      * exports action
      */
     createActions,
-    applyMiddleWare,
 
     /**
      * @description

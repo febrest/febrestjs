@@ -1,6 +1,5 @@
 import createActions from './createActions';
 import {catchIt} from './../error';
-import * as observer from './../observer';
 import {provide} from './../util/provide';
 import {setRuntimeAction,createRuntimeAction} from './runtimeAction';
 
