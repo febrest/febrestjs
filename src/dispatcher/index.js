@@ -5,22 +5,22 @@ import createDispatcher from './createDispatcher';
 const dispatcher = createDispatcher();
 
 
-function dispatch(){
-
+function dispatch(key,payload){
+  return dispatcher.dispatch(key,payload);
 }
 
-function subscribe(){
-
+function subscribe(callback){
+  return dispatcher.subscribe(callback);
 }
-function unsubscribe(){
-
+function unsubscribe(callback){
+  return dispatcher.unsubscribe(callback);
 }
 
-function watch(){
-
+function watch(callback){
+  return dispatcher.watch(callback);
 }
-function removeWatcher(){
-
+function removeWatcher(callback){
+  return dispatcher.removeWatcher(callback);
 }
 export { 
   createDispatcher,
