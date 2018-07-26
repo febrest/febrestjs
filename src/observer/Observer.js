@@ -26,12 +26,14 @@ function removeWatcher(observer,callback) {
 
 function dispatchWatcher(watcher, data, timestamp) {
     //确保在一次change中只被dispatch一次；
-    if (watcher.dispatchTime >= timestamp) {
-        return;
-    } else {
-        watcher.dispatchTime = timestamp;
-        watcher.callback.call(null, data);
-    }
+    // if (watcher.dispatchTime >= timestamp) {
+    //     return;
+    // } else {
+    //     watcher.dispatchTime = timestamp;
+    //     watcher.callback.call(null, data);
+    // }
+    watcher.dispatchTime = timestamp;
+    watcher.callback.call(null, data);
 }
 /**
 * 不再区分具体是哪个provider的change
