@@ -1,8 +1,9 @@
 import Bordercast from './Bordercast';
-import Observer from './Observer';
+import {Observer,doWatch} from './Observer';
 
 
 export  {
     Bordercast,
-    Observer
+    Observer,
+    doWatch
 }

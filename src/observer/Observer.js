@@ -65,8 +65,5 @@ class Observer{
         this._watchers = null;
         observers.splice(observers.indexOf(this),1);
     }
-    static doWatch(changed){
-        doWatch(changed);
-    }
 }
-export default Observer;
+export  {Observer,doWatch};
