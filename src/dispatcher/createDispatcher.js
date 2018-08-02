@@ -2,7 +2,7 @@
 import Dispatcher from './Dispatcher';
 const exportMethods = ['dispatch','subscribe','unsubscribe','watch','removeWatcher'];
 function createDispatcher(){
-  let _dispatcher = new Dispatcher();
+  let _dispatcher = new Dispatcher(false);
   let dispatcher = {};
   exportMethods.forEach(method=>{
     dispatcher[method] = function(...args){

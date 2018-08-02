@@ -76,6 +76,5 @@ export {
     initialize,
     exec,
     terminate,
-    complete
-    
+    complete 
 };

@@ -9,10 +9,6 @@ function noop(state) {
 }
 function connect(action) {
 
-    let {
-        exec
-    } = action;
-
     return function $connect(state) {
         /**等action主动结束一次才会执行connect */
         if(!action.result){
@@ -21,9 +17,7 @@ function connect(action) {
             },20);
             return;
         }else{
-            action.controller = noop;
-            action.args = [state];
-            exec(action);
+            
         }
         
     }

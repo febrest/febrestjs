@@ -2,7 +2,7 @@
 import createDispatcher from './createDispatcher';
 
 
-const dispatcher = createDispatcher();
+const dispatcher = createDispatcher(true);
 
 
 function dispatch(key,payload){
@@ -23,7 +23,6 @@ function removeWatcher(callback){
   return dispatcher.removeWatcher(callback);
 }
 export { 
-  createDispatcher,
   dispatch,
   subscribe,
   unsubscribe,

@@ -1,11 +1,17 @@
 'use strict'
 import {initialize,complete,exec,terminate} from './../action';
 
-import {Observer,Bordercast} from './../observer'
+import {Observer,Bordercast} from './../observer';
+
+/**
+ * @description
+ * 公共的dispatcher dispatch出来的action会被所有的dispatcher接收
+ * 私有的dispatcher只能接收所有的action，但是dispatch出去的action不会被其他dispatcher接收？
+ */
 class Dispatcher{
-    constructor(){
+    constructor(isPublic){
         this.observer = new Observer();
-        this.bordercast = new Bordercast();
+        this.bordercast = new Bordercast(isPublic);
     }
     dispatch(key: string, payload: any){
         let runtimeAction = initialize(key,payload);
