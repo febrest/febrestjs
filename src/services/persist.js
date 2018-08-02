@@ -7,7 +7,7 @@ import { catchIt } from './../error';
  * @controller向provider层发出信号
  */
 
-function persist(action) {
+function persist() {
 
     let keys = [];
     let states = [];

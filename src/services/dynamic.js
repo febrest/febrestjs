@@ -1,7 +1,10 @@
 'use strict'
 import { provide, dependencyLookup } from './../util/provide';
+import {getRuntimeAction} from './../action';
+
 //动态获取provider
-function dynamic(action) {
+function dynamic() {
+    let action = getRuntimeAction();
     let {
         payload
     } = action;

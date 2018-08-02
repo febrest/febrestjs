@@ -93,12 +93,6 @@ function _arguments(func) {
     }
     return args;
 }
-
-function provide(func, action) {
-    return Promise.all(dependencyLookup(_arguments(func), action));
-}
-
 export {
-    provide,
     dependencyLookup
 };

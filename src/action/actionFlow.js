@@ -1,5 +1,5 @@
 import {catchIt} from './../error';
-import {provide} from './../util/provide';
+// import {provide} from './../util/provide';
 import {setRuntimeAction,createRuntimeAction} from './runtimeAction';
 
 import ACTION_READY_STATE from './ACTION_READY_STATE';
@@ -64,17 +64,19 @@ function terminate(action,error){
 function exec(action) {
     let {
         controller,
+        args
     } = action;
-    return provide(controller,action).then(args=>{
-        action.args = args; 
-        let state = controller.apply(null, args);
-        return state;
-    });
+    let state = controller.apply(null, args);
+    return state;
 }
 
+function proivde(action){
+    dependencyLookup(_arguments(func), action)
+}
 export {
     initialize,
     exec,
+    provide,
     terminate,
     complete 
 };

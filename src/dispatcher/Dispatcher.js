@@ -1,5 +1,5 @@
 'use strict'
-import {initialize,complete,exec,terminate} from './../action';
+import {initialize,complete,exec,terminate,getRuntimeAction,setRuntimeAction} from './../action';
 
 import {Observer,Bordercast} from './../observer';
 

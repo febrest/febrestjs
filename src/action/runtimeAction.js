@@ -28,6 +28,7 @@ function createRuntimeAction(key,payload){
         readyState:'',
         error:undefined,
         args:[],
+        provider:{},
         deps:{}
     } 
     return action;

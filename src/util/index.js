@@ -1,6 +1,6 @@
 'use strict'
 
-
+import {runTransaction} from './Transaction'
 function isArray(v){
     return Array.isArray(v);
 }
@@ -52,5 +52,6 @@ export {
     copy,
     isPromise,
     toValue,
-    toString
+    toString,
+    runTransaction
 }

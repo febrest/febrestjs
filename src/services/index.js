@@ -20,12 +20,12 @@ inject('payload',payload);
 inject('connect',connect);
 inject('dynamic',dynamic);
 
-function getService(name,action){
+function getService(name){
     let service;
     if(!(service = services[name])){
         makeError(`service ${name} is not exist`);
     }
-    return service(action);
+    return service();
 
 }
 export  {
