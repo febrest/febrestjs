@@ -5,10 +5,9 @@ import {Provider,inject as injectProvider,use as useProvider} from './provider';
 import {inject as injectService} from './services';
 
 
-var version;
+let version;
 
 try {
-
     version = VERSION;
 } catch (e) {
 
