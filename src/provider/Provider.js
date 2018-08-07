@@ -1,7 +1,5 @@
 'use strict'
 
-import { toValue, copy, isArray, isObject } from './../util';
-
 class Provider {
     state: any;
     name: string;
@@ -37,10 +35,10 @@ class Provider {
         }
     }
     getState() {
-        return copy(this.state);
+        return this.state;
     }
     setState(state) {
-        this.state = copy(state);
+        this.state = state;
     }
 }
 

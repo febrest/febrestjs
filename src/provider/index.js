@@ -1,6 +1,6 @@
 'use strict'
 import Provider from './Provider';
-import ProviderContainer from './ProviderContainer';
+import {getState,setState} from './ProviderContainer';
 import SessionProvider from './SessionProvider';
 import ProviderCreator from './ProviderCreator';
 import inject from './inject';
@@ -15,5 +15,6 @@ export  {
     Provider,
     inject,
     use,
-    ProviderContainer,
+    getState,
+    setState
 };

@@ -6,7 +6,7 @@ import catchIt from './catchIt';
 import makeError from './makeError';
 import patch from './patch';
 
-patch();
+// patch();
 
 export  {
     onError,

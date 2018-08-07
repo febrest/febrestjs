@@ -1,6 +1,6 @@
 import getAction from './getAction';
-import paramsForController from './paramsForController';
-
+import {paramsForFunction} from './../util';
+import findDeps from './findDeps'
 let runtimeAction;
 let id = 0;
 
@@ -21,7 +21,7 @@ function createRuntimeAction(key,payload){
     let {
         controller
     } = staticAction;
-    let params = paramsForController(controller);
+    let params = paramsForFunction(controller);
     let action = {
         $typeof$:'RuntimeAction',
         id:IDGenerator(),
@@ -32,7 +32,7 @@ function createRuntimeAction(key,payload){
         readyState:'',
         error:undefined,
         params,
-        deps:{}
+        deps:findDeps(params)
     } 
     return action;
 

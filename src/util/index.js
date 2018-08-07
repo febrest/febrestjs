@@ -1,9 +1,8 @@
 'use strict'
 
-import {runTransaction} from './Transaction'
-function isArray(v){
-    return Array.isArray(v);
-}
+import {runTransaction,series} from './Transaction';
+import paramsForFunction from './paramsForFunction';
+
 function isObject(v){
     return Object.prototype.toString.call(v)==='[object Object]';
 }
@@ -47,11 +46,12 @@ function toString(v){
 }
 
 export {
-    isArray,
     isObject,
     copy,
     isPromise,
     toValue,
     toString,
-    runTransaction
+    runTransaction,
+    series,
+    paramsForFunction
 }

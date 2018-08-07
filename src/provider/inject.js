@@ -1,27 +1,19 @@
 'use strict'
 
-import { isArray } from './../util';
-import ProviderContainer from './ProviderContainer';
-import ProviderCreator from './ProviderCreator';
-import {catchIt} from './../error';
-
+import {createProvider} from './ProviderContainer';
+import {setProvider} from './ProviderCreator';
 
 function inject(configs) {
-    if (isArray(configs)) {
+    if (Array.isArray(configs)) {
         configs.forEach(function (config) {
             return inject(config);
         });
     } else {
-        try{
-            let name = configs.name;
-            let state = configs.defaultState;
-            configs.state = state;
-            let provider = ProviderCreator.createProvider(configs);
-            ProviderContainer.setProvider(name, provider);
-        }catch(e){
-            catchIt(e);
-        }
-        
+        let name = configs.name;
+        let state = configs.defaultState;
+        configs.state = state;
+        let provider = createProvider(configs);
+        setProvider(name, provider);
     }
 }
 

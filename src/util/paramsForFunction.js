@@ -41,7 +41,7 @@ function paramsFromPlugin(funcS){
 }
 
 
-function paramsForController(func) {
+function paramsForFunction(func) {
 
   /**
    * @description 获取参数，动态加载依赖
@@ -59,4 +59,4 @@ function paramsForController(func) {
   return params;
 }
 
-export default paramsForController;
+export default paramsForFunction;
