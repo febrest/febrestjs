@@ -1,5 +1,4 @@
-import {catchIt} from './../error';
-// import {provide} from './../util/provide';
+import findDeps from './findDeps';
 import {setRuntimeAction,createRuntimeAction} from './runtimeAction';
 
 import ACTION_READY_STATE from './ACTION_READY_STATE';
@@ -44,8 +43,9 @@ function assembleResult(action, state) {
 
 function initialize(key, payload) {
     let action = createRuntimeAction(key,payload);
-    action.readyState = ACTION_READY_STATE.UNINITIALIZED;
     setRuntimeAction(action);
+    action.readyState = ACTION_READY_STATE.UNINITIALIZED;
+    action.deps = findDeps(action.params);
 }
 
 function complete(action) {

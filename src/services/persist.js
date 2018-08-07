@@ -1,6 +1,6 @@
 'use strict'
 
-import { ProviderContainer } from './../provider';
+import { setState } from './../provider';
 import { doWatch } from './../observer';
 import { catchIt } from './../error';
 /**
@@ -41,11 +41,11 @@ function doPersist(doing, keys, states) {
     Promise.all(
         keys.map((key, i) => {
             changed[key] = true;
-            let provider = ProviderContainer.getProvider(key);
-            provider.lock();
-            return Promise.resolve(provider.setState(states[i])).then(
-                () => provider.resolveLock()
-            );
+            // let provider = ProviderContainer.getProvider(key);
+            // provider.lock();
+            // return Promise.resolve(provider.setState(states[i])).then(
+            //     () => provider.resolveLock()
+            // );
         })
     ).then(() => {
         doWatch(changed)
