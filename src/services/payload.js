@@ -2,9 +2,9 @@
 import {getRuntimeAction} from './../action';
 
 function payload(){
-    let action = getRuntimeAction();
+    let {payload:p} = getRuntimeAction();
     return function $payload(){
-        return action.payload;
+        return p;
     }
 }
 

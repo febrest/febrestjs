@@ -32,7 +32,8 @@ function createRuntimeAction(key,payload){
         readyState:'',
         error:undefined,
         params,
-        deps:{}
+        deps:{},
+        stage:undefined
     } 
     return action;
 

@@ -1,7 +1,7 @@
 'use strict'
 import { makeError } from './../error';
 import { paramsForFunction } from './../util';
-var container = {
+const container = {
 
 }
 function getProvider(name) {
@@ -16,7 +16,6 @@ function getState(name) {
         return makeError('不存在名为' + name + '的依赖');
     }
     return {
-        $typeof$: 'Provider',
         params: paramsForFunction(provider.getState),
         call: function (...args) {
             provider.getState(...args);

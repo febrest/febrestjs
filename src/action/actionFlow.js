@@ -44,16 +44,16 @@ function assembleResult(action, state) {
 function initialize(key, payload) {
     let action = createRuntimeAction(key,payload);
     setRuntimeAction(action);
-    action.readyState = ACTION_READY_STATE.UNINITIALIZED;
+    action.stage = ACTION_READY_STATE.UNINITIALIZED;
     action.deps = findDeps(action.params);
 }
 
 function complete(action) {
-    action.readyState = ACTION_READY_STATE.COMPLETE;
+    action.stage = ACTION_READY_STATE.COMPLETE;
 
 }
 function terminate(action,error){
-    action.readyState = ACTION_READY_STATE.TERMINATE;
+    action.stage = ACTION_READY_STATE.TERMINATE;
     action.result = null;
     action.exec = null;
     action.deps = null;
@@ -70,13 +70,10 @@ function exec(action) {
     return state;
 }
 
-function proivde(action){
-    dependencyLookup(_arguments(func), action)
-}
+
 export {
     initialize,
     exec,
-    provide,
     terminate,
     complete 
 };

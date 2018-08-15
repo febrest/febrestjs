@@ -1,11 +1,13 @@
-import { getState} from './../provider';
+import { getState } from './../provider';
 import { getService } from './../services';
+import { isPromise } from './../util';
 
 
-function findDeps(params, deps = {}) {
+function findDeps(params, deps = {},callback) {
     if (!params) {
         return deps;
     }
+    let promises = [];
     params.forEach(name => {
         let dep = deps[name];
         if (dep) {
@@ -14,8 +16,8 @@ function findDeps(params, deps = {}) {
             deps[name] = getService(name);
         } else {
             let stateGetter = getState(name);
-            stateGetter.params && findDep(stateGetter.params,deps);
-            deps[depName] = stateGetter;
+            let stateGetterParams = stateGetter.params && findDeps(stateGetter.params, deps) || [];
+            
         }
     });
 }

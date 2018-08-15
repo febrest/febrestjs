@@ -2,6 +2,8 @@
 
 import {runTransaction,series} from './Transaction';
 import paramsForFunction from './paramsForFunction';
+import Resolver from './Resolver';
+
 
 function isObject(v){
     return Object.prototype.toString.call(v)==='[object Object]';
@@ -53,5 +55,6 @@ export {
     toString,
     runTransaction,
     series,
-    paramsForFunction
+    paramsForFunction,
+    Resolver
 }
