@@ -1,6 +1,5 @@
 import { getState } from './../provider';
 import { getService } from './../services';
-import { isPromise } from './../util';
 
 
 function findDeps(params, deps = {},callback) {

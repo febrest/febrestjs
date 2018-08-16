@@ -1,14 +1,12 @@
 'use strict';
 
-function Resolver(params,fn){
-    return {
-        $typeof$:'Resolver',
-        params,
-        fn
+class Resolver{
+    constructor(){
+        
     }
-}
+} 
 
-function resolve(resolvers,deps,complete,error){
+function resolve(resolvers,complete,error){
     if(!Array.isArray(resolvers)){
         resolvers = [resolvers];
     }
