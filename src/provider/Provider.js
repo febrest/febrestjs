@@ -1,44 +1,36 @@
 'use strict'
 
 class Provider {
-    state: any;
     name: string;
     constructor(config) {
-        this.state = config.state;
         this.name = config.name;
-        this._lockPromise;
-        this._lockResolve;
-        this._lockTick = 0;
     }
-    lock() {
-        this._lockTick++;
-        if (!this._lockPromise) {
-            this._lockPromise = new Promise((resolve) => {
-                this._lockResolve = resolve;
-            });
-        }
+    /**
+     * 创建
+     */
+    onCreate(state) {
+
     }
-    resolvelock() {
-        this._lockTick--;
-        if (this._lockTick <= 0) {
-            this._lockTick = 0;
-            this._lockResolve();
-            this._lockResolve = undefined;
-            this._lockPromise = undefined;
-        }
+    /**
+     * 生命周期
+     * 更新
+     */
+    onUpdate(){
+
     }
-    checkLock() {
-        if (this._lockTick <= 0) {
-            return Promise.resolve();
-        } else {
-            return this._lockPromise
-        }
+    /**
+     * 生命周期
+     * 销毁
+     */
+    onDestory(state){
+
     }
-    getState() {
-        return this.state;
+  
+    query(state,action,payload) {
+        return state
     }
-    setState(state) {
-        this.state = state;
+    update(state,action,payload) {
+        return state;
     }
 }
 

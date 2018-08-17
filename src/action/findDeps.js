@@ -1,8 +1,8 @@
-import { getState } from './../provider';
+import { getProvider } from './../provider';
 import { getService } from './../services';
+import {makeError} from './../error';
 
-
-function findDeps(params, deps = {},callback) {
+function findDeps(params, deps = {}, callback) {
     if (!params) {
         return deps;
     }
@@ -12,11 +12,20 @@ function findDeps(params, deps = {},callback) {
         if (dep) {
             return dep;
         } else if (name[0] === '$') {
-            deps[name] = getService(name);
+            dep = getService(name);
+            if(!dep){
+                makeError(`找不到名为${name}的service，请检查依赖是否正确`);
+            }else {
+                return dep;
+            }
         } else {
-            let stateGetter = getState(name);
-            let stateGetterParams = stateGetter.params && findDeps(stateGetter.params, deps) || [];
-            
+            deps[name] = getProvider(name);
+            if(!dep){
+                makeError(`找不到名为${name}的Provider，请检查依赖是否正确`);
+            }else {
+                return dep;
+            }
+
         }
     });
 }

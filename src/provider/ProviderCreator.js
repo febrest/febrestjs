@@ -1,32 +1,18 @@
 'use strict'
 import Provider from './Provider'
-import {makeError} from './../error';
-var providerImpls = {
-    'state': Provider
-}
-function getProviderImpl(type: String) {
-    let providerImpl = providerImpls[type];
-    /**找不到Provider的时候要抛出异常 */
-    if (providerImpl) {
-        return providerImpl
-    } else {
-        makeError('不存在类型为'+type+'的Provider');
-    }
-}
-
-
+import State from './State';
+import ProviderExecutor from './ProviderExecutor';
+import { copy } from './../util'
 function createProvider(config) {
-    let ProviderImpls = getProviderImpl(config.type || 'state');
-    let type = typeof ProviderImpls;
-    if (type === 'function') {
-        return new ProviderImpls(config);
-    } 
+    let ProviderClass = config.type || Provider;
+    let provider = new ProviderClass({
+        name: config.name
+    });
+    let state = new State(config.defaultState || {});
+    let providerExecutor = new ProviderExecutor(provider, state);
+    provider.onCreate(copy(state.get()));
+    return providerExecutor;
 }
-function use(type: String, providerImpl) {
-    providerImpls[type] = providerImpl;
-}
-
 export {
     createProvider,
-    use
 }

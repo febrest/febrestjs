@@ -1,7 +1,7 @@
 'use strict'
 
-import {setProvider} from './ProviderContainer';
-import {createProvider} from './ProviderCreator';
+import { setProvider } from './ProviderContainer';
+import { createProvider } from './ProviderCreator';
 
 function inject(configs) {
     if (Array.isArray(configs)) {
@@ -10,10 +10,8 @@ function inject(configs) {
         });
     } else {
         let name = configs.name;
-        let state = configs.defaultState;
-        configs.state = state;
-        let provider = createProvider(configs);
-        setProvider(name, provider);
+        configs.$$typeof = 'ProviderConfig';
+        setProvider(configs);
     }
 }
 

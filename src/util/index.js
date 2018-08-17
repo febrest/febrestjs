@@ -1,48 +1,51 @@
 'use strict'
 
-import {runTransaction,series} from './Transaction';
+import { runTransaction, series } from './Transaction';
 import paramsForFunction from './paramsForFunction';
 import Resolver from './Resolver';
 
 
-function isObject(v){
-    return Object.prototype.toString.call(v)==='[object Object]';
+function isObject(v) {
+    return Object.prototype.toString.call(v) === '[object Object]';
 }
-function isPromise(v){
-    if(typeof Promise !=='undefined' && v instanceof(Promise)){
+function isPromise(v) {
+    if (typeof Promise !== 'undefined' && v instanceof (Promise)) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
-function copy(v){
-    if(isArray(v)){
-        return v.slice();
-    }else if(isObject(v)){
-        let dest = {
+function copy(source) {
+    let dest;
+    if (isArray(source)) {
+        dest = source.map(v => {
+            return copy(v);
+        });
+    } else if (isObject(v)) {
+        dest = {
 
         }
-        for(let o in v){
+        for (let o in v) {
             dest[o] = copy(v[o]);
         }
-        return dest;
-    }else{
+    } else {
+        dest = v;
+    }
+    return dest;
+}
+
+function toValue(v) {
+    try {
+        return JSON.parse(v);
+    } catch (e) {
         return v;
     }
 }
 
-function toValue(v){
-    try{
-       return JSON.parse(v);
-    }catch(e){
-        return v;
-    }
-}
-
-function toString(v){
-    try{
+function toString(v) {
+    try {
         return JSON.stringify(v);
-    }catch(e){
+    } catch (e) {
         return v;
     }
 }
