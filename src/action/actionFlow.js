@@ -1,6 +1,4 @@
-import findDeps from './findDeps';
-import {setRuntimeAction,createRuntimeAction} from './runtimeAction';
-
+import { setRuntimeAction, createRuntimeAction, clearRuntimeAction } from './runtimeAction';
 import ACTION_READY_STATE from './ACTION_READY_STATE';
 
 
@@ -26,38 +24,32 @@ import ACTION_READY_STATE from './ACTION_READY_STATE';
  *                          |                        |    *
  *                          |————————————————————————|    *
  *                        close                           *
- **********************************************************/      
-            
-function assembleResult(action, state) {
+ **********************************************************/
 
+function assembleResult(action, state) {
     let result = {
         state,
-        key:action.key,
-        id:action.id
+        key: action.key,
+        id: action.id
     }
     action.result = result;
-
     return action;
 }
 
 
 function initialize(key, payload) {
-    let action = createRuntimeAction(key,payload);
+    let action = createRuntimeAction(key, payload);
     setRuntimeAction(action);
-    action.stage = ACTION_READY_STATE.UNINITIALIZED;
-    action.deps = findDeps(action.params);
+    return action;
 }
 
 function complete(action) {
     action.stage = ACTION_READY_STATE.COMPLETE;
-
+    return action;
 }
-function terminate(action,error){
+function terminate(action, error) {
     action.stage = ACTION_READY_STATE.TERMINATE;
-    action.result = null;
-    action.exec = null;
-    action.deps = null;
-    action.args = null;
+    clearRuntimeAction(action);
     action.error = error;
 }
 
@@ -75,5 +67,5 @@ export {
     initialize,
     exec,
     terminate,
-    complete 
+    complete
 };
