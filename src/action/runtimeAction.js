@@ -1,6 +1,7 @@
 import getAction from './getAction';
 import {paramsForFunction} from './../util';
-import findDeps from './findDeps'
+import resolveParams from './resolveParams'
+
 let runtimeAction;
 let id = 0;
 
@@ -29,10 +30,9 @@ function createRuntimeAction(key,payload){
         controller,
         payload,
         result:undefined,
-        readyState:'',
         error:undefined,
         params,
-        deps:{},
+        resolvedParams:resolveParams(params),
         stage:undefined
     } 
     return action;
