@@ -1,58 +1,62 @@
 'use strict'
-import {initialize,complete,exec,terminate,getRuntimeAction,setRuntimeAction} from './../action';
-
-import {Observer,Bordercast} from './../observer';
+import {
+    initialize,
+    exec,
+    exception,
+    close
+} from './../action';
+import { isPromise } from './../util';
+import { Observer, Bordercast } from './../observer';
+import {catchIt} from './../error';
 
 /**
  * @description
  * 公共的dispatcher dispatch出来的action会被所有的dispatcher接收
- * 私有的dispatcher只能接收所有的action，但是dispatch出去的action不会被其他dispatcher接收？
+ * 私有的dispatcher能接收所有的action，但是dispatch出去的action不会被其他dispatcher接收？
  */
-class Dispatcher{
-    constructor(isPublic){
+class Dispatcher {
+    constructor(isPublic) {
         this.observer = new Observer();
         this.bordercast = new Bordercast(isPublic);
     }
-    dispatch(key: string, payload: any){
-        let runtimeAction = initialize(key,payload);
-        let id = runtimeAction.id;
-        try{
-           let promiseState = exec(runtimeAction);   
-           Promise.resolve(promiseState).then(state=>{
-            runtimeAction.result={
-                state,
-                key,
-                id
-            }
-            complete(runtimeAction);
-            this.bordercast.next(runtimeAction.result);
-           });
-        }catch(e){
-           terminate(runtimeAction,e);
-        }finally{
+    dispatch(key: string, payload: any) {
+        try {
+            let action = initialize(key, payload);
+            let id = action.id;
+            let promise = exec(action);
+            promise.then(() => {
+                this.bordercast.message(action.result);
+            }).catch(e=>{
+                exception(action, e);
+                catchIt(e);
+            });
+        } catch (e) {
+            exception(action, e);
+            catchIt(e);
+        } finally {
             return id;
         }
 
     }
-    release(){
+    release() {
         this.bordercast.release();
         this.observer.release();
     }
-    subscribe(callback){
+    subscribe(callback) {
         this.bordercast.subscribe(callback);
     }
-    unsubcribe(callback){
+    unsubcribe(callback) {
         this.bordercast.unsubscribe(callback)
     }
-    watch(callback){
+    watch(callback) {
         this.observer.watch(callback);
     }
-    removeWatcher(callback){
+    removeWatcher(callback) {
         this.observer.removeWatcher(callback)
     }
-    
+
 }
 function dispatch(key: string, payload: any) {
     return exec(key, payload);
 }
-export  default Dispatcher;
+export default Dispatcher;

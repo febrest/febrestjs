@@ -1,8 +1,8 @@
 'use strict'
 import createDispatcher from './createDispatcher';
+import Dispatcher from './Dispatcher';
 
-
-const dispatcher = createDispatcher(true);
+const dispatcher = new Dispatcher(true);
 
 
 function dispatch(key,payload){

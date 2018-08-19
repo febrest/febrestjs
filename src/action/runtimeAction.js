@@ -1,6 +1,5 @@
 import getAction from './getAction';
 import { paramsForFunction } from './../util';
-import resolveParams from './resolveParams'
 import ACTION_READY_STATE from './ACTION_READY_STATE';
 let runtimeAction;
 let id = 0;
@@ -26,14 +25,14 @@ function createRuntimeAction(key, payload) {
     let action = {
         $typeof$: 'RuntimeAction',
         id: IDGenerator(),
+        stage: ACTION_READY_STATE.UNINITIALIZED,
         key,
         controller,
         payload,
-        result: undefined,
-        error: undefined,
         params,
-        resolvedParams: resolveParams(params),
-        stage: ACTION_READY_STATE.UNINITIALIZED
+        resolvedParams: undefined,
+        result: undefined,
+        error: undefined
     }
     return action;
 }
