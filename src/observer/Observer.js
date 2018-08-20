@@ -47,7 +47,7 @@ function doWatch(changed) {
     let timestamp = Date.now();
     observers.forEach(function (observer) {
         observer._watchers.forEach(function(watcher){
-            dispatchWatcher(watcher, changed, timestamp);
+            dispatchWatcher(watcher, {[changed]:true}, timestamp);
         });
     });
 }

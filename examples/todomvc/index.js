@@ -63,8 +63,6 @@ var controllers = {
     complete: function ($payload, todos) {
         var payload = $payload();
         let data = todos.query();
-        console.log(payload,data)
-
         data[payload].complete = true;
         todos.update(null,data);
         return {
@@ -73,7 +71,6 @@ var controllers = {
     },
     getActive: function (todos) {
         let data = todos.query();
-        console.log(data)
         var active = data.filter(function (v) {
             return !v.complete;
         });
