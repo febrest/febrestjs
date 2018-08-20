@@ -60,17 +60,20 @@
      * controller
      */
     var controllers = {
-        addLottery(lottery, $persist) {
-            lottery++;
-            $persist('lottery', lottery);
-            return { lottery }
+        addLottery(lottery) {
+            let data = lottery.query();
+            data++;
+            lottery.update(null, data);
+            return { lottery:data }
         },
         getLottery(lottery) {
-            return { lottery }
+            let data = lottery.query();
+            return { lottery:data }
         },
-        roll(lottery, rollHistory, $persist,$dynamic) {
-            console.log($dynamic());
-            if (lottery < 5) {
+        roll(lottery, rollHistory) {
+            let lot = lottery.query();
+            let his = rollHistory.query();
+            if (lot < 5) {
                 return { ok: false }
             } else {
                 let value = [randInt(), randInt(), randInt()];
@@ -80,10 +83,10 @@
                     value,
                     bonus,
                 }
-                rollHistory.push(item);
-                let result = { ok: true, lottery: lottery - 5, value, bonus, rollHistory };
-                $persist('lottery',lottery-5);
-                $persist('rollHistory',rollHistory);
+                his.push(item);
+                let result = { ok: true, lottery: lot - 5, value, bonus, rollHistory:his };
+                lottery.update(null,lot-5);
+                rollHistory.update(null,his);
                 return result;
             }
         }

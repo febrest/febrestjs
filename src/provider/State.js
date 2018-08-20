@@ -2,7 +2,7 @@ import { copy } from './../util';
 
 class State {
     constructor(data) {
-        this.data = data || {};
+        this.data = data !== undefined ? copy(data) : { };
     }
     onCreate() {
 
