@@ -57,7 +57,7 @@ class Observer{
         this._watchers = [];
         observers.push(this);
     }
-    watch(){
+    watch(callback){
         watch(this,callback);
     }
     removeWatcher(callback){

@@ -3,7 +3,7 @@
 let userErrorHandler;
 
 function sysErrorHandler(error){
-    throw error;
+    console.error(error);
 }
 function setUserErrorHandler(handler){
     userErrorHandler = handler;

@@ -14,7 +14,6 @@ function inject(name,service){
     name = perfix+name;
     services[name] = service;
 }
-inject('persist',persist);
 inject('payload',payload);
 inject('connect',connect);
 inject('dynamic',dynamic);

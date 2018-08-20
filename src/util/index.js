@@ -17,19 +17,19 @@ function isPromise(v) {
 }
 function copy(source) {
     let dest;
-    if (isArray(source)) {
+    if (Array.isArray(source)) {
         dest = source.map(v => {
             return copy(v);
         });
-    } else if (isObject(v)) {
+    } else if (isObject(source)) {
         dest = {
 
         }
-        for (let o in v) {
-            dest[o] = copy(v[o]);
+        for (let o in source) {
+            dest[o] = copy(source[o]);
         }
     } else {
-        dest = v;
+        dest = source;
     }
     return dest;
 }

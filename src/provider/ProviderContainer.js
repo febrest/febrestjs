@@ -10,8 +10,8 @@ function getProvider(name) {
     }
     return provider;
 }
-function setProvider(name, provider) {
-    container[name] = provider;
+function setProvider(provider) {
+    container[provider.name] = provider;
 }
 
 export {

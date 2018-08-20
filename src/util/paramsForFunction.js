@@ -31,7 +31,7 @@ function paramsFromFunc(funcS) {
 const PLUGIN_TEST_RE = /@providers\s+=\s+\[([\w\s\,]+)\]/;
 
 function paramsFromPlugin(funcS){
-  if(PLUGIN_TEST_RE.test(funcs)){
+  if(PLUGIN_TEST_RE.test(funcS)){
       return RegExp.$1.split(',').map((param) => {
           let name = param.replace(/(\s|=.+$)/g,'');
           return name;

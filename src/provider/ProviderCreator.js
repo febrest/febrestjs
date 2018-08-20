@@ -8,7 +8,7 @@ function createProvider(config) {
         name: config.name
     });
     let state = new State(config.defaultState || {});
-    let providerExecutor = new ProviderExecutor(provider, state);
+    let providerExecutor = ProviderExecutor(provider, state);
     provider.onCreate(state.get());
     return providerExecutor;
 }

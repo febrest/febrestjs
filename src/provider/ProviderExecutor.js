@@ -3,19 +3,16 @@ import { doWatch } from './../observer';
 import { isPromise } from './../util';
 
 function getState(state) {
-    state.get()
+    return state.get()
 }
 function setState(state, data) {
     state.set(data);
 }
-class ProviderExecutor {
-    constructor(provider, state) {
-        this.provider = provider;
-        this.state = state;
-    }
-    query(action, payload) {
-        let { state, provider } = this;
-        return provider.query(getState(state),action, payload);
+function ProviderExecutor(provider, state) {
+    let _provider = provider;
+    let _state = state;
+    function query(action, payload) {
+        return _provider.query(getState(_state),action, payload);
     }
     /**
      * 
@@ -23,20 +20,23 @@ class ProviderExecutor {
      * @param {*} payload 
      * todos:update的时候异常捕获
      */
-    update(action, payload) {
-        let { state, provider } = this;
-        let data = provider.update(getState(state),action, payload);
+    function update(action, payload) {
+        let data = _provider.update(getState(_state),action, payload);
         if (isPromise(data)) {
             data.then(v => {
-                setState(v);
-                provider.onUpdate(v);
-                doWatch(provider.name);
+                setState(_state,v);
+                _provider.onUpdate(v);
+                doWatch(_provider.name);
             })
         } else {
-            setState(v);
-            provider.onUpdate(v);
-            doWatch(provider.name);
+            setState(_state,data);
+            _provider.onUpdate(data);
+            doWatch(_provider.name);
         }
+    }
+    return {
+        query,
+        update
     }
 }
 

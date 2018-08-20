@@ -27,45 +27,54 @@ var providers = [
  */
 
 var controllers = {
-    addTodos: function (todos=[], $payload,$persist) {
+    addTodos: function (todos, $payload) {
         var payload = $payload();
         var todo = {
             complete: false,
             message: payload
         }
-        todos.push(todo);
-        $persist('todos',todos);
+        let data = todos.query();
+        data.push(todo);
+        todos.update(null,data);
         return {
-            todos: todos
+            todos: data
         }
     },
-    removeTodos: function (todos=[], $payload,$persist) {
+    removeTodos: function (todos, $payload) {
         var payload = $payload();
-        todos.splice(payload, 1);
-        $persist('todos',todos);
-        return { todos };
+        let data = todos.query();
+        data.splice(payload, 1);
+        todos.update(null,data);
+        return { todos:data };
     },
-    getAll: function (todos=[]) {
+    getAll: function (todos) {
+        let data = todos.query();
         var complete = controllers.getComplete(todos).complete;
         var active = controllers.getActive(todos).active;
-        return { todos: todos, complete, active };
+        return { todos: data, complete, active };
     },
-    getComplete: function (todos=[]) {
-        var complete = todos.filter(function (v) {
+    getComplete: function (todos) {
+        let data = todos.query()||[];
+        var complete = data.filter(function (v) {
             return v.complete;
         });
         return { complete: complete };
     },
-    complete: function ($payload, todos=[],$persist) {
+    complete: function ($payload, todos) {
         var payload = $payload();
-        todos[payload].complete = true;
-        $persist('todos',todos);
+        let data = todos.query();
+        console.log(payload,data)
+
+        data[payload].complete = true;
+        todos.update(null,data);
         return {
-            todos: todos,
+            todos: data,
         }
     },
-    getActive: function (todos=[]) {
-        var active = todos.filter(function (v) {
+    getActive: function (todos) {
+        let data = todos.query();
+        console.log(data)
+        var active = data.filter(function (v) {
             return !v.complete;
         });
         return { active: active };

@@ -29,7 +29,7 @@ import { isPromise } from './../util'
  **********************************************************/
 
 function assembleResult(action, state) {
-    return result = {
+    return {
         state,
         key: action.key,
         id: action.id
@@ -76,7 +76,7 @@ function exec(action) {
             }
         );
     } else {
-        return Promise.resolve(complete(action, state));
+        return Promise.resolve(complete(action, maybePromise));
     }
 }
 

@@ -30,7 +30,7 @@ class Provider {
         return state
     }
     update(state,action,payload) {
-        return state;
+        return payload;
     }
 }
 
