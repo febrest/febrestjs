@@ -40,7 +40,6 @@ function assembleResult(action, state) {
 function initialize(key, payload) {
     let action = createRuntimeAction(key, payload);
     setRuntimeAction(action);
-    action.resolvedParams = resolveParams(action.params);
     action.stage = ACTION_READY_STATE.READY;
     return action;
 }
@@ -57,15 +56,17 @@ function exception(action, error) {
 }
 
 function exec(action) {
+    action.resolvedParams = resolveParams(action.params);
+
     let {
         controller,
-        resolvedParams,
-        stage
+        resolvedParams
     } = action;
     //dispatcher 判断stage不对直接走close，不再进exec;
     // if(action.stage === ACTION_READY_STATE.EXCEPTION){
     //     return Promise.resolve(action);
     // }
+
     let maybePromise = controller.apply(null, resolvedParams);
     if (isPromise(maybePromise)) {
         return maybePromise.then(

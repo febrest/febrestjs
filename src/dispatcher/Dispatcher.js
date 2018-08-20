@@ -18,21 +18,29 @@ class Dispatcher {
     constructor(isPublic) {
         this.observer = new Observer();
         this.bordercast = new Bordercast(isPublic);
+        this.plugins = [];
     }
     dispatch(key: string, payload: any) {
+        let action = initialize(key, payload);
+        let id = action.id;
         try {
-            let action = initialize(key, payload);
-            let id = action.id;
+            this.applyPlugin('initialized',action);
             let promise = exec(action);
             promise.then(() => {
                 this.bordercast.message(action.result);
+                this.applyPlugin('close',action);
+                close(action);
             }).catch(e=>{
                 exception(action, e);
                 catchIt(e);
+                this.applyPlugin('close',action);
+                close(action);
             });
         } catch (e) {
             exception(action, e);
             catchIt(e);
+            this.applyPlugin('close',action);
+            close(action);
         } finally {
             return id;
         }
@@ -54,9 +62,15 @@ class Dispatcher {
     removeWatcher(callback) {
         this.observer.removeWatcher(callback)
     }
+    plugin(plugin){
+        this.plugins.push(plugin);
+    }
+    applyPlugin(hook,data){
+        let plugins = this.plugins;
+        plugins.forEach(plugin=>{
+            plugin[hook] && plugin[hook].call(null,data);
+        })
+    }
 
-}
-function dispatch(key: string, payload: any) {
-    return exec(key, payload);
 }
 export default Dispatcher;

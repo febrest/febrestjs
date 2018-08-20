@@ -1,7 +1,6 @@
 'use strict'
 
 import { setProvider } from './ProviderContainer';
-import { createProvider } from './ProviderCreator';
 
 function inject(configs) {
     if (Array.isArray(configs)) {
