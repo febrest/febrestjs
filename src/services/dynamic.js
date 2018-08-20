@@ -1,19 +1,14 @@
 'use strict'
-import {getRuntimeAction} from './../action';
-import {getState} from './../provider';
+import {getProvider} from './../provider';
 
-//动态获取provider
-function dynamic() {
-    let action = getRuntimeAction();
-
-    function $dynamic(name,payload) {
-        let stateGetter = getState(name);
-        let deps = {
-            '$payload': function(){
-                return payload;
-            }
-        }
-        return map;
+/**
+ * 动态获取provider
+ * todos:找不到provider的时候要抛出异常
+ */
+function dynamic(action) {
+    function $dynamic(name) {
+        let provider = getProvider(name);
+        return provider;
     }
 }
 

@@ -22,10 +22,14 @@ function watch(callback){
 function removeWatcher(callback){
   return dispatcher.removeWatcher(callback);
 }
+function plugin(callback){
+  return dispatcher.plugin(callback);
+}
 export { 
   dispatch,
   subscribe,
   unsubscribe,
   watch,
-  removeWatcher
+  removeWatcher,
+  plugin
  };

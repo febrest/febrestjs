@@ -2,13 +2,11 @@
 /**
  * @description 用于controller持续发出信号
  */
-import {getRuntimeAction} from './../action';
 
 function noop(state) {
     return state;
 }
-function connect() {
-    let action = getRuntimeAction();
+function connect(action) {
     return function $connect(state) {
         /**等action主动结束一次才会执行connect */
         if(!action.result){

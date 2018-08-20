@@ -1,12 +1,12 @@
 'use strict'
 import { doWatch } from './../observer';
-import { copy, isPromise } from './../util';
+import { isPromise } from './../util';
 
 function getState(state) {
-    copy(state.get());
+    state.get()
 }
 function setState(state, data) {
-    state.set(copy(data));
+    state.set(data);
 }
 class ProviderExecutor {
     constructor(provider, state) {
@@ -15,11 +15,17 @@ class ProviderExecutor {
     }
     query(action, payload) {
         let { state, provider } = this;
-        return provider.query(action, payload, getState(state));
+        return provider.query(getState(state),action, payload);
     }
+    /**
+     * 
+     * @param {*} action 
+     * @param {*} payload 
+     * todos:update的时候异常捕获
+     */
     update(action, payload) {
         let { state, provider } = this;
-        let data = provider.update(action, payload, getState(state));
+        let data = provider.update(getState(state),action, payload);
         if (isPromise(data)) {
             data.then(v => {
                 setState(v);
@@ -33,3 +39,5 @@ class ProviderExecutor {
         }
     }
 }
+
+export default ProviderExecutor;

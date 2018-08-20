@@ -2,7 +2,6 @@
 import Provider from './Provider'
 import State from './State';
 import ProviderExecutor from './ProviderExecutor';
-import { copy } from './../util'
 function createProvider(config) {
     let ProviderClass = config.type || Provider;
     let provider = new ProviderClass({
@@ -10,7 +9,7 @@ function createProvider(config) {
     });
     let state = new State(config.defaultState || {});
     let providerExecutor = new ProviderExecutor(provider, state);
-    provider.onCreate(copy(state.get()));
+    provider.onCreate(state.get());
     return providerExecutor;
 }
 export {

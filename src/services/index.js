@@ -2,9 +2,8 @@
 
 import payload from './payload';
 import connect from './connect';
-import persist from './persist';
 import dynamic from './dynamic';
-
+import {getRuntimeAction} from './../action';
 import {makeError} from './../error';
 const perfix = '$';
 
@@ -25,7 +24,9 @@ function getService(name){
     if(!(service = services[name])){
         makeError(`service ${name} is not exist`);
     }
-    return service();
+    let action = getRuntimeAction();
+
+    return service(action);
 
 }
 export  {

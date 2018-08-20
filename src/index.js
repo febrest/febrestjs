@@ -1,7 +1,7 @@
 import {createActions } from './action';
 import { dispatch,subscribe,unsubscribe,watch,removeWatcher } from './dispatcher';
 import {onError} from './error';
-import {Provider,inject as injectProvider,use as useProvider} from './provider';
+import {Provider,inject as injectProvider} from './provider';
 import {inject as injectService} from './services';
 
 
@@ -31,7 +31,6 @@ export default {
     */
     Provider,
     injectProvider,
-    useProvider,
     injectService,
     /**
      * @description

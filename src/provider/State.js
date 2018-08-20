@@ -1,3 +1,5 @@
+import { copy } from './../util';
+
 class State {
     constructor(data) {
         this.data = data || {};
@@ -9,10 +11,10 @@ class State {
         this.data = null;
     }
     set(data) {
-        this.data = data;
+        this.data = copy(data);
     }
     get() {
-        return this.data;
+        return copy(this.data);
     }
     toString() {
         return JSON.stringify(this.data);
