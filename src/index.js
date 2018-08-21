@@ -1,8 +1,14 @@
-import {createActions } from './action';
-import { dispatch,subscribe,unsubscribe,watch,removeWatcher } from './dispatcher';
-import {onError} from './error';
-import {Provider,inject as injectProvider} from './provider';
-import {inject as injectService} from './services';
+import { createActions } from './action';
+import { dispatch, subscribe, unsubscribe, watch, removeWatcher } from './dispatcher';
+import { onError } from './error';
+import { Provider } from './provider';
+import * as services from './services';
+
+import {
+    ProviderRegister,
+    StateRegister,
+    ServicesRegister
+} from './register'
 
 
 let version;
@@ -12,12 +18,32 @@ try {
 } catch (e) {
 
 }
+
+function registerService(name, service) {
+    ServicesRegister.register({ name, service });
+}
+
+function registerProvider(configs) {
+    ProviderRegister.register(configs);
+}
+function registerState(configs) {
+    StateRegister.register(configs);
+}
+
+for (let s in services) {
+    registerService(s, services[s]);
+}
+
 export default {
     /**
      * @description
      * exports dispatch
      */
     dispatch,
+    subscribe,
+    unsubscribe,
+    watch,
+    removeWatcher,
 
     /**
      * @description
@@ -30,18 +56,12 @@ export default {
      * exports provider
     */
     Provider,
-    injectProvider,
-    injectService,
-    /**
-     * @description
-     * exports observer
-    */
-    subscribe,
-    unsubscribe,
-    watch,
-    removeWatcher,
     
     onError,
+
+    registerService,
+    registerProvider,
+    registerState,
 
     version
 }

@@ -1,11 +1,8 @@
 'use strict'
 import Provider from './Provider';
-import {getProvider} from './ProviderContainer';
-import inject from './inject';
-
+import ProviderExecutor from './ProviderExecutor';
 
 export  {
     Provider,
-    inject,
-    getProvider
+    ProviderExecutor
 };

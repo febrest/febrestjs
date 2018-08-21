@@ -4,6 +4,7 @@ class Provider {
     name: string;
     constructor(config) {
         this.name = config.name;
+        this.$typeof$ = 'Provider';
     }
     /**
      * 创建
@@ -15,7 +16,7 @@ class Provider {
      * 生命周期
      * 更新
      */
-    onUpdate(){
+    onUpdate(state){
 
     }
     /**

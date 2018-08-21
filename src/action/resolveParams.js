@@ -1,23 +1,31 @@
-import { getProvider } from '../provider';
-import { getService } from '../services';
-import { makeError } from '../error';
 
+import { makeError } from '../error';
+import {
+    ServicesRegister,
+    ProviderRegister,
+    StateRegister
+} from '../register'
 function resolveParams(params) {
     if (!params) {
         return params;
     }
     return params.map(name => {
-        let param;
-        if (name[0] === '$') {
-            param = getService(name);
-        } else {
-            param = getProvider(name);
-        }
+        let param = StateRegister.getDep(name)
+                    || ProviderRegister.getDep(name) 
+                    || ServicesRegister.getDep(name);
         if(!param){
-            makeError(`找不到名为${name}的${name[0]==='$'?'Service':'Provider'}，请检查依赖是否正确`);
-        }else{
-            return param;
+            makeError(`找不到名为${name}的依赖，请检查依赖是否正确`);
         }
+        switch(param.$typeof$){
+            case 'State':
+                return param.get();
+            case 'ProviderExecutor':
+
+            case 'Service':
+                
+        }   
+        
+
     });
 }
 export default resolveParams;
