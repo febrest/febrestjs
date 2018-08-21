@@ -5,10 +5,12 @@ import {
     ProviderRegister,
     StateRegister
 } from '../register'
+import {getRuntimeAction} from './runtimeAction'
 function resolveParams(params) {
     if (!params) {
         return params;
     }
+    let action = getRuntimeAction();
     return params.map(name => {
         let param = StateRegister.getDep(name)
                     || ProviderRegister.getDep(name) 
@@ -20,9 +22,9 @@ function resolveParams(params) {
             case 'State':
                 return param.get();
             case 'ProviderExecutor':
-
+                return param;
             case 'Service':
-                
+                return param(action);
         }   
         
 
