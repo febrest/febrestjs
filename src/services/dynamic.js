@@ -1,6 +1,4 @@
 'use strict'
-import {getProvider} from './../provider';
-
 /**
  * 动态获取provider
  * todos:找不到provider的时候要抛出异常

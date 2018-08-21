@@ -2,7 +2,7 @@
 
 const observers = [];
 
-const PENDING = {
+let PENDING = {
 
 }
 let NEED_DISPATCH = false;

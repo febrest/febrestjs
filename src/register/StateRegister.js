@@ -1,5 +1,5 @@
 
-import State from './State';
+import {State} from './../state';
 import Register from './Register';
 
 
