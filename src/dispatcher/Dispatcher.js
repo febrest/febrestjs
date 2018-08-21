@@ -3,10 +3,11 @@ import {
     initialize,
     exec,
     exception,
-    close
+    close,
+    setRuntimeAction
 } from './../action';
-import { isPromise } from './../util';
-import { Observer, Bordercast } from './../observer';
+import { isPromise,immediate } from './../util';
+import { Observer, Bordercast, doWatch } from './../observer';
 import {catchIt} from './../error';
 
 /**
@@ -23,28 +24,35 @@ class Dispatcher {
     dispatch(key: string, payload: any) {
         let action = initialize(key, payload);
         let id = action.id;
-        try {
-            this.applyPlugin('initialized',action);
-            let promise = exec(action);
-            promise.then(() => {
-                this.bordercast.message(action.result);
-                this.applyPlugin('close',action);
-                close(action);
-            }).catch(e=>{
+        this.pendingAction(action);
+        return id;
+    }
+    pendingAction(action){
+        immediate(()=>{
+            setRuntimeAction(action)
+            try {
+                this.applyPlugin('initialized',action);
+                let promise = exec(action);
+                promise.then(() => {
+                    this.bordercast.message(action.result);
+                    this.applyPlugin('close',action);
+                    close(action);
+                }).catch(e=>{
+                    exception(action, e);
+                    catchIt(e);
+                    this.applyPlugin('close',action);
+                    close(action);
+                });
+            } catch (e) {
                 exception(action, e);
                 catchIt(e);
                 this.applyPlugin('close',action);
                 close(action);
-            });
-        } catch (e) {
-            exception(action, e);
-            catchIt(e);
-            this.applyPlugin('close',action);
-            close(action);
-        } finally {
-            return id;
-        }
-
+            } finally {
+                return id;
+            }
+    
+        });
     }
     release() {
         this.bordercast.release();

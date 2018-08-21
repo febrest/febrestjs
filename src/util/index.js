@@ -49,7 +49,17 @@ function toString(v) {
         return v;
     }
 }
-
+function immediate(callback){
+    try{
+        return process.nextTick(callback);
+    }catch(e){
+        try{
+            return setImmediate(callback);
+        }catch(e){
+            return setTimeout(callback);
+        }
+    }
+}
 export {
     isObject,
     copy,
@@ -59,5 +69,6 @@ export {
     runTransaction,
     series,
     paramsForFunction,
-    Resolver
+    Resolver,
+    immediate
 }

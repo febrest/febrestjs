@@ -1,5 +1,5 @@
 'use strict'
-import { doWatch } from './../observer';
+import { pendingWatch } from './../observer';
 import { isPromise } from './../util';
 
 function getState(state) {
@@ -8,6 +8,7 @@ function getState(state) {
 function setState(state, data) {
     state.set(data);
 }
+
 function ProviderExecutor(provider, state) {
     let _provider = provider;
     let _state = state;
@@ -26,12 +27,12 @@ function ProviderExecutor(provider, state) {
             data.then(v => {
                 setState(_state,v);
                 _provider.onUpdate(v);
-                doWatch(_provider.name);
+                pendingWatch(_provider.name);
             })
         } else {
             setState(_state,data);
             _provider.onUpdate(data);
-            doWatch(_provider.name);
+            pendingWatch(_provider.name);
         }
     }
     return {
