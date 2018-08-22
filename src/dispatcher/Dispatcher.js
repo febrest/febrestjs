@@ -7,7 +7,7 @@ import {
     setRuntimeAction
 } from './../action';
 import { isPromise,immediate } from './../util';
-import { Observer, Bordercast, doWatch } from './../observer';
+import { Observer, Bordercast } from './../observer';
 import {catchIt} from './../error';
 
 /**

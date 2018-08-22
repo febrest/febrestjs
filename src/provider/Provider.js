@@ -21,13 +21,20 @@ class Provider {
     }
     /**
      * 生命周期
+     * 查询
+     */
+    onFetch(data){
+
+    }
+    /**
+     * 生命周期
      * 销毁
      */
     onDestory(state){
 
     }
   
-    query(state,action,payload) {
+    fetch(state,action,payload) {
         return state
     }
     update(state,action,payload) {

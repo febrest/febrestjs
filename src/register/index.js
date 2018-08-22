@@ -1,10 +1,8 @@
 'use strict'
-import ServicesRegister from './ServicesRegister';
-import StateRegister from './StateRegister';
-import ProviderRegister from './ProviderRegister';
+import Register from './Register';
+import LazyRegister from './LazyRegister';
 
 export {
-    ServicesRegister,
-    StateRegister,
-    ProviderRegister
+    Register,
+    LazyRegister
 }

@@ -1,4 +1,3 @@
-import getAction from './getAction';
 import { paramsForFunction } from './../util';
 import ACTION_READY_STATE from './ACTION_READY_STATE';
 let runtimeAction;
@@ -16,8 +15,7 @@ function getRuntimeAction() {
     return runtimeAction;
 }
 
-function createRuntimeAction(key, payload) {
-    let staticAction = getAction(key);
+function createRuntimeAction(staticAction, payload) {
     let {
         controller
     } = staticAction;

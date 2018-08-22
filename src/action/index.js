@@ -1,11 +1,11 @@
-import createActions from './createActions';
+import ActionRegister from './ActionRegister';
 import {initialize,exception,exec,close} from './actionFlow'
 import ACTION_READY_STATE from './ACTION_READY_STATE';
 import {getRuntimeAction,setRuntimeAction} from './runtimeAction';
 
 
 export {
-    createActions,
+    ActionRegister,
     initialize,
     exec,
     close,

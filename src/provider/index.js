@@ -1,8 +1,10 @@
 'use strict'
 import Provider from './Provider';
-import ProviderExecutor from './ProviderExecutor';
+import ProviderRegister from './ProviderRegister'
+import ProviderAdapter from './ProviderAdapter'
 
 export  {
     Provider,
-    ProviderExecutor
+    ProviderRegister,
+    ProviderAdapter
 };
