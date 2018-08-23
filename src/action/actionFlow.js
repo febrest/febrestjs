@@ -30,14 +30,14 @@ import { isPromise } from './../util'
 function assembleResult(action, state) {
     return {
         state,
-        key: action.key,
+        name: action.name,
         id: action.id
     }
 }
 
 
-function initialize(key, payload) {
-    let action = createRuntimeAction(key, payload);
+function initialize(name, controller, payload) {
+    let action = createRuntimeAction(name, controller, payload);
     setRuntimeAction(action);
     action.stage = ACTION_READY_STATE.READY;
     return action;

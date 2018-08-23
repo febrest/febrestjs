@@ -5,7 +5,7 @@ class LazyRegister extends Register {
         super(factory);
         this.lazy = {};
     }
-    register() {
+    register(config) {
         if (Array.isArray(config)) {
             config.forEach(c => {
                 this.register(c);
@@ -21,8 +21,8 @@ class LazyRegister extends Register {
      */
     getDep(name) {
         let dep = this.container[name];
-        if (!dep) {
-            let config = this.lazy[name]
+        let config;
+        if (!dep && (config = this.lazy[name])) {
             dep = this.container[name] =this.factory(config);
             delete this.lazy[name];
         }

@@ -14,7 +14,6 @@ function setState(state, data) {
 class ProviderWrapper {
     constructor(config) {
         this.$typeof$ = 'ProvideWrapper'
-        this._state = state;
         this._provider = new Provider(config);
         this._state = new State(config.defaultState);
     }

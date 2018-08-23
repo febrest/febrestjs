@@ -13,7 +13,7 @@ function ActionFactory(config) {
     }
     return {
         controller,
-        key: name
+        name
     }
 }
 

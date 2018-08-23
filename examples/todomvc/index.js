@@ -25,52 +25,52 @@ var providers = [
 /**
  * controllers
  */
-
+let update = Febrest.update;
 var controllers = {
     addTodos: function (todos, $payload) {
-        var payload = $payload();
+        var payload = $payload;
         var todo = {
             complete: false,
             message: payload
         }
-        let data = todos.query();
+        let data = todos;
         data.push(todo);
-        todos.update(null,data);
+        update('todos',null,data);
         return {
             todos: data
         }
     },
     removeTodos: function (todos, $payload) {
-        var payload = $payload();
-        let data = todos.query();
+        var payload = $payload;
+        let data = todos;
         data.splice(payload, 1);
-        todos.update(null,data);
+        update('todos',null,data);
         return { todos:data };
     },
     getAll: function (todos) {
-        let data = todos.query();
+        let data = todos;
         var complete = controllers.getComplete(todos).complete;
         var active = controllers.getActive(todos).active;
         return { todos: data, complete, active };
     },
     getComplete: function (todos) {
-        let data = todos.query()||[];
+        let data = todos||[];
         var complete = data.filter(function (v) {
             return v.complete;
         });
         return { complete: complete };
     },
     complete: function ($payload, todos) {
-        var payload = $payload();
-        let data = todos.query();
+        var payload = $payload;
+        let data = todos;
         data[payload].complete = true;
-        todos.update(null,data);
+        update('todos',null,data);
         return {
             todos: data,
         }
     },
     getActive: function (todos) {
-        let data = todos.query();
+        let data = todos;
         var active = data.filter(function (v) {
             return !v.complete;
         });
@@ -84,28 +84,28 @@ var controllers = {
 
 var actions = [
     {
-        key: constants.ADD_TODO,
+        name: constants.ADD_TODO,
         controller: controllers.addTodos,
 
     },
     {
-        key: constants.GET_ALL_TODOS,
+        name: constants.GET_ALL_TODOS,
         controller: controllers.getAll
     },
     {
-        key: constants.GET_COMPLETE,
+        name: constants.GET_COMPLETE,
         controller: controllers.getComplete
     },
     {
-        key: constants.GET_ACTIVE,
+        name: constants.GET_ACTIVE,
         controller: controllers.getActive
     },
     {
-        key: constants.SET_COMPLETE,
+        name: constants.SET_COMPLETE,
         controller: controllers.complete
     },
     {
-        key: constants.REMOVE_TODO,
+        name: constants.REMOVE_TODO,
         controller: controllers.removeTodos
     }
 ]
@@ -115,8 +115,8 @@ var actions = [
  * config
  */
 
-Febrest.createActions(actions);
-Febrest.injectProvider(providers);
+Febrest.registerAction(actions);
+Febrest.registerState(providers);
 
 /**
  * views
@@ -207,7 +207,7 @@ var app = {
         this.setState({ type });
     },
     onData(result) {
-        switch (result.key) {                
+        switch (result.name) {                
             default:
                 app.setState(result.state);
                 break;

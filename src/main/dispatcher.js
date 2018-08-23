@@ -1,6 +1,6 @@
 'use strict'
 import { Dispatcher } from './../dispatcher';
-import {catchIt} from './../error';
+import { catchIt } from './../error';
 import { immediate } from './../util';
 import {
     initialize,
@@ -10,12 +10,16 @@ import {
     setRuntimeAction
 } from './../action';
 import resolveParams from './resolveParams';
+import register from './register';
 const exportMethods = ['dispatch', 'subscribe', 'unsubscribe', 'watch', 'unwatch', 'plugin'];
 
 
 class MainDispatcher extends Dispatcher {
-    dispatch(key, payload) {
-        let action = initialize(key, payload);
+    dispatch(name, payload) {
+        let {
+            controller
+        } = register.getAction(name);
+        let action = initialize(name, controller, payload);
         let id = action.id;
         this.pendingAction(action);
         return id;
@@ -43,7 +47,7 @@ class MainDispatcher extends Dispatcher {
                 this.applyPlugin('close', action);
                 close(action);
             } finally {
-                return id;
+                
             }
 
         });

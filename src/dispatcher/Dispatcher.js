@@ -13,7 +13,7 @@ class Dispatcher {
         this.bordercast = new Bordercast(isPublic);
         this.plugins = [];
     }
-    dispatch(key: string, payload: any) {
+    dispatch(name: string, payload: any) {
       
     }
     release() {

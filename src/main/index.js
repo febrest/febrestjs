@@ -24,7 +24,7 @@ export default {
     registerAction: register.registerAction,
     registerProvider: register.registerProvider,
     registerService: register.registerService,
-    registerAction: register.registerAction,
+    registerState: register.registerState,
     query: fetcher.query,
     update: updater.update,
     dispatch: dispatcher.dispatch,

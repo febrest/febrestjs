@@ -97,15 +97,15 @@
     */
     var actions = [
         {
-            key: constants.ADD_LOTTERY,
+            name: constants.ADD_LOTTERY,
             controller: controllers.addLottery,
         },
         {
-            key: constants.GET_LOTTERY,
+            name: constants.GET_LOTTERY,
             controller: controllers.getLottery,
         },
         {
-            key: constants.ROLL,
+            name: constants.ROLL,
             controller: controllers.roll,
         }
     ];
@@ -202,7 +202,7 @@
      * @description 监听action
      */
     function onData(data) {
-        switch (data.key) {
+        switch (data.name) {
             case constants.ROLL:
                 if (data.state.ok) {
                     startRoll(data.state);

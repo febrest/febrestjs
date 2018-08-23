@@ -7,6 +7,7 @@ try {
 }
 
 const febrest = Object.assign(
+    {},
     main,
     {
     version

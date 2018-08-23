@@ -15,16 +15,13 @@ function getRuntimeAction() {
     return runtimeAction;
 }
 
-function createRuntimeAction(staticAction, payload) {
-    let {
-        controller
-    } = staticAction;
+function createRuntimeAction(name,controller, payload) {
     let params = paramsForFunction(controller);
     let action = {
         $typeof$: 'RuntimeAction',
         id: IDGenerator(),
         stage: ACTION_READY_STATE.UNINITIALIZED,
-        key,
+        name,
         controller,
         payload,
         params,

@@ -61,13 +61,13 @@ createActions(actionConfigs:ActionConfig|Array<ActionConfig>);
 ```
 ### ActionConfig 
 
-* key:String;
+* name:String;
 * controller: Function;
 
 example
 ```
 let actionConfig = {
-    key:'APP_INIT',
+    name:'APP_INIT',
     controller:()=>console.log('appinit')
 }
 febrest.createActions(actionConfig)
@@ -85,8 +85,8 @@ applyMiddleWare(middleWare:(exec)=>exec);
 
 ```
 setProviderStorageTool({
-    setter:(key,value)=>any,
-    getter:(key)=>any
+    setter:(name,value)=>any,
+    getter:(name)=>any
 });
 ```
 ### injectProvider
@@ -101,11 +101,11 @@ use(type:String,provider:Provider);
 ### subscribe
 
 ```
-subscribe(callback:(data:{state:any,key:string})=>any);
+subscribe(callback:(data:{state:any,name:string})=>any);
 ```
 ### unsubscribe
 ```
-unsubscribe(callback:(data:{state:any,key:string})=>any);
+unsubscribe(callback:(data:{state:any,name:string})=>any);
 ```
 ### watch
 ```
