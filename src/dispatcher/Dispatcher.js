@@ -1,14 +1,6 @@
 'use strict'
-import {
-    initialize,
-    exec,
-    exception,
-    close,
-    setRuntimeAction
-} from './../action';
-import { isPromise,immediate } from './../util';
+
 import { Observer, Bordercast } from './../observer';
-import {catchIt} from './../error';
 
 /**
  * @description
@@ -22,37 +14,7 @@ class Dispatcher {
         this.plugins = [];
     }
     dispatch(key: string, payload: any) {
-        let action = initialize(key, payload);
-        let id = action.id;
-        this.pendingAction(action);
-        return id;
-    }
-    pendingAction(action){
-        immediate(()=>{
-            setRuntimeAction(action)
-            try {
-                this.applyPlugin('initialized',action);
-                let promise = exec(action);
-                promise.then(() => {
-                    this.bordercast.message(action.result);
-                    this.applyPlugin('close',action);
-                    close(action);
-                }).catch(e=>{
-                    exception(action, e);
-                    catchIt(e);
-                    this.applyPlugin('close',action);
-                    close(action);
-                });
-            } catch (e) {
-                exception(action, e);
-                catchIt(e);
-                this.applyPlugin('close',action);
-                close(action);
-            } finally {
-                return id;
-            }
-    
-        });
+      
     }
     release() {
         this.bordercast.release();
@@ -67,7 +29,7 @@ class Dispatcher {
     watch(callback) {
         this.observer.watch(callback);
     }
-    removeWatcher(callback) {
+    unwatch(callback) {
         this.observer.removeWatcher(callback)
     }
     plugin(plugin){

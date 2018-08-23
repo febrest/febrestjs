@@ -2,6 +2,7 @@
 import { isPromise } from '../util';
 import Provider from './Provider';
 import { State } from '../state';
+import { immediate } from './../util';
 
 function getState(state) {
     return state.get()
@@ -16,7 +17,6 @@ class ProviderWrapper {
         this._state = state;
         this._provider = new Provider(config);
         this._state = new State(config.defaultState);
-        this._provider.onCreate(getState(this._state));
     }
 
     fetch(action, payload) {
@@ -24,7 +24,27 @@ class ProviderWrapper {
             _provider,
             _state
         } = this;
-        return _provider.fetch(getState(_state), action, payload);
+        let data;
+        try {
+            data = _provider.fetch(getState(_state), action, payload);
+        } catch (error) {
+            _provider.onError({ action, payload, error });
+        }
+        if (isPromise(data)) {
+            return data.then(state => {
+                immediate(() => _provider.onFetch({ action, payload, state: data }));
+                return state;
+            }, error => {
+                _provider.onError({ action, payload, error });
+                return error;
+            }).catch(error => {
+                _provider.onError({ action, payload, error });
+                return error;
+            });
+        } else {
+            immediate(() => _provider.onFetch({ action, payload, state: data }));
+            return data;
+        }
     }
 
     /**
@@ -38,15 +58,27 @@ class ProviderWrapper {
             _provider,
             _state
         } = this;
-        let data = _provider.update(getState(), action, payload);
+        let data
+        try {
+            data = _provider.update(getState(), action, payload);
+        } catch (error) {
+            return _provider.onError({ action, payload, error });
+        }
         if (isPromise(data)) {
             return data.then(v => {
-                setState(_state, v);
-                _provider.onUpdate(v);
-            })
+                setState(_state, state);
+                _provider.onUpdate({ action, payload, state: state });
+            }, error => {
+                _provider.onError({ action, payload, error });
+                return error;
+            }).catch(error => {
+                _provider.onError({ action, payload, error });
+                return error;
+            });
         } else {
             setState(_state, data);
-            _provider.onUpdate(data);
+            _provider.onUpdate({ action, payload, state: data });
+            return Promise.resolve(data);
         }
     }
 
