@@ -1,6 +1,6 @@
-import { setRuntimeAction, createRuntimeAction, clearRuntimeAction } from './runtimeAction';
-import ACTION_READY_STATE from './ACTION_READY_STATE';
-import { isPromise } from './../util'
+import { ACTION_READY_STATE, setRuntimeAction, createRuntimeAction, clearRuntimeAction } from '../action';
+import { isPromise } from '../util'
+import resolveParams from './resolveParams';
 
 
 /********************** action执行流程**********************
@@ -18,7 +18,7 @@ import { isPromise } from './../util'
  *          +               |-yes-terminate-+---------    *
  *          +               no              +        |    *
  *          +               |               +        |    *
- *          +             complete          +        |    *
+ *          +               |               +        |    *
  *          +               |               +        |    *
  *          +               |               +        |    *
  *          +++++++++++++++++++++++++++++++++        |    * 
@@ -26,15 +26,6 @@ import { isPromise } from './../util'
  *                          |————————————————————————|    *
  *                        close                           *
  **********************************************************/
-
-function assembleResult(action, state) {
-    return {
-        state,
-        name: action.name,
-        id: action.id
-    }
-}
-
 
 function initialize(name, controller, payload) {
     let action = createRuntimeAction(name, controller, payload);
@@ -44,8 +35,7 @@ function initialize(name, controller, payload) {
 }
 
 function complete(action, state) {
-    action.stage = ACTION_READY_STATE.COMPLETE;
-    action.result = assembleResult(action, state);
+
     return action;
 }
 function exception(action, error) {
@@ -57,26 +47,34 @@ function exception(action, error) {
 function exec(action) {
     let {
         controller,
-        resolvedParams
+        params
     } = action;
+    action.resolvedParams = resolveParams(params);
     let maybePromise = controller.apply(null, resolvedParams);
     if (isPromise(maybePromise)) {
         return maybePromise.then(
             (state) => {
-                setRuntimeAction(action);
-                return complete(action, state);
+                action.stage = ACTION_READY_STATE.COMPLETE;
+                action.result = state;
+                return action;
             }
         );
     } else {
-        return Promise.resolve(complete(action, maybePromise));
+        action.stage = ACTION_READY_STATE.COMPLETE;
+        action.result = maybePromise;
+        return Promise.resolve(action);
     }
 }
 
 function close(action) {
     action.stage = ACTION_READY_STATE.CLOSE;
+    let runtimeAction = getRuntimeAction();
+    if (runtimeAction === action) {
+        setRuntimeAction(null);
+    }
 }
 
-export {
+export default {
     initialize,
     exec,
     complete,
