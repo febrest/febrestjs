@@ -59,21 +59,20 @@
     /**
      * controller
      */
+    let update = Febrest.update;
     var controllers = {
         addLottery(lottery) {
-            let data = lottery.query();
+            let data = lottery;
             data++;
-            lottery.update(null, data);
+            update('lottery',null, data);
             return { lottery:data }
         },
         getLottery(lottery) {
-            let data = lottery.query();
+            let data = lottery
             return { lottery:data }
         },
         roll(lottery, rollHistory) {
-            let lot = lottery.query();
-            let his = rollHistory.query();
-            if (lot < 5) {
+            if (lottery < 5) {
                 return { ok: false }
             } else {
                 let value = [randInt(), randInt(), randInt()];
@@ -83,10 +82,10 @@
                     value,
                     bonus,
                 }
-                his.push(item);
-                let result = { ok: true, lottery: lot - 5, value, bonus, rollHistory:his };
-                lottery.update(null,lot-5);
-                rollHistory.update(null,his);
+                rollHistory.push(item);
+                let result = { ok: true, lottery: lottery - 5, value, bonus, rollHistory };
+                update('lottery',null,lottery);
+                update('rollHistory',null,rollHistory);
                 return result;
             }
         }
@@ -113,8 +112,8 @@
     /**
     * 初始化Febrest配置，创建action和注入provider
     */
-    Febrest.createActions(actions);
-    Febrest.injectProvider(providers);
+    Febrest.registerAction(actions);
+    Febrest.registerState(providers);
 
     /**
      * view层
@@ -124,7 +123,7 @@
         return 'stop_animate_' + value;
     }
     function roll() {
-        Febrest.dispatch(constants.ROLL,{$dynamic:['rollHistory']});
+        Febrest.dispatch(constants.ROLL);
     }
     /**
      * @description 抽奖动画开始
