@@ -44,7 +44,7 @@ class Dispatcher {
                                 {
                                     state: runtimeAction.result,
                                     id,
-                                    key: runtimeAction.key
+                                    name: runtimeAction.name
                                 }
                             );
                             this.hook.apply('close', runtimeAction, runtimeAction => {
