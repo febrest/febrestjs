@@ -1,5 +1,5 @@
 'use strict'
-
+import { immediate } from './../util';
 const observers = [];
 
 let PENDING = {
@@ -29,13 +29,6 @@ function removeWatcher(observer, callback) {
 }
 
 function dispatchWatcher(watcher, data, timestamp) {
-    //确保在一次change中只被dispatch一次；
-    // if (watcher.dispatchTime >= timestamp) {
-    //     return;
-    // } else {
-    //     watcher.dispatchTime = timestamp;
-    //     watcher.callback.call(null, data);
-    // }
     watcher.dispatchTime = timestamp;
     watcher.callback.call(null, data);
 }
@@ -48,7 +41,7 @@ function watch(observer, callback) {
 }
 
 function doWatch() {
-    if (! NEED_DISPATCH ) {
+    if (!NEED_DISPATCH) {
         return;
     }
     let timestamp = Date.now();
@@ -63,7 +56,8 @@ function doWatch() {
 }
 function pendingWatch(changed) {
     PENDING[changed] = true;
-    NEED_DISPATCH =true;
+    NEED_DISPATCH = true;
+
 }
 class Observer {
     constructor() {
