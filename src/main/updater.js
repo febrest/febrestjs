@@ -40,7 +40,7 @@ function update(name, action, payload) {
 function updateComplete(name) {
     UPDATE_SIZE--;
     pendingWatch(name);
-    if (UPDATE_SIZE <= 0 || Date.now() - LAST_DO_WATCH_TIME >= LAST_DO_WATCH_TIME) {
+    if (UPDATE_SIZE <= 0 || Date.now() - LAST_DO_WATCH_TIME >= TINK) {
         doWatch();
     }
 }
