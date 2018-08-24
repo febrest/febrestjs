@@ -1,6 +1,7 @@
-import { ACTION_READY_STATE, setRuntimeAction, createRuntimeAction, clearRuntimeAction } from '../action';
+import { ACTION_READY_STATE, setRuntimeAction, createRuntimeAction, clearRuntimeAction, getRuntimeAction } from '../action';
 import { isPromise } from '../util'
 import resolveParams from './resolveParams';
+import register from './register';
 
 
 /********************** action执行流程**********************
@@ -27,8 +28,8 @@ import resolveParams from './resolveParams';
  *                        close                           *
  **********************************************************/
 
-function initialize(name, controller, payload) {
-    let action = createRuntimeAction(name, controller, payload);
+function initialize(name, payload) {
+    let action = createRuntimeAction(name, register.getAction(name).controller, payload);
     setRuntimeAction(action);
     action.stage = ACTION_READY_STATE.READY;
     return action;
@@ -49,7 +50,7 @@ function exec(action) {
         controller,
         params
     } = action;
-    action.resolvedParams = resolveParams(params);
+    let resolvedParams = action.resolvedParams = resolveParams(params);
     let maybePromise = controller.apply(null, resolvedParams);
     if (isPromise(maybePromise)) {
         return maybePromise.then(

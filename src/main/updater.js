@@ -26,14 +26,14 @@ function update(name, action, payload) {
     let result = executor.update(origin, type, action, payload);
     if (isPromise(result)) {
         return result.then(data => {
-            updateComplete();
+            updateComplete(name);
             return data;
         }, (error) => {
             makeError(error);
         })
     } else {
-        updateComplete();
-        return Promise.resolve(data);
+        updateComplete(name);
+        return Promise.resolve(result);
     }
 }
 
