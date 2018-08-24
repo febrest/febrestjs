@@ -6,5 +6,8 @@ class ExectuorAdapater {
     update(origin, action, payload) {
 
     }
+    onError({ origin, action, payload, error, type }) {
+
+    }
 }
 export default ExectuorAdapater;

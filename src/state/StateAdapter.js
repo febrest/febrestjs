@@ -6,6 +6,9 @@ class StateAdapter{
     update(origin,action,payload){
         return origin.set(payload);
     }
+    onError({ origin, action, payload, error, type }) {
+
+    }
 }
 
 export default new StateAdapter();

@@ -28,6 +28,7 @@ class ProviderWrapper {
             data = _provider.fetch(getState(_state), action, payload);
         } catch (error) {
             _provider.onError({ action, payload, error });
+            return;
         }
         if (isPromise(data)) {
             return data.then(state => {
