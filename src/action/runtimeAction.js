@@ -1,12 +1,6 @@
 import { paramsForFunction } from './../util';
 import ACTION_READY_STATE from './ACTION_READY_STATE';
 let runtimeAction;
-let id = 0;
-
-function IDGenerator() {
-    return ++id;
-}
-
 
 function setRuntimeAction(action) {
     runtimeAction = action;
@@ -19,7 +13,6 @@ function createRuntimeAction(name,controller, payload) {
     let params = paramsForFunction(controller);
     let action = {
         $typeof$: 'RuntimeAction',
-        id: IDGenerator(),
         stage: ACTION_READY_STATE.UNINITIALIZED,
         name,
         controller,
@@ -37,6 +30,9 @@ function clearRuntimeAction(action) {
     action.payload = undefined;
     action.result = undefined;
     action.resolvedParams = undefined;
+    if(runtimeAction === action){
+        runtimeAction = null;
+    }
 }
 
 export {
