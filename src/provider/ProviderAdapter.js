@@ -6,7 +6,7 @@ class ProviderAdapter {
     update(provider, action, payload) {
         return provider.update(action, payload);
     }
-    onError(provider, action, payload, error, type) {
+    onError({ origin, action, payload, error, type }) {
 
     }
 }

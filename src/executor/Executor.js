@@ -29,6 +29,9 @@ class Executor {
         }
         return adapter.update(origin, action, payload);
     }
+    onError({ origin, action, payload, error, type }) {
+        return adapter.onError({ origin, action, payload, error, type });
+    }
 }
 
 export default Executor;
