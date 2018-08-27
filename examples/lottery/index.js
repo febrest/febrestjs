@@ -6,16 +6,39 @@
      * 
      */
 
-    var providers = [
+    var states = [
         {
             name: 'lottery',
             defaultState: 0
         },
+        // {
+        //     name: 'rollHistory',
+        //     defaultState: []
+        // }
+    ];
+    function HistoryProvider(config){
+        this.name = config.name;
+        this.query = function(state){
+            return state;
+        }
+        this.update = function(state,action,payload){
+            state.push(payload);
+            return state;
+        }
+        this.onUpdate = function(){
+
+        }
+        this.onQuery = function() {
+
+        }
+    }
+    var providers = [
         {
             name: 'rollHistory',
-            defaultState: []
+            defaultState: [],
+            type: HistoryProvider
         }
-    ];
+    ]
 
     /**
      * constants
@@ -82,10 +105,11 @@
                     value,
                     bonus,
                 }
+                rollHistory = rollHistory();
                 rollHistory.push(item);
                 let result = { ok: true, lottery: lottery - 5, value, bonus, rollHistory };
-                update('lottery',null,lottery);
-                update('rollHistory',null,rollHistory);
+                update('lottery',null,lottery-5);
+                update('rollHistory','push',item);
                 return result;
             }
         }
@@ -113,7 +137,9 @@
     * 初始化Febrest配置，创建action和注入provider
     */
     Febrest.registerAction(actions);
-    Febrest.registerState(providers);
+    Febrest.registerState(states);
+    Febrest.registerProvider(providers);
+
 
     /**
      * view层

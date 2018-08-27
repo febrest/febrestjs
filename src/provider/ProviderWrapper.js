@@ -14,7 +14,8 @@ function setState(state, data) {
 class ProviderWrapper {
     constructor(config) {
         this.$typeof$ = 'ProvideWrapper'
-        this._provider = new Provider(config);
+        let ProviderType = config.type || Provider
+        this._provider = new ProviderType(config);
         this._state = new State(config.defaultState);
     }
 
@@ -51,7 +52,7 @@ class ProviderWrapper {
             _state
         } = this;
         let data
-        data = _provider.update(getState(), action, payload);
+        data = _provider.update(getState(_state), action, payload);
         if (isPromise(data)) {
             return data.then(v => {
                 setState(_state, state);

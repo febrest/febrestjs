@@ -10,7 +10,6 @@ function IDGenerator() {
     return ++ID;
 }
 function sysErrorHandler(error) {
-    console.log(222222)
     console.error(error);
 }
 /**

@@ -20,7 +20,7 @@ function find(name, runtimeAction) {
         return executor.query(origin, 'state');
     } else if ((origin = register.getProvider(name))) {
         return function (action, payload) {
-            executor.query(origin, 'provider', action, payload);
+           return executor.query(origin, 'provider', action, payload);
         }
     } else if ((origin = register.getService(name))) {
         return origin(runtimeAction);
