@@ -10,16 +10,16 @@ class Provider {
      * 生命周期
      * 更新
      */
-    onUpdate({ action, paylod, state }) {
+    // onUpdate({ action, paylod, state }) {
 
-    }
+    // }
     /**
      * 生命周期
      * 查询
      */
-    onFetch({ action, paylod, state }){
+    // onQuery({ action, paylod, state }){
 
-    }
+    // }
     /**
      * 生命周期
      * 销毁
@@ -30,16 +30,16 @@ class Provider {
     /**
      * 
      */
-    onError({ action, paylod, error }) {
-        console.error('provider error\naction:%s\npaylod:%o\nerror:%o', action, paylod, error);
-    }
+    // onError({ action, paylod, error }) {
+    //     console.error('provider error\naction:%s\npaylod:%o\nerror:%o', action, paylod, error);
+    // }
     /**
      * 
      * @param {*} state 
      * @param {*} action 
      * @param {*} payload 
      */
-    fetch(state, action, payload) {
+    query(state, action, payload) {
         return state
     }
     update(state, action, payload) {

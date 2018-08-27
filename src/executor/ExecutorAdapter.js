@@ -1,12 +1,9 @@
 'use strict'
 class ExectuorAdapater {
-    fetch(origin, action, payload) {
+    query(origin, action, payload) {
 
     }
     update(origin, action, payload) {
-
-    }
-    onError({ origin, action, payload, error, type }) {
 
     }
 }

@@ -15,12 +15,12 @@ class Executor {
     addAdapter(type, adapter) {
         this.adapters[type] = adapter;
     }
-    fetch(origin, type, action, payload) {
+    query(origin, type, action, payload) {
         let adapter = this.adapters[type];
         if (!adapter) {
             makeError('can not find adapter for ' + type);
         }
-        return adapter.fetch(origin, action, payload);
+        return adapter.query(origin, action, payload);
     }
     update(origin, type, action, payload) {
         let adapter = this.adapters[type];
@@ -28,9 +28,6 @@ class Executor {
             makeError('can not find adapter for ' + type);
         }
         return adapter.update(origin, action, payload);
-    }
-    onError({ origin, action, payload, error, type }) {
-        return adapter.onError({ origin, action, payload, error, type });
     }
 }
 

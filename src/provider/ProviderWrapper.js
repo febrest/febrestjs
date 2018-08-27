@@ -18,22 +18,22 @@ class ProviderWrapper {
         this._state = new State(config.defaultState);
     }
 
-    fetch(action, payload) {
+    query(action, payload) {
         let {
             _provider,
             _state
         } = this;
         let data;
-        data = _provider.fetch(getState(_state), action, payload);
+        data = _provider.query(getState(_state), action, payload);
         if (isPromise(data)) {
             return data.then(state => {
-                immediate(() => _provider.onFetch({ action, payload, state: data }));
+                immediate(() => _provider.onQuery({ action, payload, state: data }));
                 return state;
             }, error => {
                 return error;
             })
         } else {
-            immediate(() => _provider.onFetch({ action, payload, state: data }));
+            immediate(() => _provider.onQuery({ action, payload, state: data }));
             return data;
         }
 
