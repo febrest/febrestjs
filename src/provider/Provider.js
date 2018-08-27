@@ -10,16 +10,16 @@ class Provider {
      * 生命周期
      * 更新
      */
-    // onUpdate({ action, paylod, state }) {
+    onUpdate({ action, paylod, state }) {
 
-    // }
+    }
     /**
      * 生命周期
      * 查询
      */
-    // onQuery({ action, paylod, state }){
+    onQuery({ action, paylod, state }){
 
-    // }
+    }
     /**
      * 生命周期
      * 销毁
