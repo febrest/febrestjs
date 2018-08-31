@@ -32,16 +32,18 @@ yarn add febrest
 ## API Reference
 
 * [dispatch](#dispatch)
-* [createActions](#createActions)
-* [applyMiddleWare](#applyMiddleWare)
+* [registerAction](#register-action)
+* [registerState](#register-state)
+* [registerProvider](#register-provider)
+* [registerService](#register-service)
+* [plugin](#plugin)
 * [Provider](#provider)
-* [setProviderStorageTool](#setProviderStorageTool)
-* [injectProvider](#injectProvider)
-* [useProvider](#useProvider)
+* [query](#query)
+* [update](#update)
 * [subscribe](#subscribe)
 * [unsubscribe](#unsubscribe)
 * [watch](#watch)
-* [removeWatcher](#removeWatcher)
+* [unwatch](#unwatch)
 * [onError](#onError)
 
 ### dispatch
@@ -55,9 +57,9 @@ example:
 febrest.dispatch(ACTIONS.APP_INIT)
 ```
 
-### createActions
+### registerAction
 ```
-createActions(actionConfigs:ActionConfig|Array<ActionConfig>);
+registerAction(actionConfigs:ActionConfig|Array<ActionConfig>);
 ```
 ### ActionConfig 
 
@@ -72,12 +74,22 @@ let actionConfig = {
 }
 febrest.createActions(actionConfig)
 ```
-
-### applyMiddleWare
-waring:maybe change
+### registerState
+```
+registerState(stateConfigs:StateConfig|Array<StateConfig>);
+```
+### registerProvider
+```
+registerProvider(actionConfigs:ProviderConfig|Array<ProviderConfig>);
+```
+### registerService
+```
+registerService(actionConfigs:ServiceConfig|Array<ServiceConfig>);
+```
+### plugin
 
 ```
-applyMiddleWare(middleWare:(exec)=>exec);
+plugin(plugin:{initialized:(action)=>any,close:(action)=>any});
 ```
 ### Provider
 

@@ -43,3 +43,6 @@
 * perist的过程中会给Provider加锁。
 * service调整。
 * 开放service。
+
+## 0.8.0beta
+* 代码重写，移除若干api，添加了若干api。
