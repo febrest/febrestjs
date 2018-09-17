@@ -10,5 +10,9 @@ function $bordercast() {
     }
 }
 
-$bordercast.name = '$bordercast';
+try {
+    $bordercast.name = $bordercast.name || '$bordercast';
+} catch (e) {
+
+}
 export default $bordercast;

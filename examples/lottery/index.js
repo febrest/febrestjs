@@ -16,19 +16,19 @@
         //     defaultState: []
         // }
     ];
-    function HistoryProvider(config){
+    function HistoryProvider(config) {
         this.name = config.name;
-        this.query = function(state){
+        this.query = function (state) {
             return state;
         }
-        this.update = function(state,action,payload){
+        this.update = function (state, action, payload) {
             state.push(payload);
             return state;
         }
-        this.onUpdate = function(){
+        this.onUpdate = function () {
 
         }
-        this.onQuery = function() {
+        this.onQuery = function () {
 
         }
     }
@@ -84,15 +84,15 @@
      */
     let update = Febrest.update;
     var controllers = {
-        addLottery(lottery) {
+        addLottery(lottery,$bordercast) {
             let data = lottery;
             data++;
-            update('lottery',null, data);
-            return { lottery:data }
+            update('lottery', null, data);
+            return { lottery: data }
         },
         getLottery(lottery) {
             let data = lottery
-            return { lottery:data }
+            return { lottery: data }
         },
         roll(lottery, rollHistory) {
             if (lottery < 5) {
@@ -108,8 +108,8 @@
                 rollHistory = rollHistory();
                 rollHistory.push(item);
                 let result = { ok: true, lottery: lottery - 5, value, bonus, rollHistory };
-                update('lottery',null,lottery-5);
-                update('rollHistory','push',item);
+                update('lottery', null, lottery - 5);
+                update('rollHistory', 'push', item);
                 return result;
             }
         }
@@ -149,7 +149,13 @@
         return 'stop_animate_' + value;
     }
     function roll() {
-        Febrest.dispatch(constants.ROLL);
+        Febrest.dispatch(constants.ROLL).then(data => {
+            if (data.state.ok) {
+                startRoll(data.state);
+            } else {
+                alert('奖券数量不够！')
+            }
+        });
     }
     /**
      * @description 抽奖动画开始
@@ -195,7 +201,9 @@
      */
     function updateLotteryCount(data) {
         if (data.lottery) {
-            Febrest.dispatch(constants.GET_LOTTERY);
+            Febrest.dispatch(constants.GET_LOTTERY).then((data)=>{
+                document.getElementsByClassName('lottery_count')[0].innerHTML = '奖券数量:' + data.state.lottery;
+            });
         }
     }
     /**
@@ -227,16 +235,8 @@
      * @description 监听action
      */
     function onData(data) {
-        switch (data.name) {
-            case constants.ROLL:
-                if (data.state.ok) {
-                    startRoll(data.state);
-                } else {
-                    alert('奖券数量不够！')
-                }
-                break;
+        switch (data.key) {
             case constants.GET_LOTTERY:
-                document.getElementsByClassName('lottery_count')[0].innerHTML = '奖券数量:' + data.state.lottery;
                 break;
         }
     }

@@ -29,8 +29,9 @@ const {
     registerState
 } = register;
 
-for (let s of services) {
-    registerService(s.name, s);
+for (let s in services) {
+    let service = services[s];
+    registerService(service.name, service);
 }
 
 export default {

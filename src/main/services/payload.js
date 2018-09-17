@@ -1,7 +1,10 @@
 'use strict'
-function $payload(action){
+function $payload(action) {
     return action.payload;
 }
+try {
+    $payload.name = $payload.name || ' $payload';
+} catch (e) {
 
-$payload.name = ' $payload';
+}
 export default $payload;
