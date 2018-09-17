@@ -1,8 +1,6 @@
 'use strict'
 
-import { Observer, Bordercast } from './../observer';
 import { AsyncHook } from './../hook';
-import { immediate } from './../util';
 
 function sysErrorHandler(error) {
     console.error(error);
