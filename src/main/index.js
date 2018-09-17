@@ -3,7 +3,7 @@ import register from './register';
 import dispatcher from './dispatcher';
 import updater from './updater';
 import fetcher from './fetcher';
-
+import {watch,unwatch} from './observer'
 
 
 const export_keys = {
@@ -20,6 +20,7 @@ const export_keys = {
     'unwatch': true,
     'plugin': true
 }
+
 export default {
     registerAction: register.registerAction,
     registerProvider: register.registerProvider,
@@ -31,6 +32,7 @@ export default {
     subscribe: dispatcher.subscribe,
     unsubscribe: dispatcher.unsubscribe,
     watch: dispatcher.watch,
-    unwatch: dispatcher.unwatch,
-    plugin: dispatcher.plugin
+    plugin: dispatcher.plugin,
+    watch,
+    unwatch
 }

@@ -1,5 +1,5 @@
 import Bordercast from './Bordercast';
-import Observer from './Observer';
+import {watch, doWatch, pendingWatch, unwatch} from './Observer';
 
 
 export  {

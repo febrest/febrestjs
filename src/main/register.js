@@ -1,7 +1,7 @@
 'use strict'
 import { ActionRegister } from './../action';
 import { ProviderRegister } from './../provider';
-import { ServiceRegister, payload } from './../services';
+import { ServiceRegister } from './../service';
 import { StateRegister } from './../state';
 
 function registerAction(config) {
@@ -32,8 +32,6 @@ function registerState(config) {
 function getState(name) {
     return StateRegister.getDep(name);
 }
-
-registerService('$payload', payload);
 
 export default {
     registerAction,
