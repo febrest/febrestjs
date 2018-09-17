@@ -209,7 +209,7 @@ var app = {
     onData(result) {
         switch (result.name) {                
             default:
-                app.setState(result.state);
+                
                 break;
         }
     }
@@ -217,7 +217,7 @@ var app = {
 
 function start() {
     bindEvent();
-    Febrest.dispatch(constants.GET_ALL_TODOS);
+    Febrest.dispatch(constants.GET_ALL_TODOS).then((result)=>app.setState(result.state));
 }
 
 /**
@@ -247,7 +247,7 @@ function bindEvent() {
 Febrest.subscribe(app.onData);
 Febrest.watch(function(changed){
     if(changed.todos){
-        Febrest.dispatch(constants.GET_ALL_TODOS);
+        Febrest.dispatch(constants.GET_ALL_TODOS).then((result)=>app.setState(result.state));
     }
     
 })
