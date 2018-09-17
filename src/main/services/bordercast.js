@@ -10,4 +10,5 @@ function $bordercast() {
     }
 }
 
+$bordercast.name = '$bordercast';
 export default $bordercast;

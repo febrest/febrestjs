@@ -3,8 +3,9 @@ import register from './register';
 import dispatcher from './dispatcher';
 import updater from './updater';
 import fetcher from './fetcher';
-import {watch,unwatch} from './observer'
-
+import { watch, unwatch } from './observer'
+import { subscribe, unsubscribe } from './bordercast';
+import * as services from './services'
 
 const export_keys = {
     'registerAction': true,
@@ -21,18 +22,29 @@ const export_keys = {
     'plugin': true
 }
 
+const {
+    registerAction,
+    registerProvider,
+    registerService,
+    registerState
+} = register;
+
+for (let s of services) {
+    registerService(s.name, s);
+}
+
 export default {
-    registerAction: register.registerAction,
-    registerProvider: register.registerProvider,
-    registerService: register.registerService,
-    registerState: register.registerState,
+    registerAction,
+    registerProvider,
+    registerService,
+    registerState,
     query: fetcher.query,
     update: updater.update,
     dispatch: dispatcher.dispatch,
-    subscribe: dispatcher.subscribe,
-    unsubscribe: dispatcher.unsubscribe,
-    watch: dispatcher.watch,
     plugin: dispatcher.plugin,
+    onError: dispatcher.onError,
+    subscribe,
+    unsubscribe,
     watch,
     unwatch
 }
