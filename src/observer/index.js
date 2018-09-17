@@ -1,10 +1,11 @@
 import Bordercast from './Bordercast';
-import {Observer,doWatch,pendingWatch} from './Observer';
+import Observer from './Observer';
 
 
 export  {
     Bordercast,
-    Observer,
     doWatch,
+    watch,
+    unwatch,
     pendingWatch
 }

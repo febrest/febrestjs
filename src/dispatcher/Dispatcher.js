@@ -4,35 +4,25 @@ import { Observer, Bordercast } from './../observer';
 import { AsyncHook } from './../hook';
 import { immediate } from './../util';
 
-let ID = 0;
-
-function IDGenerator() {
-    return ++ID;
-}
 function sysErrorHandler(error) {
     console.error(error);
 }
 /**
  * @description
- * 公共的dispatcher dispatch出来的action会被所有的dispatcher接收
- * 私有的dispatcher能接收所有的action，但是dispatch出去的action不会被其他dispatcher接收？
+ * dispatcher不再触发任何广播，广播只有手动调用Broadcast服务去触发
  */
 class Dispatcher {
-    constructor(isPublic, engine) {
-        this.observer = new Observer();
-        this.bordercast = new Bordercast(isPublic);
+    constructor(engine) {
         this.hook = new AsyncHook();
         this.engine = engine;
         this.error;
     }
     dispatch(name: string, payload: any) {
-        let id = IDGenerator();
         let runtimeAction = this.engine.initialize(name, payload);
-        this.pendingAction(runtimeAction, id);
-        return id;
+        return this.pendingAction(runtimeAction);
     }
-    pendingAction(runtimeAction, id) {
-        immediate(() => {
+    pendingAction(runtimeAction) {
+        return new Promise((resolve,reject) => {
             this.hook.apply(
                 'initialized',
                 runtimeAction,
@@ -40,10 +30,9 @@ class Dispatcher {
                     try {
                         let promise = this.engine.exec(runtimeAction);
                         promise.then(() => {
-                            this.bordercast.message(
+                            resolve(
                                 {
                                     state: runtimeAction.result,
-                                    id,
                                     name: runtimeAction.name
                                 }
                             );
@@ -51,6 +40,7 @@ class Dispatcher {
                                 this.engine.close(runtimeAction);
                             });
                         }).catch(e => {
+                            reject(e);
                             this.engine.exception(runtimeAction, e);
                             this.catchError(e);
                             this.hook.apply('close', runtimeAction, runtimeAction => {
@@ -58,6 +48,7 @@ class Dispatcher {
                             });
                         });
                     } catch (e) {
+                        reject(e);
                         this.engine.exception(runtimeAction, e);
                         this.catchError(e);
                         this.hook.apply('close', runtimeAction, runtimeAction => {
@@ -71,20 +62,7 @@ class Dispatcher {
         })
     }
     release() {
-        this.bordercast.release();
-        this.observer.release();
-    }
-    subscribe(callback) {
-        this.bordercast.subscribe(callback);
-    }
-    unsubcribe(callback) {
-        this.bordercast.unsubscribe(callback)
-    }
-    watch(callback) {
-        this.observer.watch(callback);
-    }
-    unwatch(callback) {
-        this.observer.removeWatcher(callback)
+        this.hook.plugins = [];
     }
     plugin(plugin) {
         this.hook.plugin(plugin);

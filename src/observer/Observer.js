@@ -1,10 +1,10 @@
 'use strict'
-import { immediate } from './../util';
-const observers = [];
 
 let PENDING = {
 
 }
+const WATCHERS = [];
+
 let NEED_DISPATCH = false;
 function Watcher(callback) {
     var watcher = {
@@ -14,8 +14,8 @@ function Watcher(callback) {
     return watcher;
 }
 
-function removeWatcher(observer, callback) {
-    let all = observer._watchers;
+function unwatch(callback) {
+    let all = WATCHERS;
     /**
      * @todos
      * 目前只删除第一个，后期可能会优化
@@ -35,9 +35,9 @@ function dispatchWatcher(watcher, data, timestamp) {
 /**
 * 不再区分具体是哪个provider的change
 */
-function watch(observer, callback) {
-    var watcher = Watcher(callback);
-    observer._watchers.push(watcher);
+function watch(callback) {
+    let watcher = Watcher(callback);
+    WATCHERS.push(watcher);
 }
 
 function doWatch() {
@@ -47,32 +47,14 @@ function doWatch() {
     let timestamp = Date.now();
     let changed = PENDING;
     NEED_DISPATCH = false;
-    PENDING = {};
-    observers.forEach(function (observer) {
-        observer._watchers.forEach(function (watcher) {
-            dispatchWatcher(watcher, changed, timestamp);
-        });
+    WATCHERS.forEach(function (watcher) {
+        dispatchWatcher(watcher, changed, timestamp);
     });
+    PENDING = {};
 }
 function pendingWatch(changed) {
     PENDING[changed] = true;
     NEED_DISPATCH = true;
 
 }
-class Observer {
-    constructor() {
-        this._watchers = [];
-        observers.push(this);
-    }
-    watch(callback) {
-        watch(this, callback);
-    }
-    removeWatcher(callback) {
-        removeWatcher(this, callback);
-    }
-    release() {
-        this._watchers = null;
-        observers.splice(observers.indexOf(this), 1);
-    }
-}
-export { Observer, doWatch, pendingWatch };
+export { watch, doWatch, pendingWatch, unwatch };

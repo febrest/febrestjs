@@ -3,11 +3,11 @@ import { Dispatcher } from './../dispatcher';
 import actionEngine from './actionEngine';
 
 
-const exportMethods = ['dispatch', 'subscribe', 'unsubscribe', 'watch', 'unwatch', 'plugin', 'onError'];
+const exportMethods = ['dispatch', 'plugin', 'onError'];
 
 
-function createDispatcher(isPublic) {
-    let _dispatcher = new Dispatcher(isPublic, actionEngine);
+function createDispatcher() {
+    let _dispatcher = new Dispatcher(actionEngine);
     let dispatcher = {};
     exportMethods.forEach(method => {
         dispatcher[method] = function (...args) {
@@ -17,5 +17,5 @@ function createDispatcher(isPublic) {
     return dispatcher;
 }
 
-let dispatcher = createDispatcher(true);
+let dispatcher = createDispatcher();
 export default dispatcher;
