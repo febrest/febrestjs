@@ -7,6 +7,7 @@ import { watch, unwatch } from './observer'
 import { subscribe, unsubscribe } from './bordercast';
 import * as services from './services'
 
+import {Provider} from './../provider'
 const export_keys = {
     'registerAction': true,
     'registerProvider': true,
@@ -47,5 +48,6 @@ export default {
     subscribe,
     unsubscribe,
     watch,
-    unwatch
+    unwatch,
+    Provider
 }
