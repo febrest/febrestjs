@@ -5,6 +5,10 @@ class Provider {
     constructor(config) {
         this.name = config.name;
         this.$typeof$ = 'Provider';
+        this.defaultState = config.defaultState;
+    }
+    onCreate(state) {
+        return this.defaultState;
     }
     /**
      * 生命周期
@@ -17,7 +21,7 @@ class Provider {
      * 生命周期
      * 查询
      */
-    onQuery({ action, paylod, state }){
+    onQuery({ action, paylod, state }) {
 
     }
     /**
