@@ -12,9 +12,9 @@ var getBanner = require('./banner')
 function getFileName(name, bundleType) {
     switch (bundleType) {
         case 'dev':
-            return `${name}.js`;
+            return `${name.toLowerCase()}.js`;
         case 'prod':
-            return `${name}.min.js`;
+            return `${name.toLowerCase()}.min.js`;
     }
 }
 
