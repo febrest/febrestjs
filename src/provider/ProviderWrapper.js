@@ -17,6 +17,13 @@ class ProviderWrapper {
         let ProviderType = config.type || Provider
         this._provider = new ProviderType(config);
         this._state = new State(config.defaultState);
+        if (this._provider.onCreate) {
+            let _state = this._state;
+            let state = this._provider.onCreate(getState(_state));
+            if (state !== undefined) {
+                setState(_state, state); 
+            }
+        }
     }
 
     query(action, payload) {
