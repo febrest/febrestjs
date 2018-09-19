@@ -1,7 +1,7 @@
 'use strict'
 import executor from './executor'
 import register from './register';
-
+import {makeError} from './../error'
 
 
 function query(name, action, paylod) {
