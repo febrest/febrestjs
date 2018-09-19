@@ -72,7 +72,7 @@ class ProviderWrapper {
         let data
         data = _provider.update(getState(_state), action, payload);
         if (isPromise(data)) {
-            return data.then(v => {
+            return data.then(state => {
                 setState(_state, state);
                 _provider.onUpdate({ action, payload, state: state });
             }, error => {
