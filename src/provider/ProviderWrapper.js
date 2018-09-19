@@ -21,7 +21,11 @@ class ProviderWrapper {
             let _state = this._state;
             let state = this._provider.onCreate(getState(_state));
             if (state !== undefined) {
-                setState(_state, state); 
+                if (isPromise(state)) {
+                    state.then(state => setState(_state, state));
+                } else {
+                    setState(_state, state);
+                }
             }
         }
     }
