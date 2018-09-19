@@ -17,15 +17,22 @@ class ProviderWrapper {
         let ProviderType = config.type || Provider
         this._provider = new ProviderType(config);
         this._state = new State(config.defaultState);
+        this._created = false;
         if (this._provider.onCreate) {
             let _state = this._state;
             let state = this._provider.onCreate(getState(_state));
             if (state !== undefined) {
                 if (isPromise(state)) {
-                    state.then(state => setState(_state, state));
+                    state.then(state => {
+                        setState(_state, state);
+                        this._created = true;
+                    });
                 } else {
                     setState(_state, state);
+                    this._created = true;
                 }
+            }else {
+                this._created = true;
             }
         }
     }
