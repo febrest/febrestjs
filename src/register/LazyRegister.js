@@ -23,7 +23,7 @@ class LazyRegister extends Register {
         let dep = this.container[name];
         let config;
         if (!dep && (config = this.lazy[name])) {
-            dep = this.container[name] =this.factory(config);
+            dep = this.container[name] = this.factory(config);
             delete this.lazy[name];
         }
         return dep;
