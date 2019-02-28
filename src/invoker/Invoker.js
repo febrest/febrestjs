@@ -1,21 +1,24 @@
 'use strict'
 
-import { AsyncHook } from './../hook';
+import { AsyncHook } from '../hook';
 
 function sysErrorHandler(error) {
     console.error(error);
 }
 /**
  * @description
- * dispatcher不再触发任何广播，广播只有手动调用Broadcast服务去触发
+ * Invoker
+ * 负责调用controller
+ * 不触发任何广播，广播只有手动调用Broadcast服务去触发
  */
-class Dispatcher {
+class Invoker {
     constructor(engine) {
         this.hook = new AsyncHook();
         this.engine = engine;
         this.error;
     }
-    dispatch(name: string, payload: any) {
+    //todos:异步或者同步由controller决定，直接返回controller的返回值
+    invoke(name: string, payload: any) {
         let runtimeAction = this.engine.initialize(name, payload);
         return this.pendingAction(runtimeAction);
     }
