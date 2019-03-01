@@ -1,7 +1,7 @@
 'use strict'
 
 import { makeError } from '../error';
-class Executor {
+class DataEngine {
     constructor() {
         this.adapters = {}
     }
@@ -15,19 +15,19 @@ class Executor {
     addAdapter(type, adapter) {
         this.adapters[type] = adapter;
     }
-    query(origin, type, action, payload) {
+    query(origin, type, method, payload) {
         let adapter = this.adapters[type];
         if (!adapter) {
             makeError('can not find adapter for ' + type);
         }
-        return adapter.query(origin, action, payload);
+        return adapter.query(origin, method, payload);
     }
-    update(origin, type, action, payload) {
+    update(origin, type, method, payload) {
         let adapter = this.adapters[type];
         if (!adapter) {
             makeError('can not find adapter for ' + type);
         }
-        return adapter.update(origin, action, payload);
+        return adapter.update(origin, method, payload);
     }
 }
 

@@ -14,14 +14,14 @@ class Provider {
      * 生命周期
      * 更新
      */
-    onUpdate({ action, paylod, state }) {
+    onUpdate({ method, paylod, state }) {
 
     }
     /**
      * 生命周期
      * 查询
      */
-    onQuery({ action, paylod, state }) {
+    onQuery({ method, paylod, state }) {
 
     }
     /**
@@ -34,19 +34,19 @@ class Provider {
     /**
      * 
      */
-    // onError({ action, paylod, error }) {
-    //     console.error('provider error\naction:%s\npaylod:%o\nerror:%o', action, paylod, error);
+    // onError({ method, paylod, error }) {
+    //     console.error('provider error\nmethod:%s\npaylod:%o\nerror:%o', method, paylod, error);
     // }
     /**
      * 
      * @param {*} state 
-     * @param {*} action 
+     * @param {*} method 
      * @param {*} payload 
      */
-    query(state, action, payload) {
+    query(state, method, payload) {
         return state
     }
-    update(state, action, payload) {
+    update(state, method, payload) {
         return payload;
     }
 }

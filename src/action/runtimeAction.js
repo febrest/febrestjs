@@ -17,8 +17,6 @@ function createRuntimeAction(name,controller, payload) {
         name,
         controller,
         payload,
-        params,
-        resolvedParams: undefined,
         result: undefined,
         error: undefined
     }
@@ -29,7 +27,6 @@ function clearRuntimeAction(action) {
     action.controller = undefined;
     action.payload = undefined;
     action.result = undefined;
-    action.resolvedParams = undefined;
     if(runtimeAction === action){
         runtimeAction = null;
     }

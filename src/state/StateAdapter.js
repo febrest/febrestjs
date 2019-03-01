@@ -1,9 +1,9 @@
 'use strict'
 class StateAdapter{
-    query(origin,action,payload){
+    query(origin,method,payload){
         return origin.get();
     }
-    update(origin,action,payload){
+    update(origin,method,payload){
         return origin.set(payload);
     }
 }

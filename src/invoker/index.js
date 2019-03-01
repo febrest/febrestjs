@@ -1,6 +1,6 @@
 'use strict'
-import Dispatcher from './Dispatcher';
+import Invoker from './Invoker';
 
 export { 
-  Dispatcher
+  Invoker
  };

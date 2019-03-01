@@ -1,8 +1,7 @@
 'use strict'
-import { isPromise } from '../util';
 import Provider from './Provider';
 import { State } from '../state';
-import { immediate } from './../util';
+import { immediate,isPromise } from './../util';
 
 function getState(state) {
     return state.get()

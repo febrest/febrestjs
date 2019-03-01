@@ -48,10 +48,9 @@ function exception(action, error) {
 function exec(action) {
     let {
         controller,
-        params
+        payload
     } = action;
-    let resolvedParams = action.resolvedParams = resolveParams(params);
-    let maybePromise = controller.apply(null, resolvedParams);
+    let maybePromise = controller.call(null, payload);
     if (isPromise(maybePromise)) {
         return maybePromise.then(
             (state) => {
