@@ -1,6 +1,6 @@
 'use strict'
 import register from './register';
-import dispatcher from './dispatcher';
+import invoker from './invoker';
 import updater from './updater';
 import fetcher from './fetcher';
 import { watch, unwatch } from './observer'

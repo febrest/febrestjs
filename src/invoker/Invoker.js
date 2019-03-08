@@ -18,6 +18,7 @@ class Invoker {
         this.error;
     }
     //todos:异步或者同步由controller决定，直接返回controller的返回值
+    //好像做不到，因为有中间件
     invoke(name: string, payload: any) {
         let runtimeAction = this.engine.initialize(name, payload);
         return this.pendingAction(runtimeAction);

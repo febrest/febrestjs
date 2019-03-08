@@ -1,5 +1,11 @@
-import ActionFactory from './ActionFactory'
-import {Register} from './../register';
-const ActionRegister = new Register(ActionFactory);
+class ActionRegister {
+    constructor() {
+        this.containers = new Map();
+    }
+    registerAction(config) {
+        
+    }
+    getAction() {
 
-export default ActionRegister;
+    }
+}

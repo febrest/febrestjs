@@ -1,6 +1,5 @@
 import { ACTION_READY_STATE, setRuntimeAction, createRuntimeAction, clearRuntimeAction, getRuntimeAction } from '../action';
 import { isPromise } from '../util'
-import resolveParams from './resolveParams';
 import register from './register';
 
 
