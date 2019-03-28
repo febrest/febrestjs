@@ -1,4 +1,4 @@
-import executor from './executor';
+import dataEngine from './dataEngine';
 import register from './register';
 import { pendingWatch, doWatch } from './../observer';
 import { isPromise } from './../util';
@@ -16,14 +16,16 @@ function update(name, action, payload) {
         LAST_DO_WATCH_TIME = Date.now();
     }
     let origin, type;
-    if ((origin = register.getState(name))) {
-        type = 'state';
-    } else if ((origin = register.getProvider(name))) {
-        type = 'provider';
-    } else {
-        makeError(`找不到名为${name}的依赖，请检查依赖是否正确`);
-    }
-    let result = executor.update(origin, type, action, payload);
+    // if ((origin = register.getState(name))) {
+    //     type = 'state';
+    // } else if ((origin = register.getProvider(name))) {
+    //     type = 'provider';
+    // } else {
+    //     makeError(`找不到名为${name}的依赖，请检查依赖是否正确`);
+    // }
+    origin = register.getProvider(name)
+    type = 'provider';
+    let result = dataEngine.update(origin, type, action, payload);
     if (isPromise(result)) {
         return result.then(data => {
             updateComplete(name);
@@ -44,6 +46,6 @@ function updateComplete(name) {
         doWatch();
     }
 }
-export default {
+export  {
     update
 };

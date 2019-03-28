@@ -1,4 +1,4 @@
-import fetcher from './../fetcher'
+import fetcher from '../query'
 const query = fetcher.query;
 
 function $query() {

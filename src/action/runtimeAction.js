@@ -1,34 +1,32 @@
-import { paramsForFunction } from './../util';
 import ACTION_READY_STATE from './ACTION_READY_STATE';
-let runtimeAction;
+let RUNTIME_ACTION;
 
 function setRuntimeAction(action) {
-    runtimeAction = action;
+    RUNTIME_ACTION = action;
 }
 function getRuntimeAction() {
-    return runtimeAction;
+    return RUNTIME_ACTION;
 }
 
-function createRuntimeAction(name,controller, payload) {
-    let params = paramsForFunction(controller);
-    let action = {
+function createRuntimeAction(name, action, payload) {
+    let runtimeAction = {
         $typeof$: 'RuntimeAction',
         stage: ACTION_READY_STATE.UNINITIALIZED,
         name,
-        controller,
+        action,
         payload,
         result: undefined,
         error: undefined
     }
-    return action;
+    return runtimeAction;
 }
 
-function clearRuntimeAction(action) {
-    action.controller = undefined;
-    action.payload = undefined;
-    action.result = undefined;
-    if(runtimeAction === action){
-        runtimeAction = null;
+function clearRuntimeAction(runtimeAction) {
+    runtimeAction.action = undefined;
+    runtimeAction.payload = undefined;
+    runtimeAction.result = undefined;
+    if (RUNTIME_ACTION === action) {
+        RUNTIME_ACTION = null;
     }
 }
 

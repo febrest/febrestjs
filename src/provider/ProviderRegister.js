@@ -1,7 +1,9 @@
 'use strict'
-import {LazyRegister} from '../register';
-import ProviderFactory from './ProviderFactory';
-
-const ProviderRegister = new LazyRegister(ProviderFactory);
+import ProviderWrapper from './ProviderWrapper';
+class ProviderRegister {
+    constructor() {
+        this.providers = new Map();
+    }
+}
 
 export default ProviderRegister;
