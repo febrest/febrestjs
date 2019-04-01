@@ -4,10 +4,10 @@ import register from './register';
 import { makeError } from '../error'
 
 
-function query(name, action, paylod) {
+function query(name, action, payload) {
     let origin;
     // if ((origin = register.getState(name))) {
-    //     return executor.query(origin, 'state', action, paylod);
+    //     return executor.query(origin, 'state', action, payload);
     // } else 
     if ((origin = register.getProvider(name))) {
         return executor.query(origin, 'provider', action, payload);

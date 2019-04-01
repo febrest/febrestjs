@@ -1,11 +1,12 @@
-var rollup = require('rollup');
-var babel = require('rollup-plugin-babel');
-var commonjs = require('rollup-plugin-commonjs');
-var uglify = require('rollup-plugin-uglify');
-var prettier = require('rollup-plugin-prettier');
-var path = require('path');
+const rollup = require('rollup');
+const babel = require('rollup-plugin-babel');
+const commonjs = require('rollup-plugin-commonjs');
+const uglify = require('rollup-plugin-uglify');
+const prettier = require('rollup-plugin-prettier');
+const path = require('path');
+const fs = require('fs');
 
-var getBanner = require('./banner')
+const getBanner = require('./banner')
 
 
 
@@ -52,7 +53,9 @@ async function build(entry, output, name, version, bundleType) {
     if (bundleType === 'dev') {
         banner = getBanner(version,filename);
     }
-
+    if(fs.existsSync(output)) {
+        fs.unlinkSync(output);
+    }
     await result.write(getOutputOptions(output,name,bundleType,{banner,intro:intro(version)}));
 }
 module.exports = build;

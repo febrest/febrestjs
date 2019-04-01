@@ -4,8 +4,8 @@ import { ProviderRegister } from './../provider';
 // import { ServiceRegister } from './../service';
 // import { StateRegister } from './../state';
 
-function registerAction(config) {
-    return ActionRegister.registerAction(config);
+function registerAction(namespace, config) {
+    return ActionRegister.registerAction(namespace, config);
 }
 
 function getAction(name) {

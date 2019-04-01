@@ -1,12 +1,12 @@
-var rollup = require('./rollup');
+const rollup = require('./rollup');
 
-var { version } = require('./../package');
+const { version } = require('./../package');
 
-var buildTypes = ['dev','prod'];
+const buildTypes = ['dev','prod'];
 
-var entry = 'src/index.js'
-var name = 'Febrest';
-var output = 'dist'
+const entry = 'src/index.js'
+const name = 'Febrest';
+const output = 'dist'
 async function build(){
     await rollup(entry,output,name,version,'dev');
     await rollup(entry,output,name,version,'prod');

@@ -8,12 +8,12 @@ function getRuntimeAction() {
     return RUNTIME_ACTION;
 }
 
-function createRuntimeAction(name, action, payload) {
+function createRuntimeAction(name, controller, payload) {
     let runtimeAction = {
         $typeof$: 'RuntimeAction',
         stage: ACTION_READY_STATE.UNINITIALIZED,
         name,
-        action,
+        controller,
         payload,
         result: undefined,
         error: undefined

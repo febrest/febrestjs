@@ -28,7 +28,7 @@ import register from './register';
  **********************************************************/
 
 function initialize(name, payload) {
-    let action = createRuntimeAction(name, register.getAction(name).controller, payload);
+    let action = createRuntimeAction(name, register.getAction(name), payload);
     setRuntimeAction(action);
     action.stage = ACTION_READY_STATE.READY;
     return action;

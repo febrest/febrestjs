@@ -26,51 +26,49 @@ var providers = [
  * controllers
  */
 let update = Febrest.update;
+let query = Febrest.query
 var controllers = {
-    addTodos: function (todos, $payload) {
-        var payload = $payload;
+    addTodos: function (payload) {
         var todo = {
             complete: false,
             message: payload
         }
-        let data = todos;
+        let data = query('todos');
         data.push(todo);
         update('todos',null,data);
         return {
             todos: data
         }
     },
-    removeTodos: function (todos, $payload) {
-        var payload = $payload;
-        let data = todos;
+    removeTodos: function (payload) {
+        let data = query('todos');
         data.splice(payload, 1);
         update('todos',null,data);
         return { todos:data };
     },
-    getAll: function (todos) {
-        let data = todos;
-        var complete = controllers.getComplete(todos).complete;
-        var active = controllers.getActive(todos).active;
+    getAll: function () {
+        let data = query('todos');
+        var complete = controllers.getComplete().complete;
+        var active = controllers.getActive().active;
         return { todos: data, complete, active };
     },
-    getComplete: function (todos) {
-        let data = todos||[];
+    getComplete: function () {
+        let data = query('todos')||[];
         var complete = data.filter(function (v) {
             return v.complete;
         });
         return { complete: complete };
     },
-    complete: function ($payload, todos) {
-        var payload = $payload;
-        let data = todos;
+    complete: function (payload) {
+        let data = query('todos');
         data[payload].complete = true;
         update('todos',null,data);
         return {
             todos: data,
         }
     },
-    getActive: function (todos) {
-        let data = todos;
+    getActive: function () {
+        let data = query('todos');
         var active = data.filter(function (v) {
             return !v.complete;
         });
@@ -78,45 +76,15 @@ var controllers = {
     },
 }
 
-/**
- * actions configs
- */
 
-var actions = [
-    {
-        name: constants.ADD_TODO,
-        controller: controllers.addTodos,
-
-    },
-    {
-        name: constants.GET_ALL_TODOS,
-        controller: controllers.getAll
-    },
-    {
-        name: constants.GET_COMPLETE,
-        controller: controllers.getComplete
-    },
-    {
-        name: constants.GET_ACTIVE,
-        controller: controllers.getActive
-    },
-    {
-        name: constants.SET_COMPLETE,
-        controller: controllers.complete
-    },
-    {
-        name: constants.REMOVE_TODO,
-        controller: controllers.removeTodos
-    }
-]
 
 
 /**
  * config
  */
 
-Febrest.registerAction(actions);
-Febrest.registerState(providers);
+Febrest.action(controllers);
+Febrest.provider(providers);
 
 /**
  * views
@@ -128,7 +96,7 @@ function checkBox(checked, index) {
     return (
         '<span class="checkbox'
             + (checked ? ' checked' : '')
-            + '"fbclick="Febrest.dispatch(constants.SET_COMPLETE,'+index+')">'
+            + '"fbclick="Febrest.dispatch(\'complete\','+index+')">'
             + '</span>'
     );
 }
@@ -140,7 +108,7 @@ function item(todo, index) {
         + todo.message
         + '<p class="right">'
         + status
-        + '<span class="delete" fbclick="Febrest.dispatch(constants.REMOVE_TODO,'+index+')">'
+        + '<span class="delete" fbclick="Febrest.dispatch(\'removeTodos\','+index+')">'
         + 'x'
         + '</span>'
         + '</p>'
@@ -217,7 +185,7 @@ var app = {
 
 function start() {
     bindEvent();
-    Febrest.dispatch(constants.GET_ALL_TODOS).then((result)=>app.setState(result.state));
+    Febrest.dispatch('getAll').then((result)=>app.setState(result.state));
 }
 
 /**
@@ -229,7 +197,7 @@ function onKeyDown(e) {
         return;
     }
     if (e.target.className === 'new-todo' && e.key === 'Enter') {
-        Febrest.dispatch(constants.ADD_TODO, e.target.value);
+        Febrest.dispatch('addTodos', e.target.value);
         e.target.value = '';
     }
 }
@@ -247,7 +215,7 @@ function bindEvent() {
 Febrest.subscribe(app.onData);
 Febrest.watch(function(changed){
     if(changed.todos){
-        Febrest.dispatch(constants.GET_ALL_TODOS).then((result)=>app.setState(result.state));
+        Febrest.dispatch('getAll').then((result)=>app.setState(result.state));
     }
     
 })

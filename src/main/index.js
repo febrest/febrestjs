@@ -4,7 +4,7 @@ import invoker from './invoker';
 import { update } from './update';
 import { query } from './query';
 import { watch, unwatch } from './observer'
-import { subscribe, unsubscribe } from './bordercast';
+import { subscribe, unsubscribe, message as bordercast } from './bordercast';
 // import * as services from './services'
 
 import { Provider } from './../provider'
@@ -36,17 +36,18 @@ const {
 // }
 
 export default {
-    registerAction,
-    registerProvider,
+    action: registerAction,
+    provider: registerProvider,
     // registerService,
     // registerState,
     query,
     update,
-    dispatch: dispatcher.dispatch,
-    plugin: dispatcher.plugin,
-    onError: dispatcher.onError,
+    dispatch: invoker.invoke,
+    plugin: invoker.plugin,
+    onError: invoker.onError,
     subscribe,
     unsubscribe,
+    bordercast,
     watch,
     unwatch,
     Provider

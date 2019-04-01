@@ -78,4 +78,4 @@ class Invoker {
         }
     }
 }
-export default Dispatcher;
+export default Invoker;
