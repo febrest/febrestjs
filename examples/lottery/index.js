@@ -5,17 +5,6 @@
      * providers
      * 
      */
-
-    var states = [
-        {
-            name: 'lottery',
-            defaultState: 0
-        },
-        // {
-        //     name: 'rollHistory',
-        //     defaultState: []
-        // }
-    ];
     function HistoryProvider(config) {
         this.name = config.name;
         this.query = function (state) {
@@ -37,6 +26,10 @@
             name: 'rollHistory',
             defaultState: [],
             type: HistoryProvider
+        },
+        {
+            name: 'lottery',
+            defaultState: 0
         }
     ]
 
@@ -83,18 +76,22 @@
      * controller
      */
     let update = Febrest.update;
+    let query = Febrest.query;
+    let bordercast = Febrest.bordercast;
     var controllers = {
-        addLottery(lottery,$bordercast) {
-            let data = lottery;
+        addLottery() {
+            let data =  query('lottery');
             data++;
             update('lottery', null, data);
             return { lottery: data }
         },
-        getLottery(lottery) {
-            let data = lottery
+        getLottery() {
+            let data =  query('lottery');
             return { lottery: data }
         },
-        roll(lottery, rollHistory) {
+        roll() {
+            let lottery =  query('lottery');
+            let rollHistory =  query('rollHistory');
             if (lottery < 5) {
                 return { ok: false }
             } else {
@@ -105,7 +102,6 @@
                     value,
                     bonus,
                 }
-                rollHistory = rollHistory();
                 rollHistory.push(item);
                 let result = { ok: true, lottery: lottery - 5, value, bonus, rollHistory };
                 update('lottery', null, lottery - 5);
@@ -115,30 +111,12 @@
         }
     }
 
-    /**
-    * action
-    */
-    var actions = [
-        {
-            name: constants.ADD_LOTTERY,
-            controller: controllers.addLottery,
-        },
-        {
-            name: constants.GET_LOTTERY,
-            controller: controllers.getLottery,
-        },
-        {
-            name: constants.ROLL,
-            controller: controllers.roll,
-        }
-    ];
 
     /**
     * 初始化Febrest配置，创建action和注入provider
     */
-    Febrest.registerAction(actions);
-    Febrest.registerState(states);
-    Febrest.registerProvider(providers);
+    Febrest.action(controllers);
+    Febrest.provider(providers);
 
 
     /**
@@ -149,7 +127,7 @@
         return 'stop_animate_' + value;
     }
     function roll() {
-        Febrest.dispatch(constants.ROLL).then(data => {
+        Febrest.dispatch('roll').then(data => {
             if (data.state.ok) {
                 startRoll(data.state);
             } else {
@@ -201,7 +179,7 @@
      */
     function updateLotteryCount(data) {
         if (data.lottery) {
-            Febrest.dispatch(constants.GET_LOTTERY).then((data)=>{
+            Febrest.dispatch('getLottery').then((data)=>{
                 document.getElementsByClassName('lottery_count')[0].innerHTML = '奖券数量:' + data.state.lottery;
             });
         }
@@ -228,7 +206,7 @@
      * @description 每间隔一秒自动增加一张奖券
      */
     function lotterySelfAdd() {
-        Febrest.dispatch(constants.ADD_LOTTERY);
+        Febrest.dispatch('addLottery');
         setTimeout(lotterySelfAdd, 1000);
     }
     /**
