@@ -185,7 +185,7 @@ var app = {
 
 function start() {
     bindEvent();
-    Febrest.dispatch('getAll').then((result)=>app.setState(result.state));
+    Febrest.dispatch('getAll').then((result)=>app.setState(result));
 }
 
 /**
@@ -215,7 +215,7 @@ function bindEvent() {
 Febrest.subscribe(app.onData);
 Febrest.watch(function(changed){
     if(changed.todos){
-        Febrest.dispatch('getAll').then((result)=>app.setState(result.state));
+        Febrest.dispatch('getAll').then((result)=>app.setState(result));
     }
     
 })

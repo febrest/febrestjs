@@ -33,10 +33,7 @@ class Invoker {
                         let promise = this.engine.exec(runtimeAction);
                         promise.then(() => {
                             resolve(
-                                {
-                                    state: runtimeAction.result,
-                                    name: runtimeAction.name
-                                }
+                                runtimeAction.result
                             );
                             this.hook.apply('close', runtimeAction, runtimeAction => {
                                 this.engine.close(runtimeAction);

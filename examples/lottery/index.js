@@ -128,8 +128,8 @@
     }
     function roll() {
         Febrest.dispatch('roll').then(data => {
-            if (data.state.ok) {
-                startRoll(data.state);
+            if (data.ok) {
+                startRoll(data);
             } else {
                 alert('奖券数量不够！')
             }
@@ -180,7 +180,7 @@
     function updateLotteryCount(data) {
         if (data.lottery) {
             Febrest.dispatch('getLottery').then((data)=>{
-                document.getElementsByClassName('lottery_count')[0].innerHTML = '奖券数量:' + data.state.lottery;
+                document.getElementsByClassName('lottery_count')[0].innerHTML = '奖券数量:' + data.lottery;
             });
         }
     }
