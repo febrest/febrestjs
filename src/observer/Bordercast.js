@@ -7,13 +7,21 @@ class Bordercast {
         this._listeners = [];
 
     }
-    _message(data) {
+    _message(cmd, data) {
+        if(!data) {
+            data = cmd;
+            cmd = null;
+        }
+        let event = {
+            cmd,
+            data
+        }
         this._listeners.forEach((callback) => {
-            callback(data);
+            callback(event);
         });
     }
-    message(data) {
-        this._message(data);
+    message(cmd, data) {
+        this._message(cmd, data);
     }
     subscribe(callback) {
         this._listeners.push(callback);

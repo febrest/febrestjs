@@ -8,8 +8,8 @@ const subscribe = function (callback) {
 const unsubscribe = function (callback) {
     bordercast.unsubscribe(callback);
 }
-const message = function (data) {
-    bordercast.message(data)
+const message = function (cmd, data) {
+    bordercast.message(cmd, data)
 }
 
 export {
