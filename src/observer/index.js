@@ -1,4 +1,4 @@
-import Bordercast from './Brodercast';
+import Bordercast from './Bordercast';
 import {watch, doWatch, pendingWatch, unwatch} from './Observer';
 
 
