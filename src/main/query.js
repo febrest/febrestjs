@@ -15,7 +15,20 @@ function query(name, action, payload) {
         makeError(`找不到名为${name}的依赖，请检查依赖是否正确`);
     }
 }
-
+function batchQuery(querys) {
+    /**
+     * todos: 异常信息需要修改
+     * */
+    if (!Array.isArray(querys)) {
+        makeError(`query error`);
+    }
+    /**
+     * todos: 这里可能有异常catch不到
+     * */
+    return Promise.all(querys.map(({ name, action, payload }) => {
+        return Promise.resolve(query(name, action, payload))
+    }))
+}
 // function find(name, runtimeAction) {
 //     let origin;
 //     if ((origin = register.getState(name))) {
@@ -31,6 +44,7 @@ function query(name, action, payload) {
 //     }
 // }
 export {
-    query
+    query,
+    batchQuery
     // find
 };

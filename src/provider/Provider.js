@@ -2,13 +2,16 @@
 
 class Provider {
     name: string;
-    constructor(config) {
-        this.name = config.name;
+    constructor(name, config) {
+        this.name = name;
         this.$typeof$ = 'Provider';
-        this.defaultState = config.defaultState;
     }
+    /*
+    * 暂时不支持异步
+    * 暂时没有要增加异步功能的打算
+    */
     onCreate(state) {
-        return this.defaultState;
+        return state;
     }
     /**
      * 生命周期

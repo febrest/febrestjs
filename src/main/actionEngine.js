@@ -1,6 +1,7 @@
 import { ACTION_READY_STATE, setRuntimeAction, createRuntimeAction, clearRuntimeAction, getRuntimeAction } from '../action';
 import { isPromise } from '../util'
 import register from './register';
+import { makeError } from './../error'
 
 
 /********************** action执行流程**********************
@@ -49,6 +50,13 @@ function exec(action) {
         controller,
         payload
     } = action;
+    /*
+    * 没有controller的时候抛出异常
+    * todos: 这部分异常可能会移出
+    */
+    if (!controller) {
+        return makeError('can\'t find the action of ' + action)
+    }
     let maybePromise = controller.call(null, payload);
     if (isPromise(maybePromise)) {
         return maybePromise.then(

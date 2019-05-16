@@ -1,7 +1,7 @@
 'use strict'
 import Provider from './Provider';
 import { State } from '../state';
-import { immediate,isPromise } from './../util';
+import { immediate, isPromise } from './../util';
 
 function getState(state) {
     return state.get()
@@ -14,7 +14,7 @@ class ProviderWrapper {
     constructor(config) {
         this.$typeof$ = 'ProvideWrapper'
         let ProviderType = config.type || Provider
-        this._provider = new ProviderType(config);
+        this._provider = new ProviderType(config.name);
         this._state = new State(config.defaultState);
         this._created = false;
         if (this._provider.onCreate) {
@@ -30,7 +30,7 @@ class ProviderWrapper {
                     setState(_state, state);
                     this._created = true;
                 }
-            }else {
+            } else {
                 this._created = true;
             }
         }
