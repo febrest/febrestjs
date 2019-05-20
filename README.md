@@ -32,19 +32,17 @@ yarn add febrest
 ## API Reference
 
 * [dispatch](#dispatch)
-* [registerAction](#register-action)
-* [registerState](#register-state)
-* [registerProvider](#register-provider)
-* [registerService](#register-service)
-* [plugin](#plugin)
+* [action](#action)
+* [provider](#provider)
 * [Provider](#provider)
+* [plugin](#plugin)
 * [query](#query)
 * [update](#update)
 * [subscribe](#subscribe)
 * [unsubscribe](#unsubscribe)
 * [watch](#watch)
-* [unwatch](#unwatch)
-* [onError](#onError)
+* [unwatch](#un-watch)
+* [onError](#on-error)
 
 ### dispatch
 
@@ -54,37 +52,32 @@ dispatch(action:String,payload?:any)
 ```
 example:
 ```
-febrest.dispatch(ACTIONS.APP_INIT)
+Febrest.dispatch(ACTIONS.APP_INIT).then(data=>{})
 ```
 
-### registerAction
+### action
 ```
-registerAction(actionConfigs:ActionConfig|Array<ActionConfig>);
+action(namespace?:string,controllerMap:<string,(payload:any)=>any>{});
 ```
-### ActionConfig 
-
-* name:String;
-* controller: Function;
 
 example
 ```
-let actionConfig = {
-    name:'APP_INIT',
-    controller:()=>console.log('appinit')
+let controller = {
+    init:()=>console.log('appinit')
 }
-febrest.createActions(actionConfig)
+Febrest.action('app',controller)
+Febrest.dispatch('app.init')
+// or
+Febrest.action(controller)
+Febrest.dispatch('init')
+
 ```
-### registerState
+
+### provider
 ```
-registerState(stateConfigs:StateConfig|Array<StateConfig>);
+provider(providerConfigs:ProviderConfig|Array<ProviderConfig>);
 ```
-### registerProvider
-```
-registerProvider(actionConfigs:ProviderConfig|Array<ProviderConfig>);
-```
-### registerService
-```
-registerService(actionConfigs:ServiceConfig|Array<ServiceConfig>);
+
 ```
 ### plugin
 
@@ -93,39 +86,23 @@ plugin(plugin:{initialized:(action)=>any,close:(action)=>any});
 ```
 ### Provider
 
-### setProviderStorageTool
 
-```
-setProviderStorageTool({
-    setter:(name,value)=>any,
-    getter:(name)=>any
-});
-```
-### injectProvider
-```
-injectProvider(config:ProviderConfig|Array<Provider>);
-```
-### useProvider
-
-```
-use(type:String,provider:Provider);
-```
 ### subscribe
 
 ```
-subscribe(callback:(data:{state:any,name:string})=>any);
+subscribe(callback:(data:{cmd:string,data:any})=>any);
 ```
 ### unsubscribe
 ```
-unsubscribe(callback:(data:{state:any,name:string})=>any);
+unsubscribe(callback:(data:{cmd:string,data:any})=>any);
 ```
 ### watch
 ```
 watch(callback:(changed)=>any);
 ```
-### removeWatcher
+### unWatch
 ```
-removeWatcher(callback:(changed)=>any);
+unWatch(callback:(changed)=>any);
 ```
 ### onError
 
