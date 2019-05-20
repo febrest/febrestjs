@@ -52,3 +52,6 @@
 * 修改dispatch
 * 修改action的注入方式
 * 添加query一次查询多个
+
+## 0.10.4-beta
+* 修复bug
