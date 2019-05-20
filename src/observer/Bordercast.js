@@ -8,10 +8,6 @@ class Bordercast {
 
     }
     _message(cmd, data) {
-        if(!data) {
-            data = cmd;
-            cmd = null;
-        }
         let event = {
             cmd,
             data
