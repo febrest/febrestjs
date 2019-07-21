@@ -1,10 +1,18 @@
-import {DataEngine} from './../dataEngine'
-import {ProviderAdapter} from '../provider'
-// import {StateAdapter} from '../state'
 
-const dataEngine = new DataEngine();
+import {makeError} from './../error'
+import {Provider} from './../provider'
+function query(name,action,payload) {
+  let origin;
+  // if ((origin = register.getState(name))) {
+  //     return executor.query(origin, 'state', action, payload);
+  // } else 
+  if ((origin = Provider.getProvider(name))) {
+    return origin.query(action, payload);
+  } else {
+    makeError(`找不到名为${name}的依赖，请检查依赖是否正确`);
+  }
+}
 
-dataEngine.addAdapter('provider',ProviderAdapter);
-// dataEngine.addAdapter('state',StateAdapter);
+function update(name,action,payload){
 
-export default dataEngine;
+}
