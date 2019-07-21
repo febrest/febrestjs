@@ -1,4 +1,4 @@
-import Bordercast from '../Bordercast';
+import Bordercast from './Bordercast';
 
 export {
   Bordercast
