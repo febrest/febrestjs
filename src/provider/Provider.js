@@ -1,7 +1,10 @@
 'use strict'
 import { inject, batchInject, all, getProvider } from './inject'
 import { watch, unwatch } from './../observer'
+import { query, update } from './dataEngine'
 class Provider {
+    static query = query;
+    static update = update;
     static inject = inject;
     static batchInject = batchInject;
     static all = all;

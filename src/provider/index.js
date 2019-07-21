@@ -1,6 +1,6 @@
 'use strict'
 import Provider from './Provider';
 
-export  {
+export {
     Provider
 };
