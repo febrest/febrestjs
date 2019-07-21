@@ -1,4 +1,4 @@
-import { Bordercast } from './../observer';
+import { Bordercast } from './../bordercast';
 
 const bordercast = new Bordercast();
 
@@ -8,12 +8,12 @@ const subscribe = function (callback) {
 const unsubscribe = function (callback) {
     bordercast.unsubscribe(callback);
 }
-const message = function (cmd, data) {
+const postMessage = function (cmd, data) {
     bordercast.message(cmd, data)
 }
 
 export {
     subscribe,
     unsubscribe,
-    message
+    postMessage
 }
