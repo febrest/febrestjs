@@ -1,9 +1,13 @@
 'use strict'
-
+import {inject,batchInject,all,getProvider} from './inject'
 class Provider {
+    static inject = inject;
+    static batchInject = batchInject;
+    static all = all;
+    static getProvider = getProvider;
     name: string;
-    constructor(name, config) {
-        this.name = name;
+    constructor(name) {
+        this.name = name || this.constructor.name;
         this.$typeof$ = 'Provider';
     }
     /*
