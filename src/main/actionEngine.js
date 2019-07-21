@@ -1,6 +1,5 @@
-import { ACTION_READY_STATE, setRuntimeAction, createRuntimeAction, clearRuntimeAction, getRuntimeAction } from '../action';
+import { ACTION_READY_STATE, setRuntimeAction, createRuntimeAction, clearRuntimeAction, getRuntimeAction,ActionRegister } from '../action';
 import { isPromise } from '../util'
-import register from './register';
 import { makeError } from './../error'
 
 
@@ -29,7 +28,7 @@ import { makeError } from './../error'
  **********************************************************/
 
 function initialize(name, payload) {
-    let action = createRuntimeAction(name, register.getAction(name), payload);
+    let action = createRuntimeAction(name, ActionRegister.getAction(name), payload);
     setRuntimeAction(action);
     action.stage = ACTION_READY_STATE.READY;
     return action;

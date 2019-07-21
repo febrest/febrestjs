@@ -2,6 +2,7 @@
 import invoker from './invoker';
 import { subscribe, unsubscribe, postMessage as bordercast } from './bordercast';
 import { Provider } from './../provider'
+import { ActionRegister } from './../action';
 const export_keys = {
     'query': true,
     'update': true,
@@ -15,6 +16,7 @@ const export_keys = {
 
 
 export default {
+    action: (config) => { ActionRegister.register(config) },
     dispatch: invoker.invoke,
     plugin: invoker.plugin,
     onError: invoker.onError,
