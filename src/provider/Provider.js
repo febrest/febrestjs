@@ -1,10 +1,17 @@
 'use strict'
-import {inject,batchInject,all,getProvider} from './inject'
+import { inject, batchInject, all, getProvider } from './inject'
+import { watch, unwatch } from './../observer'
 class Provider {
     static inject = inject;
     static batchInject = batchInject;
     static all = all;
     static getProvider = getProvider;
+    static unwatch(provider, callback) {
+        unwatch(provider, callback)
+    }
+    static watch(provider, callback) {
+        watch(provider, callback)
+    }
     name: string;
     constructor(name) {
         this.name = name || this.constructor.name;
