@@ -1,9 +1,6 @@
-import {watch, doWatch, pendingWatch, unwatch} from './Observer';
+import Observer from './Observer';
 
 
 export  {
-    doWatch,
-    watch,
-    unwatch,
-    pendingWatch
+    Observer
 }

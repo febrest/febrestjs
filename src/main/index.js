@@ -8,16 +8,17 @@ import {
 
 import { ActionRegister } from "./../action";
 import invoker from "./invoker";
-
+import State from './state'
+import { observe } from './observer'
 const export_keys = {
   dispatch: true,
   subscribe: true,
   unsubscribe: true,
-  State: true,
-  watch: true,
-  unwatch: true,
+  State: true, 
   plugin: true,
-  action: true
+  action: true,
+  bordercast: true,
+  onError: true
 };
 
 export default {
@@ -29,5 +30,7 @@ export default {
   onError: invoker.onError,
   subscribe,
   unsubscribe,
-  bordercast
+  bordercast,
+  State,
+  observe
 };

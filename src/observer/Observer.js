@@ -12,18 +12,7 @@ function dispatchWatcher(watcher, changed, timestamp) {
   }
 }
 
-function doWatch() {
-  if (!NEED_DISPATCH) {
-    return;
-  }
-  let timestamp = Date.now();
-  let changed = PENDING;
-  NEED_DISPATCH = false;
-  WATCHERS.forEach(function(watcher) {
-    dispatchWatcher(watcher, changed, timestamp);
-  });
-  PENDING = {};
-}
+function doWatch() {}
 function pendingWatch(changed) {
   PENDING[changed] = true;
   NEED_DISPATCH = true;
@@ -43,10 +32,10 @@ class Wathcer {
 class Vendor {
   constructor() {
     this.libs = new Map();
-    this.libs.push("__defalut", new Map());
+    this.libs.push("__default", new Map());
   }
   put(watcher) {
-    const { namespace = "__defalut", key } = watcher;
+    const { namespace = "__default", key } = watcher;
     let lib = this.libs.get(namespace);
     if (!lib) {
       lib = new Map();
@@ -54,11 +43,15 @@ class Vendor {
     }
     lib.set(key, watcher);
   }
+  getWatchers(namespace="__default") {
+    const lib = this.libs.get(namespace);
+    return lib?Object.values(libs):[]
+  }
   destory() {
     this.libs = null;
   }
   remove(watcher) {
-    const { namespace = "__defalut", key } = watcher;
+    const { namespace = "__default", key } = watcher;
     let lib = this.libs.get(namespace);
     if (!lib) {
       return;
@@ -69,17 +62,24 @@ class Vendor {
 
 const PUBLIC_VENDOR = new Vendor();
 class Observer {
-  static watch(listener) {
+  static observe(listener) {
     const watcher = new Wathcer(listener);
     PUBLIC_VENDOR.put(watcher);
     return function() {
       PUBLIC_VENDOR.remove(watcher);
     };
   }
+  static dispatch(payload) {
+    const watchers = PUBLIC_VENDOR.getWatchers();
+    watchers.forEach(watcher=>{
+      return watcher.listener.call(null,payload)
+    })
+  }
   constructor() {
     OB.push(this);
     this.vendor = new Vendor();
-    this.pending = [];
+    this.pending = {};
+    this.needDispatch = false;
   }
   destory() {
     OB.every((ob, index) => {
@@ -91,22 +91,29 @@ class Observer {
     });
     this.vendor.destory();
   }
-  doWatch() {}
-  watch(namespace, listener) {
+  dispatch(namespace,payload) {
+    const watchers = this.vendor.getWatchers(namespace);
+    const defautWatchers = this.vendor.getWatchers();
+    watchers.forEach(watcher=>{
+      return watcher.listener.call(null,payload)
+    })
+    defautWatchers.forEach(watcher=>{
+      return watcher.listener.call(null,payload)
+    })
+    Observer.dispatch(payload)
+  }
+  observe(namespace, listener) {
     if (typeof namespace === "function") {
       listener = namespace;
       namespace = undefined;
     }
     const watcher = new Watcher(listener, namespace);
     this.vendor.put(watcher);
-    return function() {
-      this.vendor.remove(watcher);
+    return {
+      remove: () => {
+        this.vendor.remove(watcher);
+      }
     };
-  }
-  pendingWatch() {
-    PENDING[changed] = true;
-    NEED_DISPATCH = true;
-    this.pending;
   }
 }
 export { watch, doWatch, pendingWatch, unwatch };

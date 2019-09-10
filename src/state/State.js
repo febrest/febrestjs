@@ -21,17 +21,15 @@ function StateFactory(name, observer) {
   const state = new State();
   const stateWrapper = {
     $type$: "State",
-    get: function() {
+    get: function () {
       return state.get();
     },
-    set: function(data) {
-      return state.set(data);
+    set: function (data) {
+      state.set(data);
+      observer.dispatch(name, { key: name, data })
     },
-    watch: function(callback) {
-      return observer.watch(name, callback);
-    },
-    unwatch: function(callback) {
-      observer.unwatch(name, callback);
+    observe: function (callback) {
+      return observer.observe(name, callback);
     }
   };
   STATE_MAP.set(name, stateWrapper);
@@ -60,8 +58,8 @@ function setStates(states) {
 function batch(updater) {
   if (updater && typeof updater === "function") {
     updater(getStates());
-  }esle{
-    setStates(updater)
+  } else {
+    setStates(updater);
   }
 }
-export { getOrCreateState, batch };
+export { getOrCreateState as state, batch };
