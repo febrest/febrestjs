@@ -1,6 +1,4 @@
 import Observer from './Observer';
 
 
-export  {
-    Observer
-}
+export default Observer

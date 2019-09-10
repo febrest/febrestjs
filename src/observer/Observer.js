@@ -116,4 +116,4 @@ class Observer {
     };
   }
 }
-export { watch, doWatch, pendingWatch, unwatch };
+export default Observer;
