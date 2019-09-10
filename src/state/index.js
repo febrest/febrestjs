@@ -1,7 +1,5 @@
-'use strict'
+"use strict";
 
-import State from './State';
+import { batch, getOrCreateState } from "./State";
 
-export {
-    State,
-}
+export default State;
