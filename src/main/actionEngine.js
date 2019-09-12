@@ -34,12 +34,15 @@ import { makeError } from "./../error";
  *                        close                           *
  **********************************************************/
 
-function initialize(name, payload) {
-  let action = createRuntimeAction(
-    name,
-    ActionRegister.getAction(name),
-    payload
-  );
+function initialize(ctrl, payload) {
+  let name;
+  if (typeof ctrl === "function") {
+    name = ctrl.name;
+  } else {
+    name = ctrl;
+    ctrl = ActionRegister.getAction(name);
+  }
+  let action = createRuntimeAction(name, ctrl, payload);
   setRuntimeAction(action);
   action.stage = ACTION_READY_STATE.READY;
   return action;
