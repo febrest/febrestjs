@@ -14,7 +14,7 @@ const export_keys = {
   dispatch: true,
   subscribe: true,
   unsubscribe: true,
-  State: true, 
+  State: true,
   plugin: true,
   action: true,
   bordercast: true,
@@ -22,8 +22,8 @@ const export_keys = {
 };
 
 export default {
-  action: config => {
-    ActionRegister.registerAction(config);
+  action: (namespace, actions) => {
+    ActionRegister.registerAction(namespace, actions);
   },
   dispatch: invoker.invoke,
   plugin: invoker.plugin,
