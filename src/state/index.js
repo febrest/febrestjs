@@ -1,8 +1,5 @@
 "use strict";
 
-import { batch, state } from "./State";
+import { batch, state, setObserver } from "./State";
 
-export {
-  state,
-  batch
-};
+export { state, batch, setObserver };

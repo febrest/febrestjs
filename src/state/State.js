@@ -18,7 +18,7 @@ class State {
     this.data = JSON.parse(string);
   }
 }
-function StateFactory(name, observer) {
+function StateFactory(name) {
   const state = new State();
   const stateWrapper = {
     $type$: "State",
@@ -27,18 +27,17 @@ function StateFactory(name, observer) {
     },
     set: function(data) {
       state.set(data);
-      observer.dispatch(name, { key: name, data });
+      _observer && _observer.dispatch(name, { key: name, data });
     },
     observe: function(callback) {
-      return observer.observe(name, callback);
+      return _observer && _observer.observe(name, callback);
     }
   };
   STATE_MAP.set(name, stateWrapper);
   return stateWrapper;
 }
-function getOrCreateState(name, observer) {
-  _observer = observer;
-  const state = STATE_MAP.get(name) || StateFactory(name, observer);
+function getOrCreateState(name) {
+  const state = STATE_MAP.get(name) || StateFactory(name);
   return state;
 }
 
@@ -51,7 +50,7 @@ function getStates() {
 }
 function setStates(states) {
   for (let s in states) {
-    const state = getOrCreateState(s, _observer);
+    const state = getOrCreateState(s);
     state.set(states[s]);
   }
 }
@@ -62,4 +61,7 @@ function batch(updater) {
     setStates(updater);
   }
 }
-export { getOrCreateState as state, batch };
+function setObserver(observer) {
+  _observer = observer;
+}
+export { getOrCreateState as state, batch, setObserver };
