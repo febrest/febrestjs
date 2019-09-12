@@ -1,5 +1,6 @@
 import { copy } from "../util";
 const STATE_MAP = new Map();
+let _observer;
 class State {
   constructor() {
     this.data = null;
@@ -21,14 +22,14 @@ function StateFactory(name, observer) {
   const state = new State();
   const stateWrapper = {
     $type$: "State",
-    get: function () {
+    get: function() {
       return state.get();
     },
-    set: function (data) {
+    set: function(data) {
       state.set(data);
-      observer.dispatch(name, { key: name, data })
+      observer.dispatch(name, { key: name, data });
     },
-    observe: function (callback) {
+    observe: function(callback) {
       return observer.observe(name, callback);
     }
   };
@@ -36,6 +37,7 @@ function StateFactory(name, observer) {
   return stateWrapper;
 }
 function getOrCreateState(name, observer) {
+  _observer = observer;
   const state = STATE_MAP.get(name) || StateFactory(name, observer);
   return state;
 }
@@ -49,10 +51,8 @@ function getStates() {
 }
 function setStates(states) {
   for (let s in states) {
-    const state = STATE_MAP.get(s);
-    if (state) {
-      state.set(states[s]);
-    }
+    const state = getOrCreateState(name, _observer);
+    state.set(states[s]);
   }
 }
 function batch(updater) {
