@@ -32,7 +32,7 @@ class Wathcer {
 class Vendor {
   constructor() {
     this.libs = new Map();
-    this.libs.push("__default", new Map());
+    this.libs.set("__default", new Map());
   }
   put(watcher) {
     const { namespace = "__default", key } = watcher;
