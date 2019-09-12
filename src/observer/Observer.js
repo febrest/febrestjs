@@ -12,7 +12,7 @@ function dispatchWatcher(watcher, changed, timestamp) {
   }
 }
 
-function doWatch() {}
+function doWatch() { }
 function pendingWatch(changed) {
   PENDING[changed] = true;
   NEED_DISPATCH = true;
@@ -43,9 +43,9 @@ class Vendor {
     }
     lib.set(key, watcher);
   }
-  getWatchers(namespace="__default") {
+  getWatchers(namespace = "__default") {
     const lib = this.libs.get(namespace);
-    return lib?Object.values(libs):[]
+    return lib ? Object.values(lib) : []
   }
   destory() {
     this.libs = null;
@@ -65,14 +65,14 @@ class Observer {
   static observe(listener) {
     const watcher = new Wathcer(listener);
     PUBLIC_VENDOR.put(watcher);
-    return function() {
+    return function () {
       PUBLIC_VENDOR.remove(watcher);
     };
   }
   static dispatch(payload) {
     const watchers = PUBLIC_VENDOR.getWatchers();
-    watchers.forEach(watcher=>{
-      return watcher.listener.call(null,payload)
+    watchers.forEach(watcher => {
+      return watcher.listener.call(null, payload)
     })
   }
   constructor() {
@@ -91,14 +91,14 @@ class Observer {
     });
     this.vendor.destory();
   }
-  dispatch(namespace,payload) {
+  dispatch(namespace, payload) {
     const watchers = this.vendor.getWatchers(namespace);
     const defautWatchers = this.vendor.getWatchers();
-    watchers.forEach(watcher=>{
-      return watcher.listener.call(null,payload)
+    watchers.forEach(watcher => {
+      return watcher.listener.call(null, payload)
     })
-    defautWatchers.forEach(watcher=>{
-      return watcher.listener.call(null,payload)
+    defautWatchers.forEach(watcher => {
+      return watcher.listener.call(null, payload)
     })
     Observer.dispatch(payload)
   }
