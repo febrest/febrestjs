@@ -21,7 +21,7 @@ function pendingWatch(changed) {
 const OB = [];
 
 let WATCHER_KEY = 1;
-class Wathcer {
+class Watcher {
   constructor(listener, namespace) {
     this.listener = listener;
     this.namespace = namespace;
@@ -63,11 +63,13 @@ class Vendor {
 const PUBLIC_VENDOR = new Vendor();
 class Observer {
   static observe(listener) {
-    const watcher = new Wathcer(listener);
+    const watcher = new Watcher(listener);
     PUBLIC_VENDOR.put(watcher);
-    return function () {
-      PUBLIC_VENDOR.remove(watcher);
-    };
+    return {
+      remove() {
+        PUBLIC_VENDOR.remove(watcher);
+      }
+    }
   }
   static dispatch(payload) {
     const watchers = PUBLIC_VENDOR.getWatchers();
