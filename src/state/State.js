@@ -51,7 +51,7 @@ function getStates() {
 }
 function setStates(states) {
   for (let s in states) {
-    const state = getOrCreateState(name, _observer);
+    const state = getOrCreateState(s, _observer);
     state.set(states[s]);
   }
 }
