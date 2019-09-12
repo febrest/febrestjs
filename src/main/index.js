@@ -23,7 +23,7 @@ const export_keys = {
 
 export default {
   action: config => {
-    ActionRegister.register(config);
+    ActionRegister.registerAction(config);
   },
   dispatch: invoker.invoke,
   plugin: invoker.plugin,
