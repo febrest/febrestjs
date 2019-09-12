@@ -1,4 +1,3 @@
-import Observer from './Observer';
+import Observer from "./observer";
 
-
-export default Observer
+export default Observer;
