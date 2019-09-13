@@ -14,8 +14,22 @@ function isPromise(v) {
     return false;
   }
 }
-function merge(data) {
-    
+function merge(...data) {
+  let dest;
+  if (Array.isArray(data[0])) {
+    dest = [];
+    data.forEach(d => {
+      dest = dest.concat(d);
+    });
+  } else {
+    dest = {};
+    data.forEach(d => {
+      for (let o in d) {
+        dest[o] = d[o];
+      }
+    });
+  }
+  return dest;
 }
 function copy(source) {
   let dest;
@@ -70,5 +84,6 @@ export {
   series,
   paramsForFunction,
   Resolver,
-  immediate
+  immediate,
+  merge
 };

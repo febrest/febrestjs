@@ -1,4 +1,4 @@
-import { copy } from "../util";
+import { copy, merge } from "../util";
 const STATE_MAP = new Map();
 let _observer;
 class State {
@@ -11,7 +11,7 @@ class State {
     if (type !== typeof stateData || type !== "object") {
       this.data = copy(data);
     } else {
-      this.data = copy({ ...stateData, ...data });
+      this.data = copy(merge(stateData, data));
     }
   }
   get() {
