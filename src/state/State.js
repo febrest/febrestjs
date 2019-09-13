@@ -8,7 +8,10 @@ class State {
   set(data) {
     const type = typeof data;
     const stateData = this.data;
-    if (type !== typeof stateData || type !== "object") {
+    if (
+      (type !== typeof stateData && stateData !== null) ||
+      type !== "object"
+    ) {
       this.data = copy(data);
     } else {
       this.data = copy(merge(stateData, data));
