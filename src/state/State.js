@@ -6,10 +6,22 @@ class State {
     this.data = null;
   }
   set(data) {
-    this.data = copy(data);
+    const type = typeof data;
+    const stateData = this.data;
+    if (type !== typeof stateData || type !== "object") {
+      this.data = copy(data);
+    } else {
+      this.data = copy({ ...stateData, ...data });
+    }
   }
   get() {
     return copy(this.data);
+  }
+  clear() {
+    this.data = null;
+  }
+  replace(data) {
+    this.data = copy(data);
   }
   toString() {
     return JSON.stringify(this.data);
@@ -26,8 +38,16 @@ function StateFactory(name) {
       return state.get();
     },
     set: function(data) {
+      const old = state.get();
       state.set(data);
-      _observer && _observer.dispatch(name, { key: name, data });
+      const current = state.get();
+      _observer && _observer.dispatch(name, { key: name, old, current });
+    },
+    replace(data) {
+      const old = state.get();
+      state.replace(data);
+      const current = state.get();
+      _observer && _observer.dispatch(name, { key: name, old, current });
     },
     observe: function(callback) {
       return _observer && _observer.observe(name, callback);
