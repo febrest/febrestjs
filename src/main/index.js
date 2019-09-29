@@ -1,15 +1,11 @@
 "use strict";
 
-import {
-  postMessage as bordercast,
-  subscribe,
-  unsubscribe
-} from "./bordercast";
+import { postMessage as broadcast, subscribe, unsubscribe } from "./broadcast";
 
 import { ActionRegister } from "./../action";
 import invoker from "./invoker";
-import State from './state'
-import { observe } from './observer'
+import State from "./state";
+import { observe } from "./observer";
 const export_keys = {
   dispatch: true,
   subscribe: true,
@@ -17,7 +13,7 @@ const export_keys = {
   State: true,
   plugin: true,
   action: true,
-  bordercast: true,
+  broadcast: true,
   onError: true
 };
 
@@ -30,7 +26,7 @@ export default {
   onError: invoker.onError,
   subscribe,
   unsubscribe,
-  bordercast,
+  broadcast,
   State,
   observe
 };
