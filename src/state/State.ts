@@ -1,11 +1,20 @@
-import { copy, merge } from "../util";
+import { copy, merge } from "utils";
 const STATE_MAP = new Map();
-let _observer;
+
+export interface StateObserver {
+  dispatch: (name: string, event: StateChangeEvent) => void;
+  observe: (name: string, event: StateObserverListener) => void;
+}
+export type StateObserverListener = (event: StateChangeEvent) => void;
+export interface StateChangeEvent {
+  key: string;
+  old: any;
+  current: any;
+}
+let _observer: StateObserver | undefined;
 class State {
-  constructor() {
-    this.data = null;
-  }
-  set(data) {
+  data: any = null;
+  set(data: any) {
     const type = typeof data;
     const stateData = this.data;
     if (type !== typeof stateData || stateData === null || type !== "object") {
@@ -20,30 +29,30 @@ class State {
   clear() {
     this.data = null;
   }
-  replace(data) {
+  replace(data: any) {
     this.data = copy(data);
   }
   toString() {
     return JSON.stringify(this.data);
   }
-  parse(string) {
+  parse(string: string) {
     this.data = JSON.parse(string);
   }
 }
-function StateFactory(name) {
+function StateFactory(name: string) {
   const state = new State();
   const stateWrapper = {
     $type$: "State",
     get: function() {
       return state.get();
     },
-    set: function(data) {
+    set: function(data: any) {
       const old = state.get();
       state.set(data);
       const current = state.get();
       _observer && _observer.dispatch(name, { key: name, old, current });
     },
-    replace(data) {
+    replace(data: any) {
       const old = state.get();
       state.replace(data);
       const current = state.get();
@@ -51,45 +60,47 @@ function StateFactory(name) {
     },
     clear() {
       const old = state.get();
-      state.clear(data);
+      state.clear();
       _observer && _observer.dispatch(name, { key: name, old, current: null });
     },
     toString() {
       return state.toString();
     },
-    observe: function(callback) {
+    observe: function(callback: StateObserverListener) {
       return _observer && _observer.observe(name, callback);
     }
   };
   STATE_MAP.set(name, stateWrapper);
   return stateWrapper;
 }
-function getOrCreateState(name) {
+function getOrCreateState(name: string) {
   const state = STATE_MAP.get(name) || StateFactory(name);
   return state;
 }
 
-function getStates() {
-  const states = {};
+function getStates(): { [key: string]: any } {
+  const states: { [key: string]: any } = {};
   STATE_MAP.forEach((state, key) => {
     states[key] = state.get();
   });
   return states;
 }
-function setStates(states) {
+function setStates(states: { [key: string]: any }) {
   for (let s in states) {
     const state = getOrCreateState(s);
     state.set(states[s]);
   }
 }
-function batch(updater) {
+function batch(
+  updater: ((states: { [key: string]: any }) => void) | { [key: string]: any }
+) {
   if (updater && typeof updater === "function") {
     updater(getStates());
   } else {
     setStates(updater);
   }
 }
-function setObserver(observer) {
+function setObserver(observer: StateObserver) {
   _observer = observer;
 }
 export { getOrCreateState as state, batch, setObserver };
