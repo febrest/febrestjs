@@ -1,21 +1,22 @@
 "use strict";
 
 import { runTransaction, series } from "./Transaction";
-import paramsForFunction from "./paramsForFunction";
-import Resolver from "./Resolver";
 
-function isObject(v) {
+import Resolver from "./Resolver";
+import paramsForFunction from "./paramsForFunction";
+
+function isObject(v: any) {
   return Object.prototype.toString.call(v) === "[object Object]";
 }
-function isPromise(v) {
+function isPromise(v: any) {
   if (typeof Promise !== "undefined" && v instanceof Promise) {
     return true;
   } else {
     return false;
   }
 }
-function merge(...data) {
-  let dest;
+function merge(...data: any[]) {
+  let dest: any;
   if (Array.isArray(data[0])) {
     dest = [];
     data.forEach(d => {
@@ -31,8 +32,8 @@ function merge(...data) {
   }
   return dest;
 }
-function copy(source) {
-  let dest;
+function copy(source: any): any {
+  let dest: any;
   if (Array.isArray(source)) {
     dest = source.map(v => {
       return copy(v);
@@ -48,7 +49,7 @@ function copy(source) {
   return dest;
 }
 
-function toValue(v) {
+function toValue(v: any) {
   try {
     return JSON.parse(v);
   } catch (e) {
@@ -56,14 +57,14 @@ function toValue(v) {
   }
 }
 
-function toString(v) {
+function toString(v: any) {
   try {
     return JSON.stringify(v);
   } catch (e) {
     return v;
   }
 }
-function immediate(callback) {
+function immediate(callback: () => void) {
   try {
     return process.nextTick(callback);
   } catch (e) {
