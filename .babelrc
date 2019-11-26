@@ -1,14 +1,12 @@
 {
-    "presets": [
-        [
-            "env",
-            {
-                "modules": false
-            }
-        ],
-        "flow"
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false
+      }
     ],
-    "plugins": [
-        "external-helpers"
-    ]
+    "typescript"
+  ],
+  "plugins": ["external-helpers"]
 }
