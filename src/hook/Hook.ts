@@ -1,18 +1,21 @@
-'use strict'
+"use strict";
+
+export interface HookPlugin {
+  [hook: string]: (data: any) => any;
+}
 class Hook {
-    constructor() {
-        this.plugins = [];
-    }
-    apply(hook, data) {
-        this.plugins.forEach(plugin => {
-            if(plugin[hook]){
-                plugin[hook](data);
-            }
-        })
-    }
-    plugin(plugin) {
-        this.plugins.push(plugin)
-    }
+  plugins: HookPlugin[] = [];
+
+  apply(hook: string, data: any) {
+    this.plugins.forEach(plugin => {
+      if (plugin[hook]) {
+        plugin[hook](data);
+      }
+    });
+  }
+  plugin(plugin: HookPlugin) {
+    this.plugins.push(plugin);
+  }
 }
 
 export default Hook;
