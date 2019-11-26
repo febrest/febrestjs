@@ -49,6 +49,14 @@ function StateFactory(name) {
       const current = state.get();
       _observer && _observer.dispatch(name, { key: name, old, current });
     },
+    clear() {
+      const old = state.get();
+      state.clear(data);
+      _observer && _observer.dispatch(name, { key: name, old, current: null });
+    },
+    toString() {
+      return state.toString();
+    },
     observe: function(callback) {
       return _observer && _observer.observe(name, callback);
     }
