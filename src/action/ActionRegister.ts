@@ -1,13 +1,14 @@
-function underScoreName(name) {
+function underScoreName(name: string) {
   return name.replace(/_[\w]/g, m => {
     return m[1].toUpperCase();
   });
 }
 class ActionRegister {
+  actions: Map<string, object> = new Map();
   constructor() {
     this.actions = new Map();
   }
-  registerAction(namespace, actions) {
+  registerAction(namespace: string, actions: any) {
     if (typeof namespace !== "string") {
       actions = namespace;
       namespace = "";
@@ -18,7 +19,7 @@ class ActionRegister {
       this.actions.set(namespace + name, actions[name]);
     }
   }
-  getAction(name) {
+  getAction(name: string) {
     let action =
       this.actions.get(name) || this.actions.get(underScoreName(name));
     return action;
