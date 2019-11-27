@@ -45,7 +45,12 @@ class State {
     this.data = copy(data);
   }
   toString() {
-    return JSON.stringify(this.data);
+    const { data } = this;
+    if (!data || typeof data === "object") {
+      return JSON.stringify(data);
+    } else {
+      return data.toString();
+    }
   }
   parse(string: string) {
     this.data = JSON.parse(string);
