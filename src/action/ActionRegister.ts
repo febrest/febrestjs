@@ -4,7 +4,7 @@ function underScoreName(name: string) {
   });
 }
 class ActionRegister {
-  actions: Map<string, object> = new Map();
+  actions: Map<string, (payload: any) => void> = new Map();
   constructor() {
     this.actions = new Map();
   }

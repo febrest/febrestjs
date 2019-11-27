@@ -4,10 +4,10 @@ export interface RuntimeAction {
   $typeof$: "RuntimeAction";
   stage: string;
   name: string;
-  controller: ((payload: any) => void) | undefined;
+  controller: ((payload: any) => any) | undefined;
   payload: any;
   result: any;
-  error: Error;
+  error: Error | undefined;
 }
 function setRuntimeAction(action: RuntimeAction) {
   RUNTIME_ACTION = action;
@@ -18,10 +18,10 @@ function getRuntimeAction() {
 
 function createRuntimeAction(
   name: string,
-  controller: (payload: any) => void,
+  controller: undefined | ((payload: any) => any),
   payload: any
 ) {
-  let runtimeAction = {
+  let runtimeAction: RuntimeAction = {
     $typeof$: "RuntimeAction",
     stage: ACTION_READY_STATE.UNINITIALIZED,
     name,
