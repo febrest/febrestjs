@@ -1,20 +1,34 @@
-'use strict'
-import { Invoker } from './../invoker';
-import actionEngine from './actionEngine';
+"use strict";
 
+import { ActionEngine, ActionPlugin } from "invoker/Invoker";
 
-const exportMethods = ['invoke', 'plugin', 'onError'];
+import { Invoker } from "invoker";
+import actionEngine from "./actionEngine";
 
+const exportMethods = ["invoke", "plugin", "onError"];
 
+export interface InvokerEntity {
+  invoke: (
+    ctrl: string | ((payload: any) => any),
+    payload: any
+  ) => Promise<any>;
+  plugin: (plugin: ActionPlugin) => void;
+  onError: (error: (error: any) => boolean) => void;
+}
 function createInvoker() {
-    let _invoker = new Invoker(actionEngine);
-    let invoker = {};
-    exportMethods.forEach(method => {
-        invoker[method] = function (...args) {
-            return _invoker[method].apply(_invoker, args);
-        }
-    });
-    return invoker;
+  let _invoker = new Invoker(actionEngine);
+  let invoker: InvokerEntity = {
+    invoke: function(ctrl: string | ((payload: any) => any), payload: any) {
+      return _invoker.invoke(ctrl, payload);
+    },
+    plugin: function(plugin: ActionPlugin) {
+      return _invoker.plugin(plugin);
+    },
+    onError: function(error: (error: any) => boolean) {
+      return _invoker.onError(error);
+    }
+  };
+  return invoker;
 }
 
 const invoker = createInvoker();
