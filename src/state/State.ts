@@ -1,9 +1,21 @@
+import { ObserverListener, ObserverWatcher } from "observer/Observer";
 import { copy, merge } from "utils";
+
 const STATE_MAP = new Map();
 
 export interface StateObserver {
   dispatch: (name: string, event: StateChangeEvent) => void;
-  observe: (name: string, event: StateObserverListener) => void;
+  observe: (name: string, event: StateObserverListener) => ObserverWatcher;
+}
+
+export interface IState {
+  $type$: "State";
+  get: () => any;
+  set: (data: any) => void;
+  replace: (data: any) => void;
+  clear: () => void;
+  toString: () => string;
+  observe: (callback: StateObserverListener) => ObserverWatcher | undefined;
 }
 export type StateObserverListener = (event: StateChangeEvent) => void;
 export interface StateChangeEvent {
@@ -39,9 +51,9 @@ class State {
     this.data = JSON.parse(string);
   }
 }
-function StateFactory(name: string) {
+function StateFactory(name: string): IState {
   const state = new State();
-  const stateWrapper = {
+  const stateWrapper: IState = {
     $type$: "State",
     get: function() {
       return state.get();
@@ -67,7 +79,7 @@ function StateFactory(name: string) {
       return state.toString();
     },
     observe: function(callback: StateObserverListener) {
-      return _observer && _observer.observe(name, callback);
+      return _observer ? _observer.observe(name, callback) : undefined;
     }
   };
   STATE_MAP.set(name, stateWrapper);
