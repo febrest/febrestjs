@@ -1,6 +1,9 @@
 "use strict";
 
 export type ObserverListener = (event: any) => void;
+export interface ObserverWatcher {
+  remove: () => void;
+}
 let WATCHER_KEY = 1;
 class Watcher {
   listener: ObserverListener;
@@ -49,7 +52,7 @@ const PUBLIC_VENDOR = new Vendor();
 const OB: Observer[] = [];
 
 class Observer {
-  static observe(listener: ObserverListener) {
+  static observe(listener: ObserverListener): ObserverWatcher {
     const watcher = new Watcher(listener);
     PUBLIC_VENDOR.put(watcher);
     return {
@@ -98,7 +101,7 @@ class Observer {
   observe(
     namespace: string | ObserverListener | undefined,
     listener?: ObserverListener
-  ): { remove: () => void } {
+  ): ObserverWatcher {
     if (typeof namespace === "function") {
       listener = namespace;
       namespace = undefined;
