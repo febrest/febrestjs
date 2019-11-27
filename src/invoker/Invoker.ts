@@ -35,7 +35,7 @@ class Invoker {
   }
   //todos:异步或者同步由controller决定，直接返回controller的返回值
   //好像做不到，因为有中间件
-  invoke(action: string, payload: any) {
+  invoke(action: string | ((payload: any) => any), payload: any) {
     let runtimeAction = this.engine.initialize(action, payload);
     return this.pendingAction(runtimeAction);
   }
@@ -85,7 +85,7 @@ class Invoker {
   plugin(plugin: ActionPlugin) {
     this.hook.plugin(plugin);
   }
-  onError(callback: (error: any) => void) {
+  onError(callback: (error: any) => boolean) {
     this.error = callback;
   }
   catchError(error: any) {
