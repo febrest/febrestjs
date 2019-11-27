@@ -1,28 +1,13 @@
 "use strict";
 
-let PENDING = {};
-const WATCHERS = [];
-
-let NEED_DISPATCH = false;
-
-function dispatchWatcher(watcher, changed, timestamp) {
-  if (!watcher.namespace || changed[watcher.namespace]) {
-    watcher.dispatchTime = timestamp;
-    watcher.callback.call(null, changed);
-  }
-}
-
-function doWatch() {}
-function pendingWatch(changed) {
-  PENDING[changed] = true;
-  NEED_DISPATCH = true;
-}
-
-const OB = [];
-
+export type ObserverListener = (event: any) => void;
 let WATCHER_KEY = 1;
 class Watcher {
-  constructor(listener, namespace) {
+  listener: ObserverListener;
+  namespace: string | undefined;
+  key: number;
+  dispatchTime: number = 0;
+  constructor(listener: ObserverListener, namespace?: string) {
     this.listener = listener;
     this.namespace = namespace;
     this.key = ++WATCHER_KEY;
@@ -30,11 +15,11 @@ class Watcher {
   }
 }
 class Vendor {
+  libs: Map<string, Map<number, Watcher>> = new Map();
   constructor() {
-    this.libs = new Map();
     this.libs.set("__default", new Map());
   }
-  put(watcher) {
+  put(watcher: Watcher) {
     const { namespace = "__default", key } = watcher;
     let lib = this.libs.get(namespace);
     if (!lib) {
@@ -48,9 +33,9 @@ class Vendor {
     return lib;
   }
   destory() {
-    this.libs = null;
+    this.libs = new Map();
   }
-  remove(watcher) {
+  remove(watcher: Watcher) {
     const { namespace = "__default", key } = watcher;
     let lib = this.libs.get(namespace);
     if (!lib) {
@@ -61,8 +46,10 @@ class Vendor {
 }
 
 const PUBLIC_VENDOR = new Vendor();
+const OB: Observer[] = [];
+
 class Observer {
-  static observe(listener) {
+  static observe(listener: ObserverListener) {
     const watcher = new Watcher(listener);
     PUBLIC_VENDOR.put(watcher);
     return {
@@ -71,18 +58,19 @@ class Observer {
       }
     };
   }
-  static dispatch(payload) {
+  static dispatch(payload: any) {
     const watchers = PUBLIC_VENDOR.getWatchers();
     watchers &&
       watchers.forEach(watcher => {
         return watcher.listener.call(null, payload);
       });
   }
+  vendor: Vendor = new Vendor();
+  pending: { [key: string]: any } = {};
+  needDispatch: boolean = false;
+
   constructor() {
     OB.push(this);
-    this.vendor = new Vendor();
-    this.pending = {};
-    this.needDispatch = false;
   }
   destory() {
     OB.every((ob, index) => {
@@ -94,7 +82,7 @@ class Observer {
     });
     this.vendor.destory();
   }
-  dispatch(namespace, payload) {
+  dispatch(namespace: string, payload: any) {
     const watchers = this.vendor.getWatchers(namespace);
     const defautWatchers = this.vendor.getWatchers();
     watchers &&
@@ -107,7 +95,10 @@ class Observer {
       });
     Observer.dispatch(payload);
   }
-  observe(namespace, listener) {
+  observe(
+    namespace: string | ObserverListener | undefined,
+    listener: ObserverListener
+  ): { remove: () => void } {
     if (typeof namespace === "function") {
       listener = namespace;
       namespace = undefined;
