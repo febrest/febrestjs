@@ -2,10 +2,11 @@
 
 import { postMessage as broadcast, subscribe, unsubscribe } from "./broadcast";
 
-import { ActionRegister } from "./../action";
-import invoker from "./invoker";
+import { ActionRegister } from "action";
 import State from "./state";
+import invoker from "./invoker";
 import { observe } from "./observer";
+
 const export_keys = {
   dispatch: true,
   subscribe: true,
@@ -18,7 +19,7 @@ const export_keys = {
 };
 
 export default {
-  action: (namespace, actions) => {
+  action: (namespace: string, actions) => {
     ActionRegister.registerAction(namespace, actions);
   },
   dispatch: invoker.invoke,
