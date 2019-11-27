@@ -1,12 +1,15 @@
 {
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
-        "modules": false
+        "modules": false,
+        "targets": {
+          "node": "current"
+        }
       }
     ],
-    "typescript"
+    "@babel/preset-typescript"
   ],
-  "plugins": ["external-helpers"]
+  "plugins": ["@babel/plugin-external-helpers"]
 }
