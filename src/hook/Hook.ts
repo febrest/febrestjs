@@ -6,7 +6,7 @@ export interface HookPlugin {
 class Hook {
   plugins: HookPlugin[] = [];
 
-  apply(hook: string, data: any) {
+  apply(hook: string, data?: any) {
     this.plugins.forEach(plugin => {
       if (plugin[hook]) {
         plugin[hook](data);
