@@ -85,7 +85,7 @@ function StateFactory(name: string): IState {
   STATE_MAP.set(name, stateWrapper);
   return stateWrapper;
 }
-function getOrCreateState(name: string) {
+function getOrCreateState(name: string): IState {
   const state = STATE_MAP.get(name) || StateFactory(name);
   return state;
 }
