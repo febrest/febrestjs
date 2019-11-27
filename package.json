@@ -10,14 +10,17 @@
     "@babel/core": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-typescript": "^7.7.4",
+    "@types/jest": "^24.0.23",
     "babel-jest": "^23.4.0",
     "babel-plugin-external-helpers": "^6.22.0",
-    "jest": "^23.0.1",
+    "jest": "^23.6.0",
     "rollup": "^1.27.5",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-prettier": "^0.6.0",
-    "rollup-plugin-uglify": "^6.0.3"
+    "rollup-plugin-uglify": "^6.0.3",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.2"
   },
   "repository": {
     "type": "git",
@@ -30,6 +33,11 @@
   },
   "dependencies": {},
   "transform": {
-    "^.+\\.js?$": "babel-jest"
-  }
+    "^.+\\.tsx?$": "ts-jest"
+  },
+  "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+  "moduleFileExtensions": [
+    "ts",
+    "tsx"
+  ]
 }
