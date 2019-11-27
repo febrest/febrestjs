@@ -97,12 +97,13 @@ class Observer {
   }
   observe(
     namespace: string | ObserverListener | undefined,
-    listener: ObserverListener
+    listener?: ObserverListener
   ): { remove: () => void } {
     if (typeof namespace === "function") {
       listener = namespace;
       namespace = undefined;
     }
+    //@ts-ignore
     const watcher = new Watcher(listener, namespace);
     this.vendor.put(watcher);
     return {
