@@ -23,8 +23,10 @@ export interface ActionEngine {
   exception: (action: RuntimeAction, e: any) => any;
 }
 export interface ActionPlugin extends HookPlugin {
-  initialized: (data: any) => any;
-  close: (data: any) => any;
+  initialized: (
+    action: RuntimeAction
+  ) => RuntimeAction | Promise<RuntimeAction>;
+  close: (data: RuntimeAction) => RuntimeAction | Promise<RuntimeAction>;
 }
 class Invoker {
   hook = new AsyncHook();
