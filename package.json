@@ -33,6 +33,7 @@
     "build": "node ./scripts/build.js true",
     "publish": "node ./scripts/publish.js"
   },
+  "types": "./types/index.d.ts",
   "dependencies": {},
   "jest": {
     "verbose": true,
