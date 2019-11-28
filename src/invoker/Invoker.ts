@@ -29,9 +29,9 @@ export interface ActionPlugin extends HookPlugin {
   close: (data: RuntimeAction) => RuntimeAction | Promise<RuntimeAction>;
 }
 class Invoker {
-  hook = new AsyncHook();
-  engine: ActionEngine;
-  error: any;
+  private hook = new AsyncHook();
+  private engine: ActionEngine;
+  private error: any;
   constructor(engine: ActionEngine) {
     this.engine = engine;
   }
@@ -41,7 +41,7 @@ class Invoker {
     let runtimeAction = this.engine.initialize(action, payload);
     return this.pendingAction(runtimeAction);
   }
-  pendingAction(runtimeAction: RuntimeAction) {
+  private pendingAction(runtimeAction: RuntimeAction) {
     return new Promise((resolve, reject) => {
       this.hook.apply("initialized", runtimeAction, runtimeAction => {
         try {
@@ -90,7 +90,7 @@ class Invoker {
   onError(callback: (error: any) => boolean) {
     this.error = callback;
   }
-  catchError(error: any) {
+  private catchError(error: any) {
     if (!this.error || !this.error(error)) {
       sysErrorHandler(error);
     }
