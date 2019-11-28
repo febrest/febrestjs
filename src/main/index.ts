@@ -19,7 +19,7 @@ const export_keys = {
 };
 
 export default {
-  action: (namespace: string, actions) => {
+  action: (namespace: string, actions: any) => {
     ActionRegister.registerAction(namespace, actions);
   },
   dispatch: invoker.invoke,
