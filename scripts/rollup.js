@@ -43,7 +43,7 @@ function getPlugins(bundleType) {
       : prettier({
           tabWidth: 2,
           singleQuote: false,
-          babel: "babel"
+          parser: "babel"
         })
   ];
 }
