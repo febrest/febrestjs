@@ -3,15 +3,15 @@
     /* Basic Options */
     "target": "es5",
     /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */
-    "module": "ESNext",
+    "module": "ESNEXT",
     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
     // "lib": [],                             /* Specify library files to be included in the compilation. */
-    "allowJs": true,
+    "allowJs": false,
     /* Allow javascript files to be compiled. */
     "checkJs": false,
     /* Report errors in .js files. */
     /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
-    // "declaration": true,                   /* Generates corresponding '.d.ts' file. */
+    // "declaration": true /* Generates corresponding '.d.ts' file. */,
     // "declarationMap": true,                /* Generates a sourcemap for each corresponding '.d.ts' file. */
     "sourceMap": true,
     /* Generates corresponding '.map' file. */
@@ -44,14 +44,14 @@
 
     /* Module Resolution Options */
     // "moduleResolution": "node",            /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
-    "baseUrl": "./",
+    "baseUrl": "./src",
     /* Base directory to resolve non-absolute module names. */
     "paths": {
-      "*": ["src/*"]
+      "*": ["*", "*/index"]
     },
     /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
-    "typeRoots": ["@types", "node_modules/@types"],
+    "typeRoots": ["types", "node_modules/@types"],
     /* List of folders to include type definitions from. */
     // "types": [],                           /* Type declaration files to be included in compilation. */
     // "allowSyntheticDefaultImports": true,  /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
@@ -71,5 +71,6 @@
     "experimentalDecorators": true
     /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
-  }
+  },
+  "include": ["./src"]
 }
