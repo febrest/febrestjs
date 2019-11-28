@@ -1,11 +1,13 @@
-import main from "main";
+import main, { Febrest } from "main";
 let version;
 try {
   //@ts-ignore
   version = VERSION;
 } catch (e) {}
 
-const febrest = Object.assign({}, main, {
+const febrest: Febrest & {
+  version: "string";
+} = Object.assign({}, main, {
   version
 });
 export default febrest;
