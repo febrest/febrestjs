@@ -2,9 +2,6 @@
 
 import { runTransaction, series } from "./Transaction";
 
-import Resolver from "./Resolver";
-import paramsForFunction from "./paramsForFunction";
-
 function isObject(v: any) {
   return Object.prototype.toString.call(v) === "[object Object]";
 }
@@ -83,8 +80,6 @@ export {
   toString,
   runTransaction,
   series,
-  paramsForFunction,
-  Resolver,
   immediate,
   merge
 };
