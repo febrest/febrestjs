@@ -1,6 +1,6 @@
 "use strict";
 
-import { AsyncHook } from "../hook";
+import { AsyncHook } from "hook";
 import { HookPlugin } from "hook/Hook";
 import { RuntimeAction } from "action/runtimeAction";
 
