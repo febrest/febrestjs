@@ -70,8 +70,7 @@ declare module "febrest" {
   export const broadcast: BroadcastFunction;
   export const State: StateStatic;
   export const observe: ObserveFunction;
-
-  export default interface Febrest {
+  const Febrest: {
     action: ActionFunction;
     dispatch: DispatchFunction;
     plugin: PluginFunction;
@@ -82,5 +81,6 @@ declare module "febrest" {
     State: StateStatic;
     observe: ObserveFunction;
     version: string;
-  }
+  };
+  export default Febrest;
 }
