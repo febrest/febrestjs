@@ -112,10 +112,4 @@ onError(callback:(error)=>any);
 
 ```
 
-## version change log
-
-[change log](/CHANGELOG.md)
-
-```
-
-```
+## version
