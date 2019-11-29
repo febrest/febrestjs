@@ -11,8 +11,10 @@ declare module "febrest" {
   export interface ActionPlugin {
     initialized: (
       action: RuntimeAction
-    ) => RuntimeAction | Promise<RuntimeAction>;
-    close: (data: RuntimeAction) => RuntimeAction | Promise<RuntimeAction>;
+    ) => RuntimeAction | Promise<RuntimeAction> | void;
+    close: (
+      data: RuntimeAction
+    ) => RuntimeAction | Promise<RuntimeAction> | void;
   }
   export type BroadcastEventListener = (event: BroadcastEvent) => void;
   export type ObserverListener = (event: any) => void;
@@ -37,7 +39,7 @@ declare module "febrest" {
   }
   export type StateObserverListener = (event: StateChangeEvent) => void;
 
-  export interface State extends StateFunction {
+  interface StateStatic extends StateFunction {
     observe: (l: ObserverListener) => void;
     batch: (
       updater:
@@ -49,19 +51,36 @@ declare module "febrest" {
     cmd: string;
     data: any;
   }
-  export interface Febrest {
-    action: (namespace: string, actions: any) => void;
-    dispatch: (
-      ctrl: string | ((payload: any) => any),
-      payload: any
-    ) => Promise<any>;
-    plugin: (lugin: ActionPlugin) => void;
-    onError: (error: (error: any) => boolean) => void;
-    subscribe: (callback: BroadcastEventListener) => void;
-    unsubscribe: (callback: BroadcastEventListener) => void;
-    broadcast: (cmd: string, data: any) => void;
-    State: State;
-    observe: (l: ObserverListener) => void;
+  type PluginFunction = (plugin: ActionPlugin) => void;
+  type ActionFunction = (namespace: string, actions: any) => void;
+  type DispatchFunction = (
+    ctrl: string | ((payload: any) => any),
+    payload: any
+  ) => Promise<any>;
+  type OnErrorFunction = (error: (error: any) => boolean) => void;
+  type SubscribeFunction = (callback: BroadcastEventListener) => void;
+  type UnsubscribeFunction = (callback: BroadcastEventListener) => void;
+  type BroadcastFunction = (cmd: string, data: any) => void;
+  type ObserveFunction = (l: ObserverListener) => void;
+  export const plugin: PluginFunction;
+  export const action: ActionFunction;
+  export const dispatch: DispatchFunction;
+  export const subscribe: SubscribeFunction;
+  export const unsubscribe: UnsubscribeFunction;
+  export const broadcast: BroadcastFunction;
+  export const State: StateStatic;
+  export const observe: ObserveFunction;
+
+  export default interface Febrest {
+    action: ActionFunction;
+    dispatch: DispatchFunction;
+    plugin: PluginFunction;
+    onError: OnErrorFunction;
+    subscribe: SubscribeFunction;
+    unsubscribe: UnsubscribeFunction;
+    broadcast: BroadcastFunction;
+    State: StateStatic;
+    observe: ObserveFunction;
     version: string;
   }
 }
