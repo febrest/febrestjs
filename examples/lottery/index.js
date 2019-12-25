@@ -69,23 +69,22 @@
   /**
    * controller
    */
-  let update = Febrest.update;
-  let query = Febrest.query;
+  let State = Febrest.State;
   let broadcast = Febrest.broadcast;
   var controllers = {
     addLottery() {
-      let data = query("lottery");
+      let data = State("lottery").get();
       data++;
-      update("lottery", null, data);
+      State("lottery").set(data);
       return { lottery: data };
     },
     getLottery() {
-      let data = query("lottery");
+      let data = State("lottery").get();
       return { lottery: data };
     },
     roll() {
-      let lottery = query("lottery");
-      let rollHistory = query("rollHistory");
+      let lottery = State("lottery").get();
+      let rollHistory = State("rollHistory").get();
       if (lottery < 5) {
         return { ok: false };
       } else {
@@ -104,7 +103,7 @@
           bonus,
           rollHistory
         };
-        update("lottery", null, lottery - 5);
+        State("lottery").set(lottery - 5);
         update("rollHistory", "push", item);
         return result;
       }
