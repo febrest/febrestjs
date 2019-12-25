@@ -1,6 +1,6 @@
-declare module "febrest" {
+declare module 'febrest' {
   export interface RuntimeAction {
-    $typeof$: "RuntimeAction";
+    $typeof$: 'RuntimeAction';
     stage: string;
     name: string;
     controller: ((payload: any) => any) | undefined;
@@ -21,7 +21,7 @@ declare module "febrest" {
 
   type StateFunction = (name: string) => IState;
   export interface IState {
-    $type$: "State";
+    $type$: 'State';
     get: () => any;
     set: (data: any) => void;
     replace: (data: any) => void;
@@ -55,7 +55,7 @@ declare module "febrest" {
   type ActionFunction = (namespace: string, actions: any) => void;
   type DispatchFunction = (
     ctrl: string | ((payload: any) => any),
-    payload: any
+    payload?: any
   ) => Promise<any>;
   type OnErrorFunction = (error: (error: any) => boolean) => void;
   type SubscribeFunction = (callback: BroadcastEventListener) => void;
