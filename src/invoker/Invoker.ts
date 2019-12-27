@@ -1,8 +1,9 @@
-"use strict";
+'use strict';
 
-import { AsyncHook } from "hook";
-import { HookPlugin } from "hook/Hook";
-import { RuntimeAction } from "action/runtimeAction";
+import { ACTION_READY_STATE } from 'action/index';
+import { AsyncHook } from 'hook';
+import { HookPlugin } from 'hook/Hook';
+import { RuntimeAction } from 'action/runtimeAction';
 
 function sysErrorHandler(error: any) {
   console.error(error);
@@ -26,6 +27,7 @@ export interface ActionPlugin extends HookPlugin {
   initialized: (
     action: RuntimeAction
   ) => RuntimeAction | Promise<RuntimeAction>;
+  exception: (data: RuntimeAction) => RuntimeAction | Promise<RuntimeAction>;
   close: (data: RuntimeAction) => RuntimeAction | Promise<RuntimeAction>;
 }
 class Invoker {
@@ -43,40 +45,43 @@ class Invoker {
   }
   private pendingAction(runtimeAction: RuntimeAction) {
     return new Promise((resolve, reject) => {
-      this.hook.apply("initialized", runtimeAction, runtimeAction => {
+      this.hook.apply('initialized', runtimeAction, runtimeAction => {
         try {
           let promise = this.engine.exec(runtimeAction);
           promise
             .then(
-              () => {
-                resolve(runtimeAction.result);
-                this.hook.apply("close", runtimeAction, runtimeAction => {
+              (action: RuntimeAction) => {
+                resolve(action.result);
+                this.hook.apply('close', runtimeAction, runtimeAction => {
                   this.engine.close(runtimeAction);
                 });
               },
-              (e: any) => {
-                reject(e);
-                this.hook.apply("close", runtimeAction, runtimeAction => {
+              (action: RuntimeAction) => {
+                reject(action.result);
+                this.hook.apply('close', runtimeAction, runtimeAction => {
                   this.engine.close(runtimeAction);
                 });
               }
             )
             .catch((e: any) => {
-              reject(e);
-              this.engine.exception(runtimeAction, e);
-              this.catchError(e);
-              this.hook.apply("close", runtimeAction, runtimeAction => {
-                this.engine.close(runtimeAction);
+              runtimeAction.stage = ACTION_READY_STATE.EXCEPTION;
+              runtimeAction.error = e;
+              this.hook.apply('exception', runtimeAction, runtimeAction => {
+                this.catchError(e);
+                this.hook.apply('close', runtimeAction, runtimeAction => {
+                  this.engine.close(runtimeAction);
+                });
               });
             });
         } catch (e) {
-          reject(e);
-          this.engine.exception(runtimeAction, e);
-          this.catchError(e);
-          this.hook.apply("close", runtimeAction, runtimeAction => {
-            this.engine.close(runtimeAction);
+          runtimeAction.stage = ACTION_READY_STATE.EXCEPTION;
+          runtimeAction.error = e;
+          this.hook.apply('exception', runtimeAction, runtimeAction => {
+            this.catchError(e);
+            this.hook.apply('close', runtimeAction, runtimeAction => {
+              this.engine.close(runtimeAction);
+            });
           });
-        } finally {
         }
       });
     });
