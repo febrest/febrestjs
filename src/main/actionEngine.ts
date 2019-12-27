@@ -5,11 +5,11 @@ import {
   createRuntimeAction,
   getRuntimeAction,
   setRuntimeAction
-} from "action";
+} from 'action';
 
-import { RuntimeAction } from "action/runtimeAction";
-import { isPromise } from "utils";
-import { makeError } from "error";
+import { RuntimeAction } from 'action/runtimeAction';
+import { isPromise } from 'utils';
+import { makeError } from 'error';
 
 /********************** action执行流程**********************
  *                      initialize                        *
@@ -37,7 +37,7 @@ import { makeError } from "error";
 
 function initialize(ctrl: string | ((payload: any) => any), payload: any) {
   let name, controller;
-  if (typeof ctrl === "function") {
+  if (typeof ctrl === 'function') {
     name = ctrl.name;
     controller = ctrl;
   } else {
@@ -77,7 +77,9 @@ function exec(action: RuntimeAction) {
         return action;
       },
       (e: any) => {
-        return Promise.reject(e);
+        action.stage = ACTION_READY_STATE.COMPLETE;
+        action.result = e;
+        return Promise.reject(action);
       }
     );
   } else {
