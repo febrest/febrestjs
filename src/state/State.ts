@@ -1,5 +1,5 @@
-import { ObserverListener, ObserverWatcher } from "observer/Observer";
-import { copy, merge } from "utils";
+import { ObserverListener, ObserverWatcher } from 'observer/Observer';
+import { copy, merge } from 'utils';
 
 const STATE_MAP = new Map();
 
@@ -7,9 +7,12 @@ export interface StateObserver {
   dispatch: (name: string, event: StateChangeEvent) => void;
   observe: (name: string, event: StateObserverListener) => ObserverWatcher;
 }
-
+export interface StateHook {
+  get: () => void;
+  set: () => void;
+}
 export interface IState {
-  $type$: "State";
+  $type$: 'State';
   get: () => any;
   set: (data: any) => void;
   replace: (data: any) => void;
@@ -29,7 +32,7 @@ class State {
   set(data: any) {
     const type = typeof data;
     const stateData = this.data;
-    if (type !== typeof stateData || stateData === null || type !== "object") {
+    if (type !== typeof stateData || stateData === null || type !== 'object') {
       this.data = copy(data);
     } else {
       this.data = copy(merge(stateData, data));
@@ -46,7 +49,7 @@ class State {
   }
   toString() {
     const { data } = this;
-    if (!data || typeof data === "object") {
+    if (!data || typeof data === 'object') {
       return JSON.stringify(data);
     } else {
       return data.toString();
@@ -59,7 +62,7 @@ class State {
 function StateFactory(name: string): IState {
   const state = new State();
   const stateWrapper: IState = {
-    $type$: "State",
+    $type$: 'State',
     get: function() {
       return state.get();
     },
@@ -111,7 +114,7 @@ function setStates(states: { [key: string]: any }) {
 function batch(
   updater: ((states: { [key: string]: any }) => void) | { [key: string]: any }
 ) {
-  if (updater && typeof updater === "function") {
+  if (updater && typeof updater === 'function') {
     updater(getStates());
   } else {
     setStates(updater);
@@ -120,4 +123,5 @@ function batch(
 function setObserver(observer: StateObserver) {
   _observer = observer;
 }
+
 export { getOrCreateState as state, batch, setObserver };
