@@ -5,6 +5,15 @@
     "name": "Spencer Ye",
     "email": "pallyoung@163.com"
   },
+  "files": [
+    "dist/",
+    "src/",
+    "LICENSE",
+    "README.md",
+    "index.js",
+    "types",
+    "tsconfig.json"
+  ],
   "license": "Apache-2.0",
   "devDependencies": {
     "@babel/core": "^7.7.4",
