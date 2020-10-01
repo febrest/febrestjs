@@ -7,7 +7,7 @@ let states: IState[] = [];
 state('test');
 
 test('state', () => {
-  expect(state('test').get()).toBeNull();
+  expect(state('test').get()).toBeUndefined();
 });
 
 test('state set', () => {
@@ -25,7 +25,7 @@ test('state replace', () => {
 
 test('state clear', () => {
   state('test').clear();
-  expect(state('test').get()).toBeNull();
+  expect(state('test').get()).toBeUndefined();
 });
 test('state toString', () => {
   state('test').set('test');

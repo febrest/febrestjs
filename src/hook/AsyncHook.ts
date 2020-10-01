@@ -14,8 +14,9 @@ class AsyncHook extends Hook {
       if (i === plugins.length) {
         return next(data);
       }
-      let plugin = plugins[i];
+      const plugin = plugins[i];
       if (plugin[hook]) {
+        // @ts-ignore
         returnValue = plugin[hook](data);
         if (returnValue === undefined) {
           apply();

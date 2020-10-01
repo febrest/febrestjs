@@ -101,7 +101,7 @@ class Invoker {
   release() {
     this.hook.plugins = [];
   }
-  plugin(plugin: ActionPlugin) {
+  plugin(plugin: Partial<ActionPlugin>) {
     this.hook.plugin(plugin);
   }
   onError(callback: ErrorCallback) {

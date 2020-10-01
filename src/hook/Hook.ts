@@ -4,16 +4,17 @@ export interface HookPlugin {
   [hook: string]: (data: any) => any;
 }
 class Hook {
-  plugins: HookPlugin[] = [];
+  plugins: Partial<HookPlugin>[] = [];
 
   apply<T>(hook: string, data?: T) {
     this.plugins.forEach(plugin => {
       if (plugin[hook]) {
-        data = plugin[hook](data);
+        // @ts-ignore
+        data = plugin[hook](data) || data;
       }
     });
   }
-  plugin(plugin: HookPlugin) {
+  plugin(plugin: Partial<HookPlugin>) {
     this.plugins.push(plugin);
   }
 }
