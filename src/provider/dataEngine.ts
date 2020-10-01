@@ -1,6 +1,5 @@
-
-import { makeError } from './../error'
-import { getProvider } from './inject'
+import { makeError } from './../error';
+import { getProvider } from './inject';
 function query(name, action, payload) {
   let origin;
   if ((origin = getProvider(name))) {
@@ -20,7 +19,4 @@ function update(name, action, payload) {
   }
 }
 
-export {
-  query,
-  update
-}
+export { query, update };

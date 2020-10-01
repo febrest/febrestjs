@@ -1,3 +1,3 @@
-import Broadcast from "./Broadcast";
+import Broadcast from './Broadcast';
 
 export { Broadcast };

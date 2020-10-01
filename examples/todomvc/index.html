@@ -1,43 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>febrest todomvc</title>
     <script src="../../dist/febrest.js"></script>
-    <link rel="stylesheet" href="index.css">
-</head>
+    <link rel="stylesheet" href="index.css" />
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <h1 class="header">todos</h1>
-        <section class="main">
-            <p class="new-todo-container">
-                <input class="new-todo" placeholder="需要做什么？" />
-            </p>
-            <ul class="list">
-            </ul>
-            <footer class="selector">
-                <p class="filters">
-                    <span 
-                        fbclick="app.changeType('all')" 
-                        class="all selected">all
-                    </span>
-                    <span 
-                        fbclick="app.changeType('active')">
-                        active
-                    </span>
-                    <span 
-                        fbclick="app.changeType('complete')">
-                        complete
-                    </span>
-                </p>
-            </footer>
-        </section>
+      <h1 class="header">todos</h1>
+      <section class="main">
+        <p class="new-todo-container">
+          <input class="new-todo" placeholder="需要做什么？" />
+        </p>
+        <ul class="list"></ul>
+        <footer class="selector">
+          <p class="filters">
+            <span fbclick="app.changeType('all')" class="all selected"
+              >all
+            </span>
+            <span fbclick="app.changeType('active')">
+              active
+            </span>
+            <span fbclick="app.changeType('complete')">
+              complete
+            </span>
+          </p>
+        </footer>
+      </section>
     </div>
     <script src="index.js"></script>
-</body>
-
+  </body>
 </html>

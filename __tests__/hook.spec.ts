@@ -1,4 +1,4 @@
-import { AsyncHook, Hook } from "hook";
+import { AsyncHook, Hook } from 'hook';
 
 let hook: Hook | undefined;
 let asyncHook: AsyncHook | undefined;
@@ -7,53 +7,53 @@ const asyncHookApplyResult: string[] = [];
 const hookPlugins = [
   {
     start: (message: string) => {
-      hookApplyResult.push(message + " 1");
-      console.log("plugin1 start:" + message);
-    }
+      hookApplyResult.push(message + ' 1');
+      console.log('plugin1 start:' + message);
+    },
   },
   {
     start: (message: string) => {
-      hookApplyResult.push(message + " 2");
-      console.log("plugin2 start:" + message);
-    }
-  }
+      hookApplyResult.push(message + ' 2');
+      console.log('plugin2 start:' + message);
+    },
+  },
 ];
 const asyncHookPlugins = [
   {
     start: (message: string) => {
-      asyncHookApplyResult.push(message + " 1");
-      console.log("async plugin1 start:" + message);
-    }
+      asyncHookApplyResult.push(message + ' 1');
+      console.log('async plugin1 start:' + message);
+    },
   },
   {
     start: (message: string) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          asyncHookApplyResult.push(message + " 2");
-          console.log("async plugin2 start:" + message);
+          asyncHookApplyResult.push(message + ' 2');
+          console.log('async plugin2 start:' + message);
           resolve();
         });
       });
-    }
+    },
   },
   {
     start: (message: string) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          asyncHookApplyResult.push(message + " 3");
-          console.log("async plugin3 start:" + message);
+          asyncHookApplyResult.push(message + ' 3');
+          console.log('async plugin3 start:' + message);
           resolve();
         });
       });
-    }
-  }
+    },
+  },
 ];
 
-test("hook", () => {
+test('hook', () => {
   hook = new Hook();
 });
 
-test("hook plugin", () => {
+test('hook plugin', () => {
   if (hook) {
     hook && hook.plugin(hookPlugins[0]);
     expect(hook.plugins.length == 1);
@@ -62,20 +62,20 @@ test("hook plugin", () => {
   }
 });
 
-test("hook apply", () => {
+test('hook apply', () => {
   if (hook) {
-    const data = "hook apply";
-    hook.apply("start", data);
+    const data = 'hook apply';
+    hook.apply('start', data);
     expect(hookApplyResult.length).toBe(2);
-    expect(hookApplyResult.join(",")).toBe(`${data} 1,${data} 2`);
+    expect(hookApplyResult.join(',')).toBe(`${data} 1,${data} 2`);
   }
 });
 
-test("async hook", () => {
+test('async hook', () => {
   asyncHook = new AsyncHook();
 });
 
-test("async hook plugin", () => {
+test('async hook plugin', () => {
   if (asyncHook) {
     asyncHook && asyncHook.plugin(asyncHookPlugins[0]);
     expect(asyncHook.plugins.length == 1);
@@ -86,17 +86,17 @@ test("async hook plugin", () => {
   }
 });
 
-test("async hook apply", () => {
+test('async hook apply', () => {
   if (asyncHook) {
-    const data = "hook apply";
-    asyncHook.apply("start", data, () => {
+    const data = 'hook apply';
+    asyncHook.apply('start', data, () => {
       expect(asyncHookApplyResult.length).toBe(3);
-      expect(asyncHookApplyResult.join(",")).toBe(
+      expect(asyncHookApplyResult.join(',')).toBe(
         asyncHookApplyResult
           .map((d, index) => {
-            return data + " " + ++index;
+            return data + ' ' + ++index;
           })
-          .join(",")
+          .join(',')
       );
     });
   }

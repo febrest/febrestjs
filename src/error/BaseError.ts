@@ -1,8 +1,8 @@
 class BaseError extends Error {
-  type: string = "base";
+  type: string = 'base';
   constructor(message: string, type?: string) {
     super(message);
-    this.type = type || "base";
+    this.type = type || 'base';
   }
   toString() {
     return this.message;

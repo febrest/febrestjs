@@ -1,15 +1,10 @@
-'use strict'
+'use strict';
 import { isPromise, immediate } from '../util';
 import { State } from '../state';
-import {
-  watch,
-  doWatch,
-  pendingWatch,
-  unwatch
-} from './../observer'
+import { watch, doWatch, pendingWatch, unwatch } from './../observer';
 
 function getState(state) {
-  return state.get()
+  return state.get();
 }
 function setState(state, data) {
   state.set(data);
@@ -30,7 +25,7 @@ let LAST_DO_WATCH_TIME;
 
 class ProviderWrapper {
   constructor(ProviderClass) {
-    this.$typeof$ = 'ProvideWrapper'
+    this.$typeof$ = 'ProvideWrapper';
     this._provider = new ProviderClass();
     this._state = new State();
     this._created = false;
@@ -53,64 +48,61 @@ class ProviderWrapper {
     }
   }
   watch(callback) {
-    watch(this._provider.name, callback)
+    watch(this._provider.name, callback);
   }
   unwatch(callback) {
-    unwatch(this._provider.name, callback)
+    unwatch(this._provider.name, callback);
   }
   query(action, payload) {
-    let {
-      _provider,
-      _state
-    } = this;
+    let { _provider, _state } = this;
     let data;
     data = _provider.query(getState(_state), action, payload);
     if (isPromise(data)) {
-      return data.then(state => {
-        immediate(() => _provider.onQuery({ action, payload, state: data }));
-        return state;
-      }, error => {
-        return error;
-      })
+      return data.then(
+        state => {
+          immediate(() => _provider.onQuery({ action, payload, state: data }));
+          return state;
+        },
+        error => {
+          return error;
+        }
+      );
     } else {
       immediate(() => _provider.onQuery({ action, payload, state: data }));
       return data;
     }
-
   }
 
   /**
-   * 
-   * @param {*} action 
-   * @param {*} payload 
+   *
+   * @param {*} action
+   * @param {*} payload
    * todos:update的时候异常捕获
    */
   update(action, payload) {
     UPDATE_SIZE++;
 
-    let {
-      _provider,
-      _state
-    } = this;
-    let data
+    let { _provider, _state } = this;
+    let data;
     data = _provider.update(getState(_state), action, payload);
     if (isPromise(data)) {
-      return data.then(state => {
-        setState(_state, state);
-        _provider.onUpdate({ action, payload, state: state });
-        updateComplete(_provider.name)
-      }, error => {
-        return error;
-      })
+      return data.then(
+        state => {
+          setState(_state, state);
+          _provider.onUpdate({ action, payload, state: state });
+          updateComplete(_provider.name);
+        },
+        error => {
+          return error;
+        }
+      );
     } else {
       setState(_state, data);
       _provider.onUpdate({ action, payload, state: data });
-      updateComplete(_provider.name)
+      updateComplete(_provider.name);
       return Promise.resolve(data);
     }
-
   }
-
 }
 
 export default ProviderWrapper;

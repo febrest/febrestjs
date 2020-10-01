@@ -15,7 +15,7 @@ class Broadcast {
       cmd,
       data,
     };
-    this.listeners.forEach((callback) => {
+    this.listeners.forEach(callback => {
       callback(event);
     });
   }

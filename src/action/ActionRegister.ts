@@ -9,11 +9,11 @@ class ActionRegister {
     this.actions = new Map();
   }
   registerAction(namespace: string, actions: any) {
-    if (typeof namespace !== "string") {
+    if (typeof namespace !== 'string') {
       actions = namespace;
-      namespace = "";
+      namespace = '';
     } else {
-      namespace = namespace + ".";
+      namespace = namespace + '.';
     }
     for (let name in actions) {
       this.actions.set(namespace + name, actions[name]);

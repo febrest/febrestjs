@@ -7,7 +7,7 @@ class Hook {
   plugins: HookPlugin[] = [];
 
   apply<T>(hook: string, data?: T) {
-    this.plugins.forEach((plugin) => {
+    this.plugins.forEach(plugin => {
       if (plugin[hook]) {
         data = plugin[hook](data);
       }

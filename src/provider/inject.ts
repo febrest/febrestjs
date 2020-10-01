@@ -1,6 +1,6 @@
 import ProviderWrapper from './ProviderWrapper';
 
-const cap = {}
+const cap = {};
 
 export function inject(ProviderClass) {
   let provider = new ProviderWrapper(ProviderClass);
@@ -12,10 +12,10 @@ export function all() {
   return cap;
 }
 export function getProvider(name) {
-  return cap[name]
+  return cap[name];
 }
 export function batchInject(providers) {
-  return providers.map((provider) => {
-    return inject(provider)
-  })
+  return providers.map(provider => {
+    return inject(provider);
+  });
 }

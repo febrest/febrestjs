@@ -1,3 +1,3 @@
-export default  {
-    FEBREST_:'2'
-}
+export default {
+  FEBREST_: '2',
+};
