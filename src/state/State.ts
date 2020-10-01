@@ -1,23 +1,29 @@
-import { ObserverListener, ObserverWatcher } from 'observer/Observer';
+import { ObserverWatcher } from 'observer/Observer';
 import { copy, merge } from 'utils';
 
-const STATE_MAP = new Map();
+const STATE_MAP: Map<string, IState> = new Map<string, IState>();
 
 export interface StateObserver {
   dispatch: (name: string, event: StateChangeEvent) => void;
   observe: (name: string, event: StateObserverListener) => ObserverWatcher;
 }
 export interface StateHook {
-  get: () => void;
-  set: () => void;
+  get: (target: string) => void;
+  set: (target: string) => void;
+  replace: (target: string) => void;
+  clear: (target: string) => void;
+  toString: (target: string) => void;
+  parse: (target: string) => void;
+  observe: (target: string) => void;
 }
-export interface IState {
+export interface IState<T = any> {
   $type$: 'State';
-  get: () => any;
-  set: (data: any) => void;
-  replace: (data: any) => void;
+  get: () => T;
+  set: (data: T) => void;
+  replace: (data: T) => void;
   clear: () => void;
   toString: () => string;
+  parse: (v: string) => void;
   observe: (callback: StateObserverListener) => ObserverWatcher | undefined;
 }
 export type StateObserverListener = (event: StateChangeEvent) => void;
@@ -27,9 +33,9 @@ export interface StateChangeEvent {
   current: any;
 }
 let _observer: StateObserver | undefined;
-class State {
-  data: any = null;
-  set(data: any) {
+class State<T = any> {
+  data?: T;
+  set(data: T) {
     const type = typeof data;
     const stateData = this.data;
     if (type !== typeof stateData || stateData === null || type !== 'object') {
@@ -38,11 +44,11 @@ class State {
       this.data = copy(merge(stateData, data));
     }
   }
-  get() {
+  get(): T {
     return copy(this.data);
   }
   clear() {
-    this.data = null;
+    this.data = undefined;
   }
   replace(data: any) {
     this.data = copy(data);
@@ -52,21 +58,21 @@ class State {
     if (!data || typeof data === 'object') {
       return JSON.stringify(data);
     } else {
-      return data.toString();
+      return data + '';
     }
   }
-  parse(string: string) {
-    this.data = JSON.parse(string);
+  parse(v: string) {
+    this.data = JSON.parse(v);
   }
 }
-function StateFactory(name: string): IState {
+function StateFactory<T = any>(name: string): IState<T> {
   const state = new State();
-  const stateWrapper: IState = {
+  const stateWrapper: IState<T> = {
     $type$: 'State',
-    get: function() {
+    get(): T {
       return state.get();
     },
-    set: function(data: any) {
+    set(data: T) {
       const old = state.get();
       state.set(data);
       const current = state.get();
@@ -86,15 +92,18 @@ function StateFactory(name: string): IState {
     toString() {
       return state.toString();
     },
+    parse(v: string) {
+      state.parse(v);
+    },
     observe: function(callback: StateObserverListener) {
       return _observer ? _observer.observe(name, callback) : undefined;
-    }
+    },
   };
   STATE_MAP.set(name, stateWrapper);
   return stateWrapper;
 }
-function getOrCreateState(name: string): IState {
-  const state = STATE_MAP.get(name) || StateFactory(name);
+function getOrCreateState<T>(name: string): IState<T> {
+  const state: IState<T> = STATE_MAP.get(name) || StateFactory(name);
   return state;
 }
 

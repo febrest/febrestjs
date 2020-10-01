@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
-import Hook from "./Hook";
-import { isPromise } from "utils";
+import Hook from './Hook';
+import { isPromise } from 'utils';
 
 class AsyncHook extends Hook {
   // @ts-ignore
-  apply(hook: string, data: any, next: (data?: any) => void) {
+  apply<T>(hook: string, data: T, next: (data: T) => void): void {
     let plugins = this.plugins;
     let i = -1;
     let returnValue;
@@ -20,14 +20,16 @@ class AsyncHook extends Hook {
         if (returnValue === undefined) {
           apply();
         } else if (isPromise(returnValue)) {
+          // @todos
+          // error catch maybe needed
           returnValue.then(
-            (v: any) => {
+            (v: T) => {
               data = v || data;
               apply();
             },
-            (v: any) => {
+            (v: T) => {
               data = v || data;
-              next(null);
+              next(data);
             }
           );
         } else {

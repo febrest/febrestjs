@@ -1,14 +1,17 @@
-"use strict";
+'use strict';
 
-import { postMessage as broadcast, subscribe, unsubscribe } from "./broadcast";
-import state, { State } from "./state";
+import {
+  postMessage as broadcast,
+  subscribe,
+  unsubscribe,
+  SubscribeFunction,
+  UnsubscribeFunction,
+  PostMessageFunction,
+} from './broadcast';
+import state, { State } from './state';
 
-import { ActionPlugin } from "invoker/Invoker";
-import { ActionRegister } from "action";
-import { BroadcastEventListener } from "broadcast/Broadcast";
-import { ObserverListener } from "observer/Observer";
-import invoker from "./invoker";
-import { observe } from "./observer";
+import invoker, { InvokerEntity } from './invoker';
+import { observe, ObserveFunction } from './observer';
 
 const export_keys = {
   dispatch: true,
@@ -18,27 +21,20 @@ const export_keys = {
   plugin: true,
   action: true,
   broadcast: true,
-  onError: true
+  onError: true,
 };
-export interface Febrest {
-  action: (namespace: string, actions: any) => void;
-  dispatch: (
-    ctrl: string | ((payload: any) => any),
-    payload: any
-  ) => Promise<any>;
-  plugin: (lugin: ActionPlugin) => void;
-  onError: (error: (error: any) => boolean) => void;
-  subscribe: (callback: BroadcastEventListener) => void;
-  unsubscribe: (callback: BroadcastEventListener) => void;
-  broadcast: (cmd: string, data: any) => void;
-  State: State;
-  observe: (l: ObserverListener) => void;
-}
+// export interface Febrest {
+//   dispatch<T = any, S = any>(ctrl: Controller<T, S>, payload: T): Promise<S>;
+//   plugin(plugin: ActionPlugin): void;
+//   onError(error: ErrorCallback): void;
+//   subscribe(callback: BroadcastEventListener): void;
+//   unsubscribe(callback: BroadcastEventListener): void;
+//   broadcast<T = any>(cmd: string, data: T): void;
+//   State;
+//   observe(l: ObserverListener): void;
+// }
 
 const febrest: Febrest = {
-  action: (namespace: string, actions: any) => {
-    ActionRegister.registerAction(namespace, actions);
-  },
   dispatch: invoker.invoke,
   plugin: invoker.plugin,
   onError: invoker.onError,
@@ -46,6 +42,16 @@ const febrest: Febrest = {
   unsubscribe,
   broadcast,
   State: state,
-  observe
+  observe,
 };
+export interface Febrest {
+  dispatch: InvokerEntity['invoke'];
+  plugin: InvokerEntity['plugin'];
+  onError: InvokerEntity['onError'];
+  subscribe: SubscribeFunction;
+  unsubscribe: UnsubscribeFunction;
+  broadcast: PostMessageFunction;
+  State: State;
+  observe: ObserveFunction;
+}
 export default febrest;

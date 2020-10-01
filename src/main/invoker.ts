@@ -1,34 +1,31 @@
-"use strict";
+'use strict';
 
-import { ActionEngine, ActionPlugin } from "invoker/Invoker";
+import { ActionPlugin, ErrorCallback } from 'invoker/Invoker';
 
-import { Invoker } from "invoker";
-import actionEngine from "./actionEngine";
+import { Invoker } from 'invoker';
+import actionEngine from './actionEngine';
+import { Controller } from 'action/runtimeAction';
 
-const exportMethods = ["invoke", "plugin", "onError"];
+// const exportMethods = ['invoke', 'plugin', 'onError'];
 
 export interface InvokerEntity {
-  invoke: (
-    ctrl: string | ((payload: any) => any),
-    payload: any
-  ) => Promise<any>;
-  plugin: (plugin: ActionPlugin) => void;
-  onError: (error: (error: any) => boolean) => void;
+  invoke<T = any, S = any>(ctrl: Controller, payload?: T): Promise<S>;
+  plugin(plugin: ActionPlugin): void;
+  onError(callback: ErrorCallback): void;
 }
-function createInvoker() {
-  let _invoker = new Invoker(actionEngine);
-  let invoker: InvokerEntity = {
-    invoke: function(ctrl: string | ((payload: any) => any), payload: any) {
-      return _invoker.invoke(ctrl, payload);
+function createInvoker(): InvokerEntity {
+  const _invoker = new Invoker(actionEngine);
+  return {
+    invoke<T, S>(ctrl: Controller<T, S>, payload?: T): Promise<S> {
+      return _invoker.invoke<T, S>(ctrl, payload);
     },
-    plugin: function(plugin: ActionPlugin) {
+    plugin(plugin: ActionPlugin) {
       return _invoker.plugin(plugin);
     },
-    onError: function(error: (error: any) => boolean) {
-      return _invoker.onError(error);
-    }
+    onError(callback: ErrorCallback) {
+      return _invoker.onError(callback);
+    },
   };
-  return invoker;
 }
 
 const invoker = createInvoker();

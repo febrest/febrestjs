@@ -1,30 +1,39 @@
 declare module 'febrest' {
-  export interface RuntimeAction {
+  export type Controller<T, S> = (payload?: T) => S;
+  export interface RuntimeAction<T = any, S = any> {
     $typeof$: 'RuntimeAction';
     stage: string;
-    name: string;
-    controller: ((payload: any) => any) | undefined;
-    payload: any;
-    result: any;
-    error: Error | undefined;
+    controller?: Controller<T, S>;
+    payload?: T;
+    result?: S;
+    error?: Error;
   }
   export interface ActionPlugin {
-    initialized: (
-      action: RuntimeAction
-    ) => RuntimeAction | Promise<RuntimeAction> | void;
-    close: (
-      data: RuntimeAction
-    ) => RuntimeAction | Promise<RuntimeAction> | void;
+    initialized<T = any, S = any>(
+      action: RuntimeAction<T, S>
+    ): RuntimeAction<T, S> | Promise<RuntimeAction<T, S>>;
+    exception<T = any, S = any>(
+      data: RuntimeAction<T, S>
+    ): RuntimeAction<T, S> | Promise<RuntimeAction<T, S>>;
+    close<T = any, S = any>(
+      data: RuntimeAction<T, S>
+    ): RuntimeAction<T, S> | Promise<RuntimeAction<T, S>>;
   }
-  export type BroadcastEventListener = (event: BroadcastEvent) => void;
+  export interface BroadcastEvent<T = any> {
+    cmd: string;
+    data?: T;
+  }
+  export type BroadcastEventListener<T = any> = (
+    event: BroadcastEvent<T>
+  ) => void;
   export type ObserverListener = (event: any) => void;
 
-  type StateFunction = (name: string) => IState;
-  export interface IState {
+  type StateFunction<T> = (name: string) => IState<T>;
+  export interface IState<T = any> {
     $type$: 'State';
-    get: () => any;
-    set: (data: any) => void;
-    replace: (data: any) => void;
+    get: () => T;
+    set: (data: T) => void;
+    replace: (data: T) => void;
     clear: () => void;
     toString: () => string;
     observe: (callback: StateObserverListener) => ObserverWatcher | undefined;
@@ -39,7 +48,7 @@ declare module 'febrest' {
   }
   export type StateObserverListener = (event: StateChangeEvent) => void;
 
-  interface StateStatic extends StateFunction {
+  interface StateStatic<T = any> extends StateFunction<T> {
     observe: (l: ObserverListener) => void;
     batch: (
       updater:
@@ -47,39 +56,30 @@ declare module 'febrest' {
         | { [key: string]: any }
     ) => void;
   }
-  export interface BroadcastEvent {
+  export interface BroadcastEvent<T = any> {
     cmd: string;
-    data: any;
+    data?: T;
   }
-  type PluginFunction = (plugin: ActionPlugin) => void;
-  type ActionFunction = (namespace: string, actions: any) => void;
-  type DispatchFunction = (
-    ctrl: string | ((payload: any) => any),
-    payload?: any
-  ) => Promise<any>;
-  type OnErrorFunction = (error: (error: any) => boolean) => void;
-  type SubscribeFunction = (callback: BroadcastEventListener) => void;
-  type UnsubscribeFunction = (callback: BroadcastEventListener) => void;
-  type BroadcastFunction = (cmd: string, data: any) => void;
-  type ObserveFunction = (l: ObserverListener) => void;
-  export const plugin: PluginFunction;
-  export const action: ActionFunction;
-  export const dispatch: DispatchFunction;
-  export const subscribe: SubscribeFunction;
-  export const unsubscribe: UnsubscribeFunction;
-  export const broadcast: BroadcastFunction;
+  export function plugin(plugin: ActionPlugin): void;
+  export function dispatch<T, S>(
+    ctrl: Controller<T, S>,
+    payload?: T
+  ): Promise<S>;
+  export function onError(error: (error: Error) => boolean): void;
+  export function subscribe(callback: BroadcastEventListener): void;
+  export function unsubscribe(callback: BroadcastEventListener): void;
+  export function broadcast(cmd: string, data: any): void;
+  export function observe(l: ObserverListener): void;
   export const State: StateStatic;
-  export const observe: ObserveFunction;
   const Febrest: {
-    action: ActionFunction;
-    dispatch: DispatchFunction;
-    plugin: PluginFunction;
-    onError: OnErrorFunction;
-    subscribe: SubscribeFunction;
-    unsubscribe: UnsubscribeFunction;
-    broadcast: BroadcastFunction;
-    State: StateStatic;
-    observe: ObserveFunction;
+    dispatch;
+    plugin;
+    onError;
+    subscribe;
+    unsubscribe;
+    broadcast;
+    State;
+    observe;
     version: string;
   };
   export default Febrest;
