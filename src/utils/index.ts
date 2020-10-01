@@ -1,12 +1,12 @@
-"use strict";
+'use strict';
 
-import { runTransaction, series } from "./Transaction";
+import { runTransaction, series } from './Transaction';
 
 function isObject(v: any) {
-  return Object.prototype.toString.call(v) === "[object Object]";
+  return Object.prototype.toString.call(v) === '[object Object]';
 }
 function isPromise(v: any) {
-  if (typeof Promise !== "undefined" && v instanceof Promise) {
+  if (typeof Promise !== 'undefined' && v instanceof Promise) {
     return true;
   } else {
     return false;
@@ -81,5 +81,5 @@ export {
   runTransaction,
   series,
   immediate,
-  merge
+  merge,
 };

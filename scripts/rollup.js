@@ -1,60 +1,60 @@
-const rollup = require("rollup");
-const babel = require("rollup-plugin-babel");
-const commonjs = require("rollup-plugin-commonjs");
-const { uglify } = require("rollup-plugin-uglify");
-const prettier = require("rollup-plugin-prettier");
-const path = require("path");
-const fs = require("fs");
-const typescript = require("rollup-plugin-typescript2");
+const rollup = require('rollup');
+const babel = require('rollup-plugin-babel');
+const commonjs = require('rollup-plugin-commonjs');
+const { uglify } = require('rollup-plugin-uglify');
+const prettier = require('rollup-plugin-prettier');
+const path = require('path');
+const fs = require('fs');
+const typescript = require('rollup-plugin-typescript2');
 
-const alias = require("rollup-plugin-alias");
+const alias = require('rollup-plugin-alias');
 
-const getBanner = require("./banner");
+const getBanner = require('./banner');
 
 function getFileName(name, bundleType) {
   switch (bundleType) {
-    case "dev":
+    case 'dev':
       return `${name.toLowerCase()}.js`;
-    case "prod":
+    case 'prod':
       return `${name.toLowerCase()}.min.js`;
   }
 }
 
 function getPlugins(bundleType) {
-  const root = path.resolve("./src");
+  const root = path.resolve('./src');
   return [
     alias({
-      resolve: [".ts"],
+      resolve: ['.ts'],
       entries: fs.readdirSync(root).map(name => {
         const stat = fs.statSync(path.resolve(root, name));
         if (stat.isDirectory()) {
           return {
             find: name,
-            replacement: path.resolve(root, name)
+            replacement: path.resolve(root, name),
           };
         }
-        return { find: "index", replacement: path.resolve(root, name) };
-      })
+        return { find: 'index', replacement: path.resolve(root, name) };
+      }),
     }),
     commonjs(),
     typescript(),
-    bundleType === "prod"
+    bundleType === 'prod'
       ? uglify()
       : prettier({
           tabWidth: 2,
           singleQuote: false,
-          parser: "babel"
-        })
+          parser: 'babel',
+        }),
   ];
 }
 function getOutputOptions(output, name, bundleType, exts) {
-  var format = "umd";
+  var format = 'umd';
   var file = output;
   return {
     file,
     format,
     name,
-    ...exts
+    ...exts,
   };
 }
 
@@ -65,12 +65,12 @@ function intro(version) {
 async function build(entry, output, name, version, bundleType) {
   var result = await rollup.rollup({
     input: entry,
-    plugins: getPlugins(bundleType)
+    plugins: getPlugins(bundleType),
   });
   var filename = getFileName(name, bundleType);
   output = path.resolve(output, filename);
-  var banner = "";
-  if (bundleType === "dev") {
+  var banner = '';
+  if (bundleType === 'dev') {
     banner = getBanner(version, filename);
   }
   if (fs.existsSync(output)) {
@@ -79,7 +79,7 @@ async function build(entry, output, name, version, bundleType) {
   await result.write(
     getOutputOptions(output, name, bundleType, {
       banner,
-      intro: intro(version)
+      intro: intro(version),
     })
   );
 }

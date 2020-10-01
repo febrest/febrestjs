@@ -1,19 +1,20 @@
-"use strict";
+'use strict';
 
 export interface HookPlugin {
   [hook: string]: (data: any) => any;
 }
 class Hook {
-  plugins: HookPlugin[] = [];
+  plugins: Partial<HookPlugin>[] = [];
 
-  apply(hook: string, data?: any) {
+  apply<T>(hook: string, data?: T) {
     this.plugins.forEach(plugin => {
       if (plugin[hook]) {
-        plugin[hook](data);
+        // @ts-ignore
+        data = plugin[hook](data) || data;
       }
     });
   }
-  plugin(plugin: HookPlugin) {
+  plugin(plugin: Partial<HookPlugin>) {
     this.plugins.push(plugin);
   }
 }

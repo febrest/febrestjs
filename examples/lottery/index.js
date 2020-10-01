@@ -18,24 +18,24 @@
   }
   var providers = [
     {
-      name: "rollHistory",
+      name: 'rollHistory',
       defaultState: [],
-      type: HistoryProvider
+      type: HistoryProvider,
     },
     {
-      name: "lottery",
-      defaultState: 0
-    }
+      name: 'lottery',
+      defaultState: 0,
+    },
   ];
 
   /**
    * constants
    */
   var constants = {
-    ADD_LOTTERY: "ADD_LOTTERY",
-    GET_LOTTERY: "GET_LOTTERY",
-    SET_ROLL_HISTORY: "SET_ROLL_HISTORY",
-    ROLL: "ROLL"
+    ADD_LOTTERY: 'ADD_LOTTERY',
+    GET_LOTTERY: 'GET_LOTTERY',
+    SET_ROLL_HISTORY: 'SET_ROLL_HISTORY',
+    ROLL: 'ROLL',
   };
 
   /**
@@ -73,18 +73,18 @@
   let broadcast = Febrest.broadcast;
   var controllers = {
     addLottery() {
-      let data = State("lottery").get();
+      let data = State('lottery').get();
       data++;
-      State("lottery").set(data);
+      State('lottery').set(data);
       return { lottery: data };
     },
     getLottery() {
-      let data = State("lottery").get();
+      let data = State('lottery').get();
       return { lottery: data };
     },
     roll() {
-      let lottery = State("lottery").get();
-      let rollHistory = State("rollHistory").get();
+      let lottery = State('lottery').get();
+      let rollHistory = State('rollHistory').get();
       if (lottery < 5) {
         return { ok: false };
       } else {
@@ -93,7 +93,7 @@
         let item = {
           time: Date.now(),
           value,
-          bonus
+          bonus,
         };
         rollHistory.push(item);
         let result = {
@@ -101,13 +101,13 @@
           lottery: lottery - 5,
           value,
           bonus,
-          rollHistory
+          rollHistory,
         };
-        State("lottery").set(lottery - 5);
-        update("rollHistory", "push", item);
+        State('lottery').set(lottery - 5);
+        update('rollHistory', 'push', item);
         return result;
       }
-    }
+    },
   };
 
   /**
@@ -121,14 +121,14 @@
    * 负责页面更新和页面交互
    */
   function getStopAnimateByValue(value) {
-    return "stop_animate_" + value;
+    return 'stop_animate_' + value;
   }
   function roll() {
-    Febrest.dispatch("roll").then(data => {
+    Febrest.dispatch('roll').then(data => {
       if (data.ok) {
         startRoll(data);
       } else {
-        alert("奖券数量不够！");
+        alert('奖券数量不够！');
       }
     });
   }
@@ -139,10 +139,10 @@
    * 因为动画是css控制所以结束时间大致用了setTimeout，没做精准的判断
    */
   function startRoll(state) {
-    var rolls = document.getElementsByClassName("roll");
-    rolls[0].className = "roll animate";
-    rolls[1].className = "roll animate";
-    rolls[2].className = "roll animate";
+    var rolls = document.getElementsByClassName('roll');
+    rolls[0].className = 'roll animate';
+    rolls[1].className = 'roll animate';
+    rolls[2].className = 'roll animate';
     setTimeout(() => stopRoll(state), 5000);
   }
   /**
@@ -150,16 +150,16 @@
    * @param {*} state
    */
   function stopRoll(state) {
-    var rolls = document.getElementsByClassName("roll");
+    var rolls = document.getElementsByClassName('roll');
     var values = state.value;
-    rolls[0].className = "roll " + getStopAnimateByValue(values[0]);
-    rolls[1].className = "roll " + getStopAnimateByValue(values[1]);
-    rolls[2].className = "roll " + getStopAnimateByValue(values[2]);
+    rolls[0].className = 'roll ' + getStopAnimateByValue(values[0]);
+    rolls[1].className = 'roll ' + getStopAnimateByValue(values[1]);
+    rolls[2].className = 'roll ' + getStopAnimateByValue(values[2]);
     setTimeout(function() {
       if (state.bonus) {
-        alert("恭喜您中奖！");
+        alert('恭喜您中奖！');
       } else {
-        alert("很遗憾，没有中奖！");
+        alert('很遗憾，没有中奖！');
       }
       updateRollHistory(state.rollHistory);
     }, 3000);
@@ -176,9 +176,9 @@
    */
   function updateLotteryCount(data) {
     if (data.lottery) {
-      Febrest.dispatch("getLottery").then(data => {
-        document.getElementsByClassName("lottery_count")[0].innerHTML =
-          "奖券数量:" + data.lottery;
+      Febrest.dispatch('getLottery').then(data => {
+        document.getElementsByClassName('lottery_count')[0].innerHTML =
+          '奖券数量:' + data.lottery;
       });
     }
   }
@@ -187,32 +187,32 @@
    * @param {*} data
    */
   function updateRollHistory(history) {
-    var ul = document.getElementsByClassName("roll_history")[0];
+    var ul = document.getElementsByClassName('roll_history')[0];
     ul.innerHTML = history
       .map(function(item) {
         var time = new Date(item.time).toLocaleTimeString();
         var code = item.value.toString();
         var bonus =
-          item.bonus == 2 ? "二等奖" : item.bonus == "1" ? "一等奖" : "未中奖";
+          item.bonus == 2 ? '二等奖' : item.bonus == '1' ? '一等奖' : '未中奖';
         return (
-          "<li>" +
-          "时间：" +
+          '<li>' +
+          '时间：' +
           time +
-          " 号码：" +
+          ' 号码：' +
           code +
-          " 中奖结果：" +
+          ' 中奖结果：' +
           bonus +
-          "</li>"
+          '</li>'
         );
       })
-      .join("\r\n");
+      .join('\r\n');
   }
 
   /**
    * @description 每间隔一秒自动增加一张奖券
    */
   function lotterySelfAdd() {
-    Febrest.dispatch("addLottery");
+    Febrest.dispatch('addLottery');
     setTimeout(lotterySelfAdd, 1000);
   }
   /**
@@ -232,5 +232,5 @@
 
   lotterySelfAdd();
 
-  document.body.addEventListener("click", onClick, false);
+  document.body.addEventListener('click', onClick, false);
 })();

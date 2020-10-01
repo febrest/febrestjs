@@ -1,15 +1,15 @@
 import {
   ACTION_READY_STATE,
-  ActionRegister,
   clearRuntimeAction,
   createRuntimeAction,
   getRuntimeAction,
-  setRuntimeAction
+  setRuntimeAction,
 } from 'action';
 
-import { RuntimeAction } from 'action/runtimeAction';
+import { RuntimeAction, Controller } from 'action/runtimeAction';
 import { isPromise } from 'utils';
 import { makeError } from 'error';
+import { ActionEngine } from 'invoker/Invoker';
 
 /********************** action执行流程**********************
  *                      initialize                        *
@@ -35,24 +35,16 @@ import { makeError } from 'error';
  *                        close                           *
  **********************************************************/
 
-function initialize(ctrl: string | ((payload: any) => any), payload: any) {
-  let name, controller;
-  if (typeof ctrl === 'function') {
-    name = ctrl.name;
-    controller = ctrl;
-  } else {
-    name = ctrl;
-    controller = ActionRegister.getAction(name);
-  }
-  const action = createRuntimeAction(name, controller, payload);
+function initialize<T, S>(
+  ctrl: Controller<T, S>,
+  payload: T
+): RuntimeAction<T, S> {
+  const action = createRuntimeAction<T, S>(ctrl, payload);
   setRuntimeAction(action);
   action.stage = ACTION_READY_STATE.READY;
   return action;
 }
 
-function complete(action: RuntimeAction) {
-  return action;
-}
 function exception(action: RuntimeAction, error: Error) {
   action.stage = ACTION_READY_STATE.EXCEPTION;
   clearRuntimeAction(action);
@@ -94,10 +86,10 @@ function close(action: RuntimeAction) {
   clearRuntimeAction(action);
 }
 
-export default {
+const actionEngine: ActionEngine = {
   initialize,
   exec,
-  complete,
   close,
-  exception
+  exception,
 };
+export default actionEngine;

@@ -1,8 +1,5 @@
-'use strict'
-
+'use strict';
 
 import makeError from './makeError';
 
-export  {
-    makeError
-}
+export { makeError };

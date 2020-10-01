@@ -41,7 +41,7 @@ function series(transactions: Transaction[]) {
       initialize: t.initialize,
       run: t.run,
       close: connect(t.close, transaction.initialize),
-      error: t.error
+      error: t.error,
     });
   }
   trans[0].initialize();

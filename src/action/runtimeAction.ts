@@ -1,34 +1,33 @@
-import ACTION_READY_STATE from "./ACTION_READY_STATE";
+import ACTION_READY_STATE from './ACTION_READY_STATE';
 let RUNTIME_ACTION: RuntimeAction | undefined;
-export interface RuntimeAction {
-  $typeof$: "RuntimeAction";
+
+export type Controller<T = any, S = any> = (payload?: T) => S;
+export interface RuntimeAction<T = any, S = any> {
+  $typeof$: 'RuntimeAction';
   stage: string;
-  name: string;
-  controller: ((payload: any) => any) | undefined;
-  payload: any;
-  result: any;
-  error: Error | undefined;
+  controller?: Controller<T, S>;
+  payload?: T;
+  result?: S;
+  error?: Error;
 }
 function setRuntimeAction(action: RuntimeAction) {
   RUNTIME_ACTION = action;
 }
-function getRuntimeAction() {
+function getRuntimeAction(): RuntimeAction | undefined {
   return RUNTIME_ACTION;
 }
 
-function createRuntimeAction(
-  name: string,
-  controller: undefined | ((payload: any) => any),
-  payload: any
+function createRuntimeAction<T = any, S = any>(
+  controller: Controller<T, S>,
+  payload: T
 ) {
-  let runtimeAction: RuntimeAction = {
-    $typeof$: "RuntimeAction",
+  const runtimeAction: RuntimeAction<T, S> = {
+    $typeof$: 'RuntimeAction',
     stage: ACTION_READY_STATE.UNINITIALIZED,
-    name,
     controller,
     payload,
     result: undefined,
-    error: undefined
+    error: undefined,
   };
   return runtimeAction;
 }
@@ -46,5 +45,5 @@ export {
   setRuntimeAction,
   getRuntimeAction,
   createRuntimeAction,
-  clearRuntimeAction
+  clearRuntimeAction,
 };

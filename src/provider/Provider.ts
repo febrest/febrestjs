@@ -1,71 +1,15 @@
-'use strict'
-import { inject, batchInject, all, getProvider } from './inject'
-import { watch, unwatch } from './../observer';
+'use strict';
+
+import { all, batchInject, getProvider, inject } from './inject';
 import { query, update } from './dataEngine';
+//类似于一个自动运行的线程，当某些条件触发的时候，会自动执行某些方法。
+
 class Provider {
-    static unwatch(provider, callback) {
-        unwatch(provider, callback)
-    }
-    static watch(provider, callback) {
-        watch(provider, callback)
-    }
-    name: string;
-    constructor(name) {
-        this.name = name || this.constructor.name;
-        this.$typeof$ = 'Provider';
-    }
-    /*
-    * 暂时不支持异步
-    * 暂时没有要增加异步功能的打算
-    */
-    onCreate(state) {
-        return state;
-    }
-    /**
-     * 生命周期
-     * 更新
-     */
-    onUpdate({ method, paylod, state }) {
-
-    }
-    /**
-     * 生命周期
-     * 查询
-     */
-    onQuery({ method, paylod, state }) {
-
-    }
-    /**
-     * 生命周期
-     * 销毁
-     */
-    // onDestory(state){
-
-    // }
-    /**
-     * 
-     */
-    // onError({ method, paylod, error }) {
-    //     console.error('provider error\nmethod:%s\npaylod:%o\nerror:%o', method, paylod, error);
-    // }
-    /**
-     * 
-     * @param {*} state 
-     * @param {*} method 
-     * @param {*} payload 
-     */
-    query(state, method, payload) {
-        return state
-    }
-    update(state, method, payload) {
-        return payload;
-    }
+  $typeof$ = 'Provider';
+  onStateChange() {}
+  onBroadcast() {}
+  start() {}
+  stop() {}
 }
 
-Provider.query = query;
-Provider.update = update;
-Provider.inject = inject;
-Provider.batchInject = batchInject;
-Provider.all = all;
-Provider.getProvider = getProvider;
 export default Provider;

@@ -1,6 +1,4 @@
-'use strict'
+'use strict';
 import Invoker from './Invoker';
 
-export { 
-  Invoker
- };
+export { Invoker };

@@ -1,10 +1,19 @@
 {
   "name": "febrest",
-  "version": "0.20.3",
+  "version": "0.21.1",
   "author": {
     "name": "Spencer Ye",
     "email": "pallyoung@163.com"
   },
+  "files": [
+    "dist/",
+    "src/",
+    "LICENSE",
+    "README.md",
+    "index.js",
+    "types",
+    "tsconfig.json"
+  ],
   "license": "Apache-2.0",
   "devDependencies": {
     "@babel/core": "^7.7.4",
@@ -29,7 +38,7 @@
     "url": "https://github.com/febrest/febrestjs.git"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "build": "node ./scripts/build.js true",
     "publish": "node ./scripts/publish.js"
   },

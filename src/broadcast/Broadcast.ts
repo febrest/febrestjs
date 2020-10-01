@@ -1,23 +1,25 @@
-"use strict";
+'use strict';
 
-export interface BroadcastEvent {
+export interface BroadcastEvent<T = any> {
   cmd: string;
-  data: any;
+  data: T;
 }
-export type BroadcastEventListener = (event: BroadcastEvent) => void;
+export type BroadcastEventListener<T = any> = (
+  event: BroadcastEvent<T>
+) => void;
 class Broadcast {
   private listeners: BroadcastEventListener[] = [];
 
-  private dispatchMessage(cmd: string, data: any) {
-    let event = {
+  private dispatchMessage<T = any>(cmd: string, data?: T) {
+    const event = {
       cmd,
-      data
+      data,
     };
     this.listeners.forEach(callback => {
       callback(event);
     });
   }
-  message(cmd: string, data: any) {
+  message<T = any>(cmd: string, data?: T) {
     this.dispatchMessage(cmd, data);
   }
   subscribe(callback: BroadcastEventListener) {
