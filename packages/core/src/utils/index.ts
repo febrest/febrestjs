@@ -1,23 +1,23 @@
-
 import { runTransaction, series } from './transaction';
 
-function isObject(v: any) {
+export const isObject = (v: unknown): boolean => {
   return Object.prototype.toString.call(v) === '[object Object]';
-}
-function isPromise(v: any) {
+};
+
+export const isPromise = (v: object) => {
   if (typeof Promise !== 'undefined' && v instanceof Promise) {
     return true;
-  } else {
-    return false;
   }
-}
-function merge(...data: any[]) {
+  return false;
+};
+
+export const merge = (...data: object[]) => {
   let dest: any;
   if (Array.isArray(data[0])) {
     dest = [];
-    data.forEach((d) => {
-      dest = dest.concat(d);
-    });
+    for (const item of data) {
+      dest = dest.concat(item);
+    }
   } else {
     dest = {};
     data.forEach((d) => {
@@ -27,8 +27,9 @@ function merge(...data: any[]) {
     });
   }
   return dest;
-}
-function copy(source: any): any {
+};
+
+export const copy = <T>(source: T): T => {
   let dest: any;
   if (Array.isArray(source)) {
     dest = source.map((v) => {
@@ -43,38 +44,30 @@ function copy(source: any): any {
     dest = source;
   }
   return dest;
-}
+};
 
-function toValue(v: any) {
+export const toValue = <T>(v: string): T => {
   try {
     return JSON.parse(v);
   } catch (e) {
-    return v;
+    return v as unknown as T;
   }
-}
+};
 
-function toString(v: any) {
+export const stringify = <T>(v: T): string => {
   try {
     return JSON.stringify(v);
   } catch (e) {
-    return v;
+    return String(v);
   }
-}
-function immediate(callback: () => void) {
+};
+
+export const immediate = (callback: () => void) => {
   try {
     return setTimeout(callback, 0);
   } catch (e) {
     return callback();
   }
-}
-export {
-  isObject,
-  copy,
-  isPromise,
-  toValue,
-  toString,
-  runTransaction,
-  series,
-  immediate,
-  merge,
 };
+
+export { runTransaction, series };
