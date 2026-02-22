@@ -1,4 +1,4 @@
-(function() {
+(function () {
   /**
    * @description
    * providers
@@ -6,15 +6,15 @@
    */
   function HistoryProvider(config) {
     this.name = config.name;
-    this.query = function(state) {
+    this.query = function (state) {
       return state;
     };
-    this.update = function(state, action, payload) {
+    this.update = function (state, action, payload) {
       state.push(payload);
       return state;
     };
-    this.onUpdate = function() {};
-    this.onQuery = function() {};
+    this.onUpdate = function () {};
+    this.onQuery = function () {};
   }
   var providers = [
     {
@@ -47,10 +47,10 @@
 
   function getBonus(value) {
     var result = [];
-    value.forEach(function(index) {
+    value.forEach(function (index) {
       result[index] = result[index] ? ++result[index] : 1;
     });
-    result = result.reduce(function(v, nv) {
+    result = result.reduce(function (v, nv) {
       if (nv < v) {
         return v;
       } else {
@@ -124,7 +124,7 @@
     return 'stop_animate_' + value;
   }
   function roll() {
-    Febrest.dispatch('roll').then(data => {
+    Febrest.dispatch('roll').then((data) => {
       if (data.ok) {
         startRoll(data);
       } else {
@@ -155,7 +155,7 @@
     rolls[0].className = 'roll ' + getStopAnimateByValue(values[0]);
     rolls[1].className = 'roll ' + getStopAnimateByValue(values[1]);
     rolls[2].className = 'roll ' + getStopAnimateByValue(values[2]);
-    setTimeout(function() {
+    setTimeout(function () {
       if (state.bonus) {
         alert('恭喜您中奖！');
       } else {
@@ -176,7 +176,7 @@
    */
   function updateLotteryCount(data) {
     if (data.lottery) {
-      Febrest.dispatch('getLottery').then(data => {
+      Febrest.dispatch('getLottery').then((data) => {
         document.getElementsByClassName('lottery_count')[0].innerHTML =
           '奖券数量:' + data.lottery;
       });
@@ -189,7 +189,7 @@
   function updateRollHistory(history) {
     var ul = document.getElementsByClassName('roll_history')[0];
     ul.innerHTML = history
-      .map(function(item) {
+      .map(function (item) {
         var time = new Date(item.time).toLocaleTimeString();
         var code = item.value.toString();
         var bonus =

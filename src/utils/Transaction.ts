@@ -24,7 +24,7 @@ function runTransaction({ initialize, run, close, error }: Transaction) {
 }
 
 function connect(f1: (data?: any) => void, f2: (data?: any) => void) {
-  return function(data: any) {
+  return function (data: any) {
     f1(data);
     f2();
   };

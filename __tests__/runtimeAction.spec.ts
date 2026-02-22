@@ -8,7 +8,7 @@ import {
 import { RuntimeAction } from 'action/runtimeAction';
 
 test('runtime action', () => {
-  const fn = jest.fn(x => x);
+  const fn = jest.fn((x) => x);
   const action: RuntimeAction = createRuntimeAction(fn, 5);
   setRuntimeAction(action);
   expect(action.$typeof$).toBe('RuntimeAction');

@@ -1,5 +1,5 @@
 function underScoreName(name: string) {
-  return name.replace(/_[\w]/g, m => {
+  return name.replace(/_[\w]/g, (m) => {
     return m[1].toUpperCase();
   });
 }

@@ -7,7 +7,7 @@ class Hook {
   plugins: Partial<HookPlugin>[] = [];
 
   apply<T>(hook: string, data?: T) {
-    this.plugins.forEach(plugin => {
+    this.plugins.forEach((plugin) => {
       if (plugin[hook]) {
         // @ts-ignore
         data = plugin[hook](data) || data;

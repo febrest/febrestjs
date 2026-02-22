@@ -23,21 +23,22 @@ function publish() {
 }
 
 function comfirmToNext(version, next) {
-  rl.question('即将发布的版本是:' + version + ',是否继续？y/n\r\n', function(
-    value
-  ) {
-    value = value.toLowerCase();
-    if (value === 'y' || value === 'yes') {
-      // rl.close();
-      next(version);
-      // doPublish();
-    } else if (value === 'n' || value === 'no') {
-      process.exit(0);
-    } else {
-      console.log('输入错误，请重新输入');
-      comfirmToNext(version, next);
+  rl.question(
+    '即将发布的版本是:' + version + ',是否继续？y/n\r\n',
+    function (value) {
+      value = value.toLowerCase();
+      if (value === 'y' || value === 'yes') {
+        // rl.close();
+        next(version);
+        // doPublish();
+      } else if (value === 'n' || value === 'no') {
+        process.exit(0);
+      } else {
+        console.log('输入错误，请重新输入');
+        comfirmToNext(version, next);
+      }
     }
-  });
+  );
 }
 
 function commit(version) {
@@ -58,7 +59,7 @@ function commit(version) {
   tag(version);
 }
 function tag(version) {
-  rl.question('请输入版本信息\r\n', function(value) {
+  rl.question('请输入版本信息\r\n', function (value) {
     console.log('自动打tag');
     child.execSync(
       'git tag -a febrest-release-v' +

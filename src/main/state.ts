@@ -19,7 +19,7 @@ export interface State<T = any> extends StateFunction<T> {
     updater: ((states: { [key: string]: any }) => void) | { [key: string]: any }
   ): void;
 }
-state.observe = function(l: ObserverListener) {
+state.observe = function (l: ObserverListener) {
   return observer.observe(l);
 };
 state.batch = batch;

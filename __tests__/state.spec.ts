@@ -37,7 +37,7 @@ test('state toString', () => {
 });
 
 test('state observe without observer', () => {
-  const ob = state('test').observe(c => {});
+  const ob = state('test').observe((c) => {});
   expect(ob).toBeUndefined();
 });
 
@@ -51,7 +51,7 @@ test('state change without observer', () => {
 
 test('state observe', () => {
   setObserver(new Observer());
-  const fn = jest.fn(c => {});
+  const fn = jest.fn((c) => {});
   state('test').observe(fn);
   state('test').clear();
   state('test').set('test');

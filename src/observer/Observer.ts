@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 export type ObserverListener = (event: any) => void;
 export interface ObserverWatcher {
@@ -20,10 +20,10 @@ class Watcher {
 class Vendor {
   libs: Map<string, Map<number, Watcher>> = new Map();
   constructor() {
-    this.libs.set("__default", new Map());
+    this.libs.set('__default', new Map());
   }
   put(watcher: Watcher) {
-    const { namespace = "__default", key } = watcher;
+    const { namespace = '__default', key } = watcher;
     let lib = this.libs.get(namespace);
     if (!lib) {
       lib = new Map();
@@ -31,7 +31,7 @@ class Vendor {
     }
     lib.set(key, watcher);
   }
-  getWatchers(namespace = "__default") {
+  getWatchers(namespace = '__default') {
     const lib = this.libs.get(namespace);
     return lib;
   }
@@ -39,7 +39,7 @@ class Vendor {
     this.libs = new Map();
   }
   remove(watcher: Watcher) {
-    const { namespace = "__default", key } = watcher;
+    const { namespace = '__default', key } = watcher;
     let lib = this.libs.get(namespace);
     if (!lib) {
       return;
@@ -58,13 +58,13 @@ class Observer {
     return {
       remove() {
         PUBLIC_VENDOR.remove(watcher);
-      }
+      },
     };
   }
   static dispatch(payload: any) {
     const watchers = PUBLIC_VENDOR.getWatchers();
     watchers &&
-      watchers.forEach(watcher => {
+      watchers.forEach((watcher) => {
         return watcher.listener.call(null, payload);
       });
   }
@@ -89,11 +89,11 @@ class Observer {
     const watchers = this.vendor.getWatchers(namespace);
     const defautWatchers = this.vendor.getWatchers();
     watchers &&
-      watchers.forEach(watcher => {
+      watchers.forEach((watcher) => {
         return watcher.listener.call(null, payload);
       });
     defautWatchers &&
-      defautWatchers.forEach(watcher => {
+      defautWatchers.forEach((watcher) => {
         return watcher.listener.call(null, payload);
       });
     Observer.dispatch(payload);
@@ -102,7 +102,7 @@ class Observer {
     namespace: string | ObserverListener | undefined,
     listener?: ObserverListener
   ): ObserverWatcher {
-    if (typeof namespace === "function") {
+    if (typeof namespace === 'function') {
       listener = namespace;
       namespace = undefined;
     }
@@ -112,7 +112,7 @@ class Observer {
     return {
       remove: () => {
         this.vendor.remove(watcher);
-      }
+      },
     };
   }
 }

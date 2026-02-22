@@ -2,10 +2,10 @@ import Observer from 'observer';
 
 let observer: Observer = new Observer();
 
-const observerListener1 = jest.fn(x => x);
-const observerListener2 = jest.fn(x => x);
-const observerListener3 = jest.fn(x => x);
-const observerListener4 = jest.fn(x => x);
+const observerListener1 = jest.fn((x) => x);
+const observerListener2 = jest.fn((x) => x);
+const observerListener3 = jest.fn((x) => x);
+const observerListener4 = jest.fn((x) => x);
 const ob1 = Observer.observe(observerListener1);
 const ob2 = observer.observe(observerListener2);
 const ob3 = observer.observe('jest', observerListener3);

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm run build)",
+      "Bash(npm install:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm run format)",
+      "Bash(npm run format:fix:*)",
+      "Bash(npm run test)",
+      "Bash(./node_modules/.bin/tsc:*)"
+    ]
+  }
+}

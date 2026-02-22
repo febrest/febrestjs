@@ -10,7 +10,7 @@ function startProvider(provider: Provider | Provider[]) {
   if (!Array.isArray(provider)) {
     provider = [provider];
   }
-  provider.forEach(p => {
+  provider.forEach((p) => {
     p.start();
   });
 }
@@ -18,7 +18,7 @@ function stopProvider(provider: Provider | Provider[]) {
   if (!Array.isArray(provider)) {
     provider = [provider];
   }
-  provider.forEach(p => {
+  provider.forEach((p) => {
     p.stop();
   });
 }

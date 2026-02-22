@@ -2,7 +2,7 @@ import { Broadcast } from 'broadcast';
 
 const broadcast = new Broadcast();
 
-const bl = jest.fn(x => x);
+const bl = jest.fn((x) => x);
 
 test('broadcast', () => {
   broadcast.subscribe(bl);

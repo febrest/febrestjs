@@ -25,7 +25,7 @@ function getPlugins(bundleType) {
   return [
     alias({
       resolve: ['.ts'],
-      entries: fs.readdirSync(root).map(name => {
+      entries: fs.readdirSync(root).map((name) => {
         const stat = fs.statSync(path.resolve(root, name));
         if (stat.isDirectory()) {
           return {

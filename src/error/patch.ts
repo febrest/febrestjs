@@ -14,7 +14,7 @@ function safeExec(func, context, args) {
 }
 function patch() {
   try {
-    (function(global) {
+    (function (global) {
       if (!global) {
         return;
       }
@@ -28,12 +28,12 @@ function patch() {
         'setImmediate',
       ];
 
-      patchs.forEach(function(name) {
+      patchs.forEach(function (name) {
         let origin = global[name];
-        let patch = function(handler, timeout) {
+        let patch = function (handler, timeout) {
           return origin.call(
             global,
-            function() {
+            function () {
               return safeExec(handler, null, arguments);
             },
             timeout
@@ -47,13 +47,13 @@ function patch() {
        */
       if (typeof Promise !== 'undefined') {
         let origin = Promise.prototype.then;
-        let then = function(resolve, reject) {
+        let then = function (resolve, reject) {
           return origin.call(
             this,
-            function(data) {
+            function (data) {
               return safeExec(resolve, this, [data]);
             },
-            function(data) {
+            function (data) {
               return safeExec(reject, this, [data]);
             }
           );

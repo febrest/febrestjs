@@ -95,7 +95,7 @@ function StateFactory<T = any>(name: string): IState<T> {
     parse(v: string) {
       state.parse(v);
     },
-    observe: function(callback: StateObserverListener) {
+    observe: function (callback: StateObserverListener) {
       return _observer ? _observer.observe(name, callback) : undefined;
     },
   };

@@ -16,12 +16,12 @@ function merge(...data: any[]) {
   let dest: any;
   if (Array.isArray(data[0])) {
     dest = [];
-    data.forEach(d => {
+    data.forEach((d) => {
       dest = dest.concat(d);
     });
   } else {
     dest = {};
-    data.forEach(d => {
+    data.forEach((d) => {
       for (let o in d) {
         dest[o] = d[o];
       }
@@ -32,7 +32,7 @@ function merge(...data: any[]) {
 function copy(source: any): any {
   let dest: any;
   if (Array.isArray(source)) {
-    dest = source.map(v => {
+    dest = source.map((v) => {
       return copy(v);
     });
   } else if (isObject(source)) {

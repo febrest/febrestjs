@@ -20,7 +20,7 @@ const unsubscribe: UnsubscribeFunction = function unsubscribe(
   broadcast.unsubscribe(callback);
 };
 
-const postMessage: PostMessageFunction = function<T = any>(
+const postMessage: PostMessageFunction = function <T = any>(
   cmd: string,
   data?: T
 ): void {

@@ -1,1 +1,1 @@
-module.exports = require('./dist/febrest')
+module.exports = require('./dist/febrest');

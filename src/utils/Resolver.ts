@@ -14,7 +14,7 @@ class Resolver {
       resolvers = [resolvers];
     }
     let result = [];
-    resolvers.forEach(resovler => {
+    resolvers.forEach((resovler) => {
       let { params, fn } = resovler;
       if (!params) {
         result.push(fn());

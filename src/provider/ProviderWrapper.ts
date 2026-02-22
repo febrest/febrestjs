@@ -34,7 +34,7 @@ class ProviderWrapper {
       let state = this._provider.onCreate(getState(_state));
       if (state !== undefined) {
         if (isPromise(state)) {
-          state.then(state => {
+          state.then((state) => {
             setState(_state, state);
             this._created = true;
           });
@@ -59,11 +59,11 @@ class ProviderWrapper {
     data = _provider.query(getState(_state), action, payload);
     if (isPromise(data)) {
       return data.then(
-        state => {
+        (state) => {
           immediate(() => _provider.onQuery({ action, payload, state: data }));
           return state;
         },
-        error => {
+        (error) => {
           return error;
         }
       );
@@ -87,12 +87,12 @@ class ProviderWrapper {
     data = _provider.update(getState(_state), action, payload);
     if (isPromise(data)) {
       return data.then(
-        state => {
+        (state) => {
           setState(_state, state);
           _provider.onUpdate({ action, payload, state: state });
           updateComplete(_provider.name);
         },
-        error => {
+        (error) => {
           return error;
         }
       );

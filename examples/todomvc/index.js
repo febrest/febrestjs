@@ -16,7 +16,7 @@ var constants = {
  */
 let State = Febrest.State;
 var controllers = {
-  addTodos: function(payload) {
+  addTodos: function (payload) {
     var todo = {
       complete: false,
       message: payload,
@@ -28,26 +28,26 @@ var controllers = {
       todos: data,
     };
   },
-  removeTodos: function(payload) {
+  removeTodos: function (payload) {
     let data = State('todos').get() || [];
     data.splice(payload, 1);
     State('todos').set(data);
     return { todos: data };
   },
-  getAll: function() {
+  getAll: function () {
     let data = State('todos').get() || [];
     var complete = controllers.getComplete().complete;
     var active = controllers.getActive().active;
     return { todos: data, complete, active };
   },
-  getComplete: function() {
+  getComplete: function () {
     let data = State('todos').get() || [];
-    var complete = data.filter(function(v) {
+    var complete = data.filter(function (v) {
       return v.complete;
     });
     return { complete: complete };
   },
-  complete: function(payload) {
+  complete: function (payload) {
     let data = State('todos').get() || [];
     data[payload].complete = true;
     State('todos').set(data);
@@ -55,9 +55,9 @@ var controllers = {
       todos: data,
     };
   },
-  getActive: function() {
+  getActive: function () {
     let data = State('todos').get() || [];
-    var active = data.filter(function(v) {
+    var active = data.filter(function (v) {
       return !v.complete;
     });
     return { active: active };
@@ -134,7 +134,7 @@ var app = {
   updateList(data) {
     var list = document.getElementsByClassName('list')[0];
     list.innerHTML = data
-      .map(function(todo, i) {
+      .map(function (todo, i) {
         return item(todo, i);
       })
       .join('\r\n');
@@ -174,7 +174,7 @@ var app = {
 
 function start() {
   bindEvent();
-  Febrest.dispatch('getAll').then(result => app.setState(result));
+  Febrest.dispatch('getAll').then((result) => app.setState(result));
 }
 
 /**
@@ -201,9 +201,9 @@ function bindEvent() {
 }
 
 Febrest.subscribe(app.onData);
-Febrest.observe(function(changed) {
+Febrest.observe(function (changed) {
   if (changed.key === 'todos') {
-    Febrest.dispatch('getAll').then(result => app.setState(result));
+    Febrest.dispatch('getAll').then((result) => app.setState(result));
   }
 });
 start();

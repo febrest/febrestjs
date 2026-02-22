@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "es5",
+    "module": "ESNEXT",
+    "allowJs": false,
+    "checkJs": false,
+    "sourceMap": true,
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+
+    /* Additional Checks */
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["es2015", "dom"],
+
+    /* Module Resolution Options */
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["*", "*/index"]
+    },
+    "typeRoots": ["types", "../node_modules/@types"],
+
+    /* Experimental Options */
+    "experimentalDecorators": true
+  },
+  "include": ["./src"]
+}

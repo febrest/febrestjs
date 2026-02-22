@@ -15,7 +15,7 @@ export function getProvider(name) {
   return cap[name];
 }
 export function batchInject(providers) {
-  return providers.map(provider => {
+  return providers.map((provider) => {
     return inject(provider);
   });
 }

@@ -2,10 +2,10 @@ import febrest from 'main';
 
 test('promise reject cache', () => {
   const sq: number[] = [];
-  const fn = jest.fn(x => {
+  const fn = jest.fn((x) => {
     return new Promise((resolve, reject) => {
       reject('eee');
-    }).then(data => {
+    }).then((data) => {
       return data;
     });
   });
@@ -14,8 +14,8 @@ test('promise reject cache', () => {
     return true;
   });
   return febrest.dispatch(fn, 'test').then(
-    v => {},
-    e => {
+    (v) => {},
+    (e) => {
       console.log(e);
     }
   );
