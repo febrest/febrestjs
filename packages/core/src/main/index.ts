@@ -1,5 +1,3 @@
-'use strict';
-
 import {
   postMessage as broadcast,
   subscribe,
@@ -8,10 +6,11 @@ import {
   UnsubscribeFunction,
   PostMessageFunction,
 } from './broadcast';
-import state, { State } from './state';
+import state from './state';
 
-import invoker, { InvokerEntity } from './invoker';
-import { observe, ObserveFunction } from './observer';
+import invoker, { type InvokerEntity } from './invoker';
+import { observe } from './observer';
+import type { ObserveFunction } from './observer';
 
 const export_keys = {
   dispatch: true,
@@ -34,24 +33,8 @@ const export_keys = {
 //   observe(l: ObserverListener): void;
 // }
 
-const febrest: Febrest = {
-  dispatch: invoker.invoke,
-  plugin: invoker.plugin,
-  onError: invoker.onError,
-  subscribe,
-  unsubscribe,
-  broadcast,
-  State: state,
-  observe,
-};
-export interface Febrest {
-  dispatch: InvokerEntity['invoke'];
-  plugin: InvokerEntity['plugin'];
-  onError: InvokerEntity['onError'];
-  subscribe: SubscribeFunction;
-  unsubscribe: UnsubscribeFunction;
-  broadcast: PostMessageFunction;
-  State: State;
-  observe: ObserveFunction;
-}
-export default febrest;
+export const dispatch: InvokerEntity['invoke'] = invoker.invoke;
+export const plugin: InvokerEntity['plugin'] = invoker.plugin;
+export const onError: InvokerEntity['onError'] = invoker.onError;
+export const State = state;
+export { subscribe, unsubscribe, broadcast, observe };

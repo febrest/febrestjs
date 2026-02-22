@@ -1,4 +1,3 @@
-'use strict';
 
 export interface HookPlugin {
   [hook: string]: (data: any) => any;

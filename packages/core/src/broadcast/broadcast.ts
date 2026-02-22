@@ -1,4 +1,3 @@
-'use strict';
 
 export interface BroadcastEvent<T = any> {
   cmd: string;

@@ -1,4 +1,3 @@
-'use strict';
 
 import { batch, state, setObserver } from './state';
 

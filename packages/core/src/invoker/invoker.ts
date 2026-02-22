@@ -1,5 +1,3 @@
-'use strict';
-
 import { ACTION_READY_STATE } from 'action/index';
 import { AsyncHook } from 'hook';
 import { HookPlugin } from 'hook/hook';

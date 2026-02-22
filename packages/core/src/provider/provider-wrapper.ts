@@ -1,4 +1,3 @@
-'use strict';
 import { isPromise, immediate } from '../utils';
 import { State } from '../state';
 import { watch, doWatch, pendingWatch, unwatch } from './../observer';

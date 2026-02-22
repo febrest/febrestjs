@@ -1,10 +1,8 @@
-'use strict';
-
-import { ActionPlugin, ErrorCallback } from 'invoker/invoker';
+import type { ActionPlugin, ErrorCallback } from 'invoker/invoker';
 
 import { Invoker } from 'invoker';
 import actionEngine from './action-engine';
-import { Controller } from 'action/runtime-action';
+import type { Controller } from './../action/runtime-action';
 
 // const exportMethods = ['invoke', 'plugin', 'onError'];
 

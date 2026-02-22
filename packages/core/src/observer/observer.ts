@@ -1,4 +1,3 @@
-'use strict';
 
 export type ObserverListener = (event: any) => void;
 export interface ObserverWatcher {

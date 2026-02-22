@@ -1,5 +1,5 @@
-import main, { Febrest } from 'main';
-let version: string = '1.0.0';
+import main, { Febrest } from './main';
+let version = '1.0.0';
 try {
   //@ts-ignore
   version = VERSION;

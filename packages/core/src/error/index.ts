@@ -1,4 +1,3 @@
-'use strict';
 
 import makeError from './make-error';
 

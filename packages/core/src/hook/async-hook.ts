@@ -1,4 +1,3 @@
-'use strict';
 
 import Hook from './hook';
 import { isPromise } from 'utils';

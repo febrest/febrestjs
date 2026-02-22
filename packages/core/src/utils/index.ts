@@ -1,4 +1,3 @@
-'use strict';
 
 import { runTransaction, series } from './transaction';
 

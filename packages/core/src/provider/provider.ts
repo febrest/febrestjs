@@ -1,4 +1,3 @@
-'use strict';
 
 import { all, batchInject, getProvider, inject } from './inject';
 import { query, update } from './data-engine';
