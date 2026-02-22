@@ -3,9 +3,13 @@
   "version": "0.21.1",
   "private": true,
   "packageManager": "pnpm@9.0.0",
-  "workspaces": ["packages/core", "examples/*"],
+  "workspaces": [
+    "packages/core",
+    "examples/*"
+  ],
   "scripts": {
-    "build": "cd packages/core && npm run build",
+    "ts":"rts --format=cjs",
+    "build": "rts ./scripts/build",
     "test": "cd packages/core && npm run test",
     "format": "biome format .",
     "format:fix": "biome format --write .",
@@ -13,7 +17,9 @@
     "lint:fix": "biome lint --write ."
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4"
+    "@biomejs/biome": "^1.9.4",
+    "rts.js": "^0.0.13",
+    "t-packer": "^0.0.5"
   },
   "author": {
     "name": "Spencer Ye",

@@ -8,7 +8,11 @@
       "Bash(npm run format)",
       "Bash(npm run format:fix:*)",
       "Bash(npm run test)",
-      "Bash(./node_modules/.bin/tsc:*)"
+      "Bash(./node_modules/.bin/tsc:*)",
+      "Bash(npm run test:*)"
+    ],
+    "additionalDirectories": [
+      "/home/spencer"
     ]
   }
 }
