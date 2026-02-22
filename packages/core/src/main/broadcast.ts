@@ -1,5 +1,5 @@
-import { Broadcast } from 'broadcast';
-import { BroadcastEventListener } from 'broadcast/broadcast';
+import { Broadcast } from './../broadcast';
+import type { BroadcastEventListener } from './../broadcast/broadcast';
 
 const broadcast = new Broadcast();
 
@@ -8,23 +8,21 @@ export type UnsubscribeFunction = (callback: BroadcastEventListener) => void;
 
 export type PostMessageFunction = <T = any>(cmd: string, data?: T) => void;
 
-const subscribe: SubscribeFunction = function subscribe(
+export const subscribe: SubscribeFunction = function subscribe(
   callback: BroadcastEventListener
 ): void {
   broadcast.subscribe(callback);
 };
 
-const unsubscribe: UnsubscribeFunction = function unsubscribe(
+export const unsubscribe: UnsubscribeFunction = function unsubscribe(
   callback: BroadcastEventListener
 ): void {
   broadcast.unsubscribe(callback);
 };
 
-const postMessage: PostMessageFunction = function <T = any>(
+export const postMessage: PostMessageFunction = <T = any>(
   cmd: string,
   data?: T
-): void {
+): void => {
   broadcast.message(cmd, data);
 };
-
-export { subscribe, unsubscribe, postMessage };

@@ -1,4 +1,4 @@
-import { runTransaction, series } from './transaction';
+export { runTransaction, series } from './transaction';
 
 export const isObject = (v: unknown): boolean => {
   return Object.prototype.toString.call(v) === '[object Object]';
@@ -12,38 +12,49 @@ export const isPromise = (v: object) => {
 };
 
 export const merge = (...data: object[]) => {
-  let dest: any;
   if (Array.isArray(data[0])) {
-    dest = [];
+    let dest: object[] = [];
     for (const item of data) {
       dest = dest.concat(item);
     }
   } else {
-    dest = {};
-    data.forEach((d) => {
-      for (let o in d) {
-        dest[o] = d[o];
-      }
-    });
+    let dest: Record<string, object> = {};
+    for (const item of data) {
+      dest = { ...dest, ...item };
+    }
   }
-  return dest;
 };
 
-export const copy = <T>(source: T): T => {
-  let dest: any;
-  if (Array.isArray(source)) {
-    dest = source.map((v) => {
-      return copy(v);
-    });
-  } else if (isObject(source)) {
-    dest = {};
-    for (let o in source) {
-      dest[o] = copy(source[o]);
-    }
-  } else {
-    dest = source;
+export const copy = <T>(
+  source: T,
+  map: Map<unknown, unknown> = new Map()
+): T => {
+  if (map.has(source)) {
+    return map.get(source) as T;
   }
-  return dest;
+
+  if (Array.isArray(source)) {
+    const dest = [] as unknown as T;
+    map.set(source, dest);
+    for (let i = 0; i < source.length; i++) {
+      (dest as unknown as Array<unknown>)[i] = copy(source[i], map);
+    }
+    return dest;
+  }
+
+  if (isObject(source)) {
+    const dest = {} as unknown as T;
+    map.set(source, dest);
+    for (const key in source) {
+      (dest as unknown as Record<string, unknown>)[key] = copy(
+        source[key],
+        map
+      );
+    }
+    return dest;
+  }
+
+  return source;
 };
 
 export const toValue = <T>(v: string): T => {
@@ -69,5 +80,3 @@ export const immediate = (callback: () => void) => {
     return callback();
   }
 };
-
-export { runTransaction, series };

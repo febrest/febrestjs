@@ -1,9 +1,7 @@
-import Observer from 'observer';
-import { ObserverListener } from 'observer/observer';
+import Observer from './../observer';
+import type { ObserverListener } from './../observer/observer';
 
 export type ObserveFunction = (l: ObserverListener) => void;
-const observe: ObserveFunction = function (l: ObserverListener) {
+export const observe: ObserveFunction = (l: ObserverListener) => {
   return Observer.observe(l);
 };
-
-export { observe };

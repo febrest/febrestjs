@@ -1,7 +1,7 @@
 import { ACTION_READY_STATE } from 'action/index';
-import { AsyncHook } from 'hook';
-import { HookPlugin } from 'hook/hook';
-import { RuntimeAction, Controller } from 'action/runtime-action';
+import { AsyncHook } from './../hook';
+import type { HookPlugin } from '../hook/hook';
+import type { RuntimeAction, Controller } from './../action/runtime-action';
 
 function sysErrorHandler(error: Error) {
   console.error(error.message);

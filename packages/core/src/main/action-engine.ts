@@ -2,14 +2,13 @@ import {
   ACTION_READY_STATE,
   clearRuntimeAction,
   createRuntimeAction,
-  getRuntimeAction,
   setRuntimeAction,
-} from 'action';
+} from './../action';
 
-import { RuntimeAction, Controller } from 'action/runtime-action';
-import { isPromise } from 'utils';
-import { makeError } from 'error';
-import { ActionEngine } from 'invoker/invoker';
+import type { RuntimeAction, Controller } from './../action/runtime-action';
+import { isPromise } from './../utils';
+import { makeError } from './../error';
+import type { ActionEngine } from './../invoker/invoker';
 
 /********************** action执行流程**********************
  *                      initialize                        *
@@ -52,7 +51,7 @@ function exception(action: RuntimeAction, error: Error) {
 }
 
 function exec(action: RuntimeAction) {
-  let { controller, payload } = action;
+  const { controller, payload } = action;
   /*
    * 没有controller的时候抛出异常
    * todos: 这部分异常可能会移出
@@ -60,7 +59,7 @@ function exec(action: RuntimeAction) {
   if (!controller) {
     return makeError("can't find the action of " + action);
   }
-  let maybePromise = controller.call(null, payload);
+  const maybePromise = controller.call(null, payload);
   if (isPromise(maybePromise)) {
     return maybePromise.then(
       (state: any) => {

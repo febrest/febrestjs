@@ -9,7 +9,8 @@
       "Bash(npm run format:fix:*)",
       "Bash(npm run test)",
       "Bash(./node_modules/.bin/tsc:*)",
-      "Bash(npm run test:*)"
+      "Bash(npm run test:*)",
+      "Bash(git config:*)"
     ],
     "additionalDirectories": [
       "/home/spencer"
